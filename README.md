@@ -15,7 +15,7 @@ DeerTick is a versatile Python-based interface for interacting with various lang
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/deertick.git
+   git clone https://github.com/deeterbleater/deertick
    cd deertick
    ```
 

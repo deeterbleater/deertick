@@ -39,13 +39,14 @@ from openai import OpenAI
 import os
 import uuid
 from model_data import providers, voice_samples, model, model_type, preferred_providers
+from terminal_chat import TerminalChat
 
 config = configparser.ConfigParser()
 config.read("config.ini")
 
 # Load Keys
-os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN") 
-os.environ["OPENAI_API_TOKEN"] = config.get("keys", "OPENAI_API_TOKEN") 
+os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
+os.environ["OPENAI_API_TOKEN"] = config.get("keys", "OPENAI_API_TOKEN")
 HUGGINGFACE_API_KEY = config.get("keys", "HUGGINGFACE_API_KEY")
 OPENROUTER_API_KEY = config.get("keys", "OPENROUTER_API_KEY")
 os.environ["MISTRAL_API_KEY"] = config.get("keys", "MISTRAL_API_KEY")
@@ -162,7 +163,7 @@ class Agent:
         self.tools = []
         self.tool_template = {
                 "type": "function",
-                "function": {     
+                "function": {
                     "description": "",
                     "parameters": {
                         "type": "object",
@@ -208,7 +209,7 @@ class Agent:
             self.model = model[self.model]
         else:
             print(f"Invalid provider: {provider}")
-    
+
     def create_tool(self, name, description, parameters):
         """
         Create a new tool for the agent.
@@ -280,7 +281,7 @@ class Agent:
                 input=self.settings,
                 ):
                 events.append(str(event))
-            
+
         # huggingface
         elif self.provider == 'huggingface':
             API_URL = "https://api-inference.huggingface.co/models/gpt2"
@@ -292,10 +293,11 @@ class Agent:
             for event in data:
                 events.append(str(event))
 
-        # openai    
+        # openai
         elif self.provider == 'openai':
             client = OpenAI()
             # tools coming soon!
+            print(f"OpenAI: {self.model}")
             completion = client.chat.completions.create(
                 model=self.model,
                 messages=[
@@ -305,6 +307,14 @@ class Agent:
             )
             self.response = completion
             events = completion.choices[0].message.content
+            # For OpenAI, directly set the content and last_response
+            self.content = events
+            self.last_response = [events]  # Wrap in list to match other providers' format
+            # Skip the general processing at the end of the method
+            self.conversation['agent'].append(self.content)
+            self.conversation['user'].append(prompt)
+            self.conversation['system'].append(system_prompt)
+            return self.content
 
         # openrouter
         elif self.provider == 'openrouter':
@@ -371,11 +381,11 @@ class Agent:
             chat_response = client.chat.complete(
                 model = model,
                 messages = [
-                    {   
+                    {
                         "role": "system",
                         "content": system_prompt
                     },
-                    {   
+                    {
                         "role": "user",
                         "content": prompt
                     },
@@ -386,13 +396,14 @@ class Agent:
         # Fail
         else:
             print(f"Invalid provider: {self.provider}")
-        self.last_response = events
-        # print(events)
-        # print(type(events))
-        self.content = ''.join([x for x in events])
-        self.conversation['agent'].append(self.content)
-        self.conversation['user'].append(prompt)
-        self.conversation['system'].append(system_prompt)
+        if self.provider == 'openai':
+            self.last_response = events
+            print(events)
+            print(type(events))
+            self.content = ''.join([x for x in events])
+            self.conversation['agent'].append(self.content)
+            self.conversation['user'].append(prompt)
+            self.conversation['system'].append(system_prompt)
         return self.last_response
 
     def poke(self, prompt):
@@ -405,6 +416,8 @@ class Agent:
         print(f'{self.model} is typing...')
         text = self.generate_response(prompt, self.system_prompt)
         text_string = ''.join(text)  # Join the list elements into a single string
+        for event in text_string.split('\n'):
+            print(f'{event}')
 
     def tts_poke(self, prompt, voice=voice_samples["michael_voice"]):
         """
@@ -424,10 +437,6 @@ class Agent:
         and saves the conversation history (system prompts, user inputs, and agent responses)
         to this file.
         """
-        # Import pandas if not already imported
-        import pandas as pd
-        from datetime import datetime
-
         # Create a DataFrame from the conversation history
         for x in self.conversation:
             self.conversation['ID'] = uuid.uuid4()
@@ -438,7 +447,7 @@ class Agent:
         })
 
         # Generate filename with current datetime
-        filename = f"conversation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        filename = f"conversation_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
         # Save the DataFrame to a CSV file
         df.to_csv(filename, index=False)
@@ -547,17 +556,17 @@ class Agent:
                 else:
                     image_file_path = file_path
                 response = requests.get(image_url)
-            if response.status_code == 200:
-                with open(image_file_path, 'wb') as file:
-                    file.write(response.content)
-                    print(f"Image saved to: {image_file_path}")
-            else:
-                print(f"Failed to download image: HTTP {response.status_code}")
+                if response.status_code == 200:
+                    with open(image_file_path, 'wb') as file:
+                        file.write(response.content)
+                        print(f"Image saved to: {image_file_path}")
+                else:
+                    print(f"Failed to download image: HTTP {response.status_code}")
         else:
             print("No valid image URL received")
-        
+
         return output
-    
+
     def tts(self, text, audio_url, file_path=None):
         """
         Generate and save an audio file from text using a TTS model.
@@ -567,7 +576,7 @@ class Agent:
             audio_url (str): The URL of the sample audio file.
 
         Returns:
-            str: The URL of the generated audio file.   
+            str: The URL of the generated audio file.
         """
         print(f"text: {text}")
         print(f"audio_url: {audio_url}")
@@ -579,7 +588,7 @@ class Agent:
         output = replicate.run(
             self.model,
             input = input
-        )        
+        )
         # Download the audio file
         if output and isinstance(output, str):
             if file_path is None:
@@ -636,7 +645,6 @@ if __name__ == "__main__":
         for provider_name in providers:
             print(f"- {provider_name}")
     elif args.interactive:
-        from terminal_chat import TerminalChat
         deertick = TerminalChat(args.model, args.system, args.provider)
         deertick.chat("", name_mention=0.5, random_response=0.1)
     elif args.file:
