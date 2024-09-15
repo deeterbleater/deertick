@@ -314,7 +314,6 @@ class Agent:
             self.conversation['agent'].append(self.content)
             self.conversation['user'].append(prompt)
             self.conversation['system'].append(system_prompt)
-            return self.content
 
         # openrouter
         elif self.provider == 'openrouter':
@@ -396,7 +395,7 @@ class Agent:
         # Fail
         else:
             print(f"Invalid provider: {self.provider}")
-        if self.provider == 'openai':
+        if self.provider != 'openai':
             self.last_response = events
             print(events)
             print(type(events))
