@@ -189,15 +189,10 @@ class Agent:
         if self.provider == 'replicate':
             print(f"Replicate: {model[self.model]}")
             self.model = model[self.model]
-        # elif self.provider == 'anthropic':
-        #     print(f"Anthropic: {model[self.model]}")
-        #     self.model = model[self.model]
-        # elif self.provider == 'google':
-        #     print(f"Google: {model[self.model]}")
-        #     self.model = genai.GenerativeModel(model[self.model])
         elif self.provider == 'openai':
             print(f"OpenAI: {model[self.model]}")
             self.model = model[self.model]
+            self.client = OpenAI()  # Create an OpenAI client instance
         elif self.provider == 'huggingface':
             print(f"HuggingFace: {model[self.model]}")
             self.model = model[self.model]
@@ -295,10 +290,9 @@ class Agent:
 
         # openai
         elif self.provider == 'openai':
-            client = OpenAI()
             # tools coming soon!
             print(f"OpenAI: {self.model}")
-            completion = client.chat.completions.create(
+            completion = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -314,6 +308,7 @@ class Agent:
             self.conversation['agent'].append(self.content)
             self.conversation['user'].append(prompt)
             self.conversation['system'].append(system_prompt)
+            return self.content  # Return content directly for OpenAI
 
         # openrouter
         elif self.provider == 'openrouter':
@@ -397,8 +392,6 @@ class Agent:
             print(f"Invalid provider: {self.provider}")
         if self.provider != 'openai':
             self.last_response = events
-            print(events)
-            print(type(events))
             self.content = ''.join([x for x in events])
             self.conversation['agent'].append(self.content)
             self.conversation['user'].append(prompt)
@@ -411,12 +404,13 @@ class Agent:
 
         Args:
             prompt (str): The prompt to poke the agent with.
+
+        Returns:
+            str: The generated response.
         """
-        print(f'{self.model} is typing...')
         text = self.generate_response(prompt, self.system_prompt)
-        text_string = ''.join(text)  # Join the list elements into a single string
-        for event in text_string.split('\n'):
-            print(f'{event}')
+        text_string = ''.join(text) if isinstance(text, list) else text  # Ensure we have a string
+        return text_string  # Return the response without printing it
 
     def tts_poke(self, prompt, voice=voice_samples["michael_voice"]):
         """
@@ -426,7 +420,8 @@ class Agent:
             prompt (str): The prompt to poke the agent with.
             voice (str): The voice to use for the audio.
         """
-        text = self.generate_response(prompt, self.system_prompt)
+        text = self.tts(prompt, voice)
+        return text
 
     def save_conversation(self):
         """
@@ -436,6 +431,10 @@ class Agent:
         and saves the conversation history (system prompts, user inputs, and agent responses)
         to this file.
         """
+        # Import pandas if not already imported
+        import pandas as pd
+        from datetime import datetime
+
         # Create a DataFrame from the conversation history
         for x in self.conversation:
             self.conversation['ID'] = uuid.uuid4()
@@ -446,7 +445,7 @@ class Agent:
         })
 
         # Generate filename with current datetime
-        filename = f"conversation_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        filename = f"conversation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
         # Save the DataFrame to a CSV file
         df.to_csv(filename, index=False)
@@ -555,15 +554,16 @@ class Agent:
                 else:
                     image_file_path = file_path
                 response = requests.get(image_url)
-                if response.status_code == 200:
-                    with open(image_file_path, 'wb') as file:
-                        file.write(response.content)
-                        print(f"Image saved to: {image_file_path}")
-                else:
-                    print(f"Failed to download image: HTTP {response.status_code}")
+            if response.status_code == 200:
+                with open(image_file_path, 'wb') as file:
+                    file.write(response.content)
+                    print(f"Image saved to: {image_file_path}")
+            else:
+                print(f"Failed to download image: HTTP {response.status_code}")
         else:
             print("No valid image URL received")
 
+        self.content = output
         return output
 
     def tts(self, text, audio_url, file_path=None):
@@ -603,7 +603,7 @@ class Agent:
                 print(f"Failed to download audio: HTTP {response.status_code}")
         else:
             print("No valid audio URL received")
-
+        self.content = output
         return output
 
     def help(self):
