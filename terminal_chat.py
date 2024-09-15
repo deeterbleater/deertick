@@ -26,10 +26,11 @@ class TerminalChat:
                 self.clear_history()
             elif prompt.lower() == '%new_agent':
                 self.agents.append(Agent(input('Model: '), input('System Prompt: '), input('Provider: ')))
-                print(f"{Fore.GREEN}*{self.agents[0].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+                print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
             elif prompt.lower() == '%remove_agent':
-                self.agents.pop(int(input('Index: ')))
-                print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
+                selection = int(input('Index: '))
+                self.agents.pop(selection)
+                print(f"{Fore.GREEN}*{selection.model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
             elif prompt.lower() == '%list_agents':
                 index = 0
                 for x in self.agents:
