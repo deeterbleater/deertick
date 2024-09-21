@@ -1,5 +1,5 @@
 import random
-from deertick import Agent
+from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
 from model_data import model_type, voice_samples, model, preferred_providers
