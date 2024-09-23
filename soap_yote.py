@@ -1,5 +1,5 @@
 import time
-from deertick import Agent
+from agent import Agent
 from sys import argv
 import pandas as pd
 

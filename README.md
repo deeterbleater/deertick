@@ -1,4 +1,4 @@
-# DeerTick: Multi-Provider Language Model Interface
+# Deertick Agent Management and Integration Toolbox (DAMIT)
 
 DeerTick is a versatile Python-based interface for interacting with various language models from different providers, including Replicate, OpenAI, Hugging Face, OpenRouter, and Mistral.
 
@@ -67,6 +67,10 @@ To process input from a file and save the output:
 ```
 python deertick.py -f input.txt -o output.txt -m gpt-4 -p openai
 ```
+
+## Examples
+
+The included examples "soap_yote" and "songwriter" are examples of how deertick can be used to quickly create workflows with AI agents.
 
 ## Contributing
 
