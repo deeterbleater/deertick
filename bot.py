@@ -13,6 +13,8 @@ import json
 import uuid
 import pandas as pd
 import json
+import random
+
 
 def encode_data(data):
     if isinstance(data, str):
@@ -181,6 +183,36 @@ async def create_tables(pool):
             END $$;
         ''')
 
+async def create_error_log_table(pool):
+    async with pool.acquire() as conn:
+        await conn.execute('''
+            CREATE TABLE IF NOT EXISTS error_log (
+                id UUID PRIMARY KEY,
+                timestamp TIMESTAMP WITH TIME ZONE,
+                agent_name TEXT,
+                error TEXT,
+                channel_id BIGINT,
+                guild_id BIGINT,
+                context TEXT
+            )
+        ''')
+
+async def log_error(pool, agent_name, error, channel_id, guild_id, context):
+    async with pool.acquire() as conn:
+        await conn.execute('''
+            INSERT INTO error_log (id, timestamp, agent_name, error, channel_id, guild_id, context)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        ''', uuid.uuid4(), datetime.datetime.now(pytz.utc), agent_name, error, channel_id, guild_id, context)
+
+async def send_error_message(ctx, error_message, agent_name="System"):
+    """Send an error message to the Discord channel with a caution emoji and log it to the database."""
+    caution_emoji = "⚠️"  # Unicode caution emoji
+    await ctx.send(f"{caution_emoji} Error: {error_message}")
+    
+    # Log the error to the database
+    context = f"Command: {ctx.message.content}" if ctx.message else "No context available"
+    await log_error(bot.db_pool, agent_name, error_message, ctx.channel.id, ctx.guild.id, context)
+
 class MyBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -190,6 +222,7 @@ class MyBot(commands.Bot):
     async def setup_hook(self):
         self.db_pool = await create_pool()
         await create_tables(self.db_pool)
+        await create_error_log_table(self.db_pool)  # Add this line
         self.agents = await load_agents_from_db(self.db_pool)
         print(f"Loaded {len(self.agents)} agents from the database.")
 
@@ -259,10 +292,58 @@ intents.message_content = True
 bot = MyBot(command_prefix='!', intents=intents)
 
 director = Agent(model="Qwen 2 7B Instruct (free)", provider="openrouter")
-director_system_prompt = "You are in control of a team of agents witin a discord server. Your user prompt is the last message sent in chat. "
+director.system_prompt = "You are in control of a team of agents within a discord server. Your task is to decide which agent(s) should respond to each message."
 
-# def who_should_speak(message):
+async def who_should_speak(message):
+    agents_list = list(bot.agents.keys())
+    agents_string = ", ".join(agents_list)
+    
+    # Use the director agent to decide who should speak
+    user_prompt = f"The following agents are available: {agents_string}. Based on the last message: '{message.content}', which agent should respond? They don't need their name mentioned directly, just poke them if they are being talked about, even vaguely. Respond with the agents names that you think should speak, any name you say will speak so only say them if you want them to speak."
+    
+    response = director.poke(user_prompt)
+    
+    # Extract the agent names from the response
+    chosen_agents = [agent for agent in agents_list if agent.lower() in response.lower()]
+    
+    # Check the database for the last message sender and remove them from the list
+    async with bot.db_pool.acquire() as conn:
+        last_message = await conn.fetchrow('''
+            SELECT username
+            FROM messages
+            WHERE channel_id = $1 AND is_bot = true
+            ORDER BY timestamp DESC
+            LIMIT 1
+        ''', message.channel.id)
 
+    if last_message and last_message['username'] in chosen_agents:
+        chosen_agents.remove(last_message['username'])
+
+    for agent_name in chosen_agents:
+        if agent_name in bot.agents:
+            agent = bot.agents[agent_name]
+            # Implement random choice with 60% odds
+            if random.random() < 0.6:
+                break
+            async with message.channel.typing():
+                context = await get_context(message.channel.id)
+                response = agent.poke(context + f"\n{message.author.name}: {message.content}")
+                await log_message(message.channel, is_bot_message=True, bot_content=response)
+                chunks = [response[i:i+1800] for i in range(0, len(response), 1800)]
+                for chunk in chunks:
+                    await message.channel.send(f"{agent_name}: ```{chunk}```")
+
+async def get_context(channel_id):
+    async with bot.db_pool.acquire() as conn:
+        context_messages = await conn.fetch('''
+            SELECT username, content, is_bot
+            FROM messages
+            WHERE channel_id = $1
+            ORDER BY timestamp DESC
+            LIMIT 50
+        ''', channel_id)
+    
+    return "\n".join([f"{msg['username']}: {decode_data(msg['content'])}" for msg in reversed(context_messages)])
 
 @bot.event
 async def on_message(message):
@@ -272,6 +353,10 @@ async def on_message(message):
 
     await log_message(message, is_bot_message=is_bot)
     await bot.process_commands(message)
+    
+    # Only process messages not starting with the command prefix
+    if not message.content.startswith(bot.command_prefix):
+        await who_should_speak(message)
 
 async def log_message(message, is_bot_message=False, bot_content=None):
     if is_bot_message:
@@ -325,7 +410,7 @@ async def get_or_create_bot(guild_id, bot_id, bot_name):
 async def create_agent(ctx, agent_name: str, model: str = "I-8b", provider: str = "replicate"):
     """Create a new agent with the given name, model, and provider."""
     if agent_name in bot.agents:
-        await ctx.send(f"An agent named {agent_name} already exists.")
+        await send_error_message(ctx, f"An agent named {agent_name} already exists.", "System")
         return
 
     new_agent = Agent(model=model, provider=provider)
@@ -373,13 +458,19 @@ async def create_agent(ctx, agent_name: str, model: str = "I-8b", provider: str 
 
     await ctx.send(f"Agent {agent_name} created with model {model} and provider {provider}.")
 
+
 @bot.command(name='talk')
 async def talk(ctx, agent_name: str, *, message: str):
     if agent_name not in bot.agents:
-        await ctx.send(f"Agent {agent_name} does not exist. Create it first with !create_agent.")
+        await send_error_message(ctx, f"Agent {agent_name} does not exist. Create it first with !create_agent.", "System")
         return
 
     agent = bot.agents[agent_name]
+
+    # Check if the message is a reply
+    replied_message = None
+    if ctx.message.reference:
+        replied_message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
 
     async with bot.db_pool.acquire() as conn:
         context_messages = await conn.fetch('''
@@ -391,9 +482,19 @@ async def talk(ctx, agent_name: str, *, message: str):
         ''', ctx.channel.id)
 
     context = "\n".join([f"{msg['username']}: {decode_data(msg['content'])}" for msg in reversed(context_messages)])
+    
+    # If it's a reply, add the replied message to the context
+    if replied_message:
+        context += f"\n[Replied to {replied_message.author.name}: {replied_message.content}]"
+    
     context += f"\n{ctx.author.name}: {message}"
 
-    response = agent.poke(context)
+    # Use typing() context manager to show typing indicator
+    async with ctx.typing():
+        # Simulate processing time (you can remove this in production)
+        await asyncio.sleep(2)
+        
+        response = agent.poke(context)
 
     await log_message(discord.Object(id=ctx.channel.id), is_bot_message=True, bot_content=response)
 
@@ -407,33 +508,94 @@ async def talk(ctx, agent_name: str, *, message: str):
 async def set_param(ctx, agent_name: str, param: str, *, value: str):
     """Set a parameter for a specific agent."""
     if agent_name not in bot.agents:
-        await ctx.send(f"Agent {agent_name} does not exist.")
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.")
         return
 
     agent = bot.agents[agent_name]
     try:
         # Convert value to appropriate type
-        if value.lower() == 'true':
-            value = True
-        elif value.lower() == 'false':
-            value = False
-        elif value.isdigit():
+        if param in ['max_tokens', 'min_tokens', 'top_k', 'top_logprobs', 'num_outputs', 'num_inference_steps']:
             value = int(value)
-        elif value.replace('.', '', 1).isdigit():
+        elif param in ['temperature', 'presence_penalty', 'frequency_penalty', 'top_p', 'repetition_penalty', 'min_p', 'top_a', 'lora_scale', 'guidance_scale']:
             value = float(value)
+        elif param == 'disable_safety_checker':
+            value = value.lower() == 'true'
+        elif param in ['logit_bias', 'response_format', 'stop', 'tool_choice', 'tools']:
+            value = json.loads(value)
 
         setattr(agent, param, value)
-        await ctx.send(f"Parameter {param} for agent {agent_name} set to {value}.")
+        
+        # Update the database
+        async with bot.db_pool.acquire() as conn:
+            await conn.execute(f'''
+                UPDATE agents
+                SET {param} = $1
+                WHERE bot_id = (SELECT id FROM bots WHERE bot_name = $2)
+            ''', encode_data(value), agent_name)
+
+        await ctx.send(f"Parameter {param} set to {value} for agent {agent_name}.")
     except AttributeError:
-        await ctx.send(f"Invalid parameter: {param}")
+        await send_error_message(ctx, f"Invalid parameter: {param}")
     except ValueError:
-        await ctx.send(f"Invalid value for parameter {param}")
+        await send_error_message(ctx, f"Invalid value for parameter {param}")
+    except json.JSONDecodeError:
+        await send_error_message(ctx, f"Invalid JSON format for parameter {param}")
+
+@bot.command(name='set_prompt')
+async def set_prompt(ctx, agent_name: str, *, prompt: str):
+    """Set the system prompt for a specific agent."""
+    if agent_name not in bot.agents:
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.")
+        return
+
+    agent = bot.agents[agent_name]
+    agent.system_prompt = prompt
+
+    # Update the database
+    async with bot.db_pool.acquire() as conn:
+        await conn.execute('''
+            UPDATE agents
+            SET system_prompt = $1
+            WHERE bot_id = (SELECT id FROM bots WHERE bot_name = $2)
+        ''', encode_data(prompt), agent_name)
+
+    await ctx.send(f"System prompt updated for agent {agent_name}.")
+
+@bot.command(name='add_to_prompt')
+async def add_to_prompt(ctx, agent_name: str, *, text: str):
+    """Add text to the system prompt for a specific agent."""
+    if agent_name not in bot.agents:
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.")
+        return
+
+    agent = bot.agents[agent_name]
+    agent.system_prompt += f"\n{text}"
+
+    # Update the database
+    async with bot.db_pool.acquire() as conn:
+        await conn.execute('''
+            UPDATE agents
+            SET system_prompt = $1
+            WHERE bot_id = (SELECT id FROM bots WHERE bot_name = $2)
+        ''', encode_data(agent.system_prompt), agent_name)
+
+    await ctx.send(f"Text added to system prompt for agent {agent_name}.")
+
+@bot.command(name='get_prompt')
+async def get_prompt(ctx, agent_name: str):
+    """Get the system prompt for a specific agent."""
+    if agent_name not in bot.agents:
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.", "System")
+        return
+
+    agent = bot.agents[agent_name]
+    await ctx.send(f"System prompt for agent {agent_name}:\n{agent.system_prompt}")
 
 @bot.command(name='get_param')
 async def get_param(ctx, agent_name: str, param: str):
     """Get the value of a parameter for a specific agent."""
     if agent_name not in bot.agents:
-        await ctx.send(f"Agent {agent_name} does not exist.")
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.", "System")
         return
 
     agent = bot.agents[agent_name]
@@ -441,7 +603,23 @@ async def get_param(ctx, agent_name: str, param: str):
         value = getattr(agent, param)
         await ctx.send(f"Parameter {param} for agent {agent_name} is set to: {value}")
     except AttributeError:
-        await ctx.send(f"Invalid parameter: {param}", command_prefix=PREFIX, intents=intents)
+        await send_error_message(ctx, f"Invalid parameter: {param}", agent_name)
+
+@bot.command(name='get_agent_info')
+async def get_agent_info(ctx, agent_name: str):
+    """Get the information for a specific agent."""
+    if agent_name not in bot.agents:
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.", "System")
+        return
+
+    agent = bot.agents[agent_name]
+    info = f"Agent {agent_name} info:\n{agent}"
+    
+    # Split the info into chunks of 1900 characters (leaving room for code block formatting)
+    chunks = [info[i:i+1900] for i in range(0, len(info), 1900)]
+    
+    for chunk in chunks:
+        await ctx.send(f"```{chunk}```")
 
 @bot.command(name='list_agents')
 async def list_agents(ctx):
@@ -455,14 +633,23 @@ async def list_agents(ctx):
 @bot.command(name='continue')
 async def continue_conversation(ctx):
     """Continue the conversation with the last agent that spoke in the channel."""
-    channel_id = ctx.channel.id
-    if channel_id not in bot.last_speaking_agent:
-        await ctx.send("No previous conversation found in this channel.")
-        return
+    cursor = bot.db_connection.cursor()
+    cursor.execute("""
+        SELECT nickname FROM messages
+        WHERE channel_id = %s AND is_bot = TRUE
+        ORDER BY timestamp DESC
+        LIMIT 1
+    """, (ctx.channel.id,))
+    result = cursor.fetchone()
+    cursor.close()
 
-    agent_name = bot.last_speaking_agent[channel_id]
-    if agent_name not in bot.agents:
-        await ctx.send(f"The last speaking agent '{agent_name}' no longer exists.")
+    if result:
+        agent_name = result[0]
+        if agent_name not in bot.agents:
+            await ctx.send(f"The last speaking agent '{agent_name}' no longer exists.")
+            return
+    else:
+        await ctx.send("No previous bot message found in this channel.")
         return
 
     agent = bot.agents[agent_name]
@@ -476,17 +663,15 @@ async def continue_conversation(ctx):
         context = ""
 
     # Send "continue" prompt to the agent
-    response = agent.poke(f"{context}\nUser: continue")
-
+    response = agent.poke(f"{context}\nUser: !continue")
     await ctx.send(f"{agent_name}: {response}")
-    bot.last_speaking_agent[channel_id] = agent_name
 
 
 @bot.command(name='delete_agent')
 async def delete_agent(ctx, agent_name: str):
     """Delete an existing agent."""
     if agent_name not in bot.agents:
-        await ctx.send(f"Agent {agent_name} does not exist.")
+        await send_error_message(ctx, f"Agent {agent_name} does not exist.", "System")
         return
 
     del bot.agents[agent_name]
@@ -495,21 +680,71 @@ async def delete_agent(ctx, agent_name: str):
 
 @bot.command(name='attach_agent')
 async def attach_agent(ctx, agent_name: str):
-    """Manually attach an agent that has been instantiated but not added to the bot."""
+    """Manually attach an agent from the database to the bot."""
     if agent_name in bot.agents:
         await ctx.send(f"Agent '{agent_name}' is already attached to the bot.")
         return
 
-    # Check if the agent exists in the global namespace
-    if agent_name in globals():
-        agent = globals()[agent_name]
-        if isinstance(agent, Agent):  # Assuming Agent is the class used for agents
-            bot.agents[agent_name] = agent
-            await ctx.send(f"Agent '{agent_name}' has been successfully attached to the bot.")
-        else:
-            await ctx.send(f"'{agent_name}' exists but is not an Agent instance.")
+    async with bot.db_pool.acquire() as conn:
+        # Fetch agent data from the database
+        agent_data = await conn.fetchrow('''
+            SELECT a.*, b.bot_name
+            FROM agents a
+            JOIN bots b ON a.bot_id = b.id
+            WHERE b.bot_name = $1
+        ''', agent_name)
+
+    if agent_data:
+        # Create a new Agent instance with the retrieved data
+        model_key = None
+        for key, value in model.items():
+            if value == agent_data['model']:
+                model_key = key
+                break
+        
+        new_agent = Agent(model=model_key,
+                          system_prompt=decode_data(agent_data['system_prompt']),
+                          provider=decode_data(agent_data['provider']))
+        
+        # Set all the agent's attributes
+        new_agent.nickname = decode_data(agent_data['nickname'])
+        new_agent.color = decode_data(agent_data['color'])
+        new_agent.font = decode_data(agent_data['font'])
+        new_agent.max_tokens = decode_data(agent_data['max_tokens'])
+        new_agent.min_tokens = decode_data(agent_data['min_tokens'])
+        new_agent.temperature = decode_data(agent_data['temperature'])
+        new_agent.presence_penalty = agent_data['presence_penalty']
+        new_agent.frequency_penalty = decode_data(agent_data['frequency_penalty'])
+        new_agent.top_k = decode_data(agent_data['top_k'])
+        new_agent.top_p = decode_data(agent_data['top_p'])
+        new_agent.repetition_penalty = decode_data(agent_data['repetition_penalty'])
+        new_agent.min_p = agent_data['min_p']
+        new_agent.top_a = decode_data(agent_data['top_a'])
+        new_agent.seed = decode_data(agent_data['seed'])
+        new_agent.logit_bias = decode_data(agent_data['logit_bias'])
+        new_agent.logprobs = decode_data(agent_data['logprobs'])
+        new_agent.top_logprobs = agent_data['top_logprobs']
+        new_agent.response_format = decode_data(agent_data['response_format'])
+        new_agent.stop = decode_data(agent_data['stop'])
+        new_agent.tool_choice = decode_data(agent_data['tool_choice'])
+        new_agent.prompt_template = decode_data(agent_data['prompt_template'])
+        new_agent.tts_path = decode_data(agent_data['tts_path'])
+        new_agent.img_path = decode_data(agent_data['img_path'])
+        new_agent.output_format = decode_data(agent_data['output_format'])
+        new_agent.num_outputs = decode_data(agent_data['num_outputs'])
+        new_agent.lora_scale = decode_data(agent_data['lora_scale'])
+        new_agent.aspect_ratio = decode_data(agent_data['aspect_ratio'])
+        new_agent.guidance_scale = decode_data(agent_data['guidance_scale'])
+        new_agent.num_inference_steps = decode_data(agent_data['num_inference_steps'])
+        new_agent.disable_safety_checker = decode_data(agent_data['disable_safety_checker'])
+        new_agent.audio_path = decode_data(agent_data['audio_path'])
+        new_agent.tools = decode_data(agent_data['tools'])
+
+        # Add the new agent to the bot's agents dictionary
+        bot.agents[agent_name] = new_agent
+        await ctx.send(f"Agent '{agent_name}' has been successfully attached to the bot from the database.")
     else:
-        await ctx.send(f"No agent named '{agent_name}' found in the global namespace.")
+        await ctx.send(f"No agent named '{agent_name}' found in the database.")
 
 @bot.command(name='deertick_help')
 async def deertick_help_command(ctx):
@@ -518,9 +753,12 @@ async def deertick_help_command(ctx):
     Available commands:
     !create_agent <name> [model] [provider] - Create a new agent
     !list_agents - List all available agents
-    !agent_info <name> - Display all parameters of a specific agent
+    !get_agent_info <name> - Display all parameters of a specific agent
     !set_param <agent_name> <param> <value> - Set a parameter for a specific agent
     !get_param <agent_name> <param> - Get the value of a parameter for a specific agent
+    !set_prompt <agent_name> <prompt> - Set the system prompt for a specific agent
+    !get_prompt <agent_name> - Get the system prompt for a specific agent
+    !add_to_prompt <agent_name> <text> - Add text to the system prompt for a specific agent
     !talk <agent_name> <message> - Talk to a specific agent (includes chat history)
     !talk_single <agent_name> <message> - Talk to a specific agent (single message only)
     !delete_agent <name> - Delete an existing agent
@@ -529,7 +767,6 @@ async def deertick_help_command(ctx):
     !deertick_help - Display this help message
     """
     await ctx.send(help_text)
-
 
 
 # Run the bot
