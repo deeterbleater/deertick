@@ -1,6 +1,8 @@
 import datetime
 import uuid
 
+import discord
+
 from bot.client import bot
 from bot.data_encoding import decode_data, encode_data
 
@@ -17,7 +19,7 @@ async def get_context(channel_id):
 
     return "\n".join([f"{msg['username']}: {decode_data(msg['content'])}" for msg in reversed(context_messages)])
 
-async def log_message(message, is_bot_message=False, bot_content=None):
+async def log_message(message: discord.Message, is_bot_message=False, bot_content=None):
     if is_bot_message:
         user_id = bot.user.id
         guild_id = message.guild.id if hasattr(message, 'guild') else None
@@ -40,3 +42,13 @@ async def log_message(message, is_bot_message=False, bot_content=None):
         ''', uuid.uuid4(), guild_id, channel_id, user_id, encode_data(username),  encode_data(content), utc_timestamp, is_bot_message)
 
     print(f"Logged message from user ID: {user_id}")
+
+async def get_last_bot_message_in_channel(channel_id: int):
+    async with bot.db_pool.acquire() as conn:
+        return await conn.fetchrow('''
+            SELECT username
+            FROM messages
+            WHERE channel_id = $1 AND is_bot = true
+            ORDER BY timestamp DESC
+            LIMIT 1
+        ''', channel_id)
