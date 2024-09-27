@@ -24,5 +24,5 @@ def register_event_handlers(client: discord.Client):
     modules = import_submodules("bot.events")
 
     for module in modules:
-        (_, func), = getmembers(module, isfunction)  # Get the first function in the module (assumed to only be one)
+        (_, func), *_= getmembers(module, isfunction)  # Get the first function in the module (assumed to only be one)
         client.event(func)
