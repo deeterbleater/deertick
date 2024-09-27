@@ -1,12 +1,12 @@
 import discord
-from discord.app_commands import commands
+from discord.ext.commands import Bot
 
 from bot.db.agent import load_agents_from_db
 from bot.db.pool import create_pool
 from bot.db.tables import create_tables
 
 
-class MyBot(commands.Bot):
+class MyBot(Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.db_pool = None
