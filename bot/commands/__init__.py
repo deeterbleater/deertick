@@ -25,5 +25,5 @@ def register_commands(bot: Bot):
 
     for module in modules:
         name = module.__name__.split('.')[-1]  # Get leaf module name
-        (_, func), = getmembers(module, isfunction)  # Get the first function in the module (assumed to only be one)
+        (_, func), *_ = getmembers(module, isfunction)  # Get the first function in the module (assumed to only be one)
         bot.command(name)(func)
