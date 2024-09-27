@@ -1,5 +1,5 @@
 import random
-from deertick.agent import Agent
+from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
 df = pd.read_csv('model_data.csv')
