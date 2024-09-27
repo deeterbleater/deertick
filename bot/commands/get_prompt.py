@@ -1,3 +1,7 @@
+from bot.client import bot
+from bot.error import send_error_message
+
+
 async def get_prompt(ctx, agent_name: str):
     """Get the system prompt for a specific agent."""
     if agent_name not in bot.agents:

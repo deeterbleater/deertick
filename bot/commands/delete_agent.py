@@ -1,3 +1,7 @@
+from bot.client import bot
+from bot.error import send_error_message
+
+
 async def delete_agent(ctx, agent_name: str):
     """Delete an existing agent."""
     if agent_name not in bot.agents:

@@ -1,3 +1,11 @@
+import uuid
+
+from agent import Agent
+from bot.client import bot
+from bot.data_encoding import encode_data
+from bot.error import send_error_message
+
+
 async def create_agent(ctx, agent_name: str, model: str = "I-8b", provider: str = "replicate"):
     """Create a new agent with the given name, model, and provider."""
     if agent_name in bot.agents:

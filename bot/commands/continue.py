@@ -1,3 +1,6 @@
+from bot.client import bot
+
+
 async def continue_conversation(ctx):
     """Continue the conversation with the last agent that spoke in the channel."""
     cursor = bot.db_connection.cursor()

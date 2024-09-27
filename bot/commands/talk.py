@@ -1,3 +1,13 @@
+import asyncio
+
+import discord
+
+from bot.client import bot
+from bot.data_encoding import decode_data
+from bot.db.message import log_message
+from bot.error import send_error_message
+
+
 async def talk(ctx, agent_name: str, *, message: str):
     if agent_name not in bot.agents:
         await send_error_message(ctx, f"Agent {agent_name} does not exist. Create it first with !create_agent.",

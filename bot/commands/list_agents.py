@@ -1,3 +1,6 @@
+from bot.client import bot
+
+
 async def list_agents(ctx):
     """List all current agents."""
     if not bot.agents:

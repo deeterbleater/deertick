@@ -1,3 +1,8 @@
+from bot.client import bot
+from bot.data_encoding import encode_data
+from bot.error import send_error_message
+
+
 async def set_prompt(ctx, agent_name: str, *, prompt: str):
     """Set the system prompt for a specific agent."""
     if agent_name not in bot.agents:

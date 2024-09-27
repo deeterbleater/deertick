@@ -1,3 +1,9 @@
+from agent import Agent
+from bot.client import bot
+from bot.data_encoding import decode_data
+from bot.models import model
+
+
 async def attach_agent(ctx, agent_name: str):
     """Manually attach an agent from the database to the bot."""
     if agent_name in bot.agents:

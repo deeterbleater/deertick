@@ -1,3 +1,8 @@
+from bot.client import bot
+from bot.data_encoding import encode_data
+from bot.error import send_error_message
+
+
 async def add_to_prompt(ctx, agent_name: str, *, text: str):
     """Add text to the system prompt for a specific agent."""
     if agent_name not in bot.agents:
