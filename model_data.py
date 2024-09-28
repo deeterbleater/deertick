@@ -4,16 +4,26 @@ import pandas as pd
 df = pd.read_csv('model_data.csv')
 
 models = []
+providers = []
 
 for _, row in df.iterrows():
-    #store row of data
+    row_providers = row['providers'].split(', ')
+    #store model
     models.append([
         row['model_name'],
         row['model_id'],
         row['model_type'],
         row['preferred_provider'],
-        row['providers'].split(', ')
+        row_providers
     ])
+    #store any new providers
+    new_provider = True
+    for row_provider in row_providers:
+        for provider in providers:
+            if provider == row_provider:
+                new_provider = False
+        if new_provider:
+            providers.append(row_provider)
 
 
 
