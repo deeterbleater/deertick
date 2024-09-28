@@ -1,6 +1,6 @@
 from agent import Agent
 from bot.data_encoding import decode_data
-from bot.models import model
+from model_data import model
 
 
 async def load_agents_from_db(pool):

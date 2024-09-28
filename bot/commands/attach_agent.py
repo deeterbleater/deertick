@@ -1,7 +1,7 @@
 from agent import Agent
 from bot.client import bot
 from bot.data_encoding import decode_data
-from bot.models import model
+from model_data import model
 
 
 async def attach_agent(ctx, agent_name: str):
