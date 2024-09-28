@@ -23,4 +23,4 @@ voice_samples = {}
 
 for _, row in df.iterrows():
     voice_name = row['voice_name']
-    voice_samples[voice_name] = row['voice_url']
+    voice_samples[voice_name] = row['url']
