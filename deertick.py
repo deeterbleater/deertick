@@ -53,6 +53,8 @@ if __name__ == "__main__":
         for provider in providers:
             print(f"- {provider}")
     elif args.interactive:
+        #don't allow incompatible provider
+        print(model.get(args.model))
         deertick = TerminalChat(args.model, args.system, args.provider)
         deertick.chat("", name_mention=0.5, random_response=0.1)
     elif args.file:
