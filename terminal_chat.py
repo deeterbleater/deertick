@@ -2,19 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-df = pd.read_csv('model_data.csv')
-
-model = {}
-model_type = {}
-preferred_provider = {}
-providers = {}
-
-for _, row in df.iterrows():
-    model_name = row['model_name']
-    model[model_name] = row['model_id']
-    model_type[model_name] = row['model_type']
-    preferred_provider[model_name] = row['preferred_provider']
-    providers[model_name] = row['providers'].split(', ')
+from model_data import voice_samples, model, preferred_providers, model_type
 
 # Initialize colorama
 init(autoreset=True)
