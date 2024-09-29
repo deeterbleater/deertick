@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import voice_samples, model, preferred_providers, model_type
+from model_data import voice_samples, models
 
 # Initialize colorama
 init(autoreset=True)
@@ -30,10 +30,13 @@ class TerminalChat:
             elif prompt.lower() == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
-                    for i in model:
-                        print(f'{i}: {model[i]}')
+                    for model in models:
+                        print(f'{model['model_name']}: {model['model_id']}')
                     model_nick = input('Model: ')
-                provider = preferred_providers[model_nick]
+                provider = ''
+                for model in models:
+                    if model['model_name'] == model_nick:
+                        provider = model['preferred_provider']
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
             elif prompt.lower() == '%remove_agent':
@@ -90,20 +93,22 @@ class TerminalChat:
                 print("-----------------------")
                 history = agent_prompt
                 try:
-                    if model_type[agent.nickname] == 'llm':
-                        if self.system_prompt != '':
-                            if agent.system_prompt == '':
-                                agent.system_prompt = self.system_prompt
-                        agent.generate_response(agent.system_prompt, agent_prompt)
-                    elif model_type[agent.nickname] == 'tts':
-                        if agent.audio_path == '':
-                            for x, y in voice_samples.items():
-                                print(f'{x}: {y}')
-                            voice_sample = input('Select a voice sample by key name: ')
-                            agent.audio_path = voice_samples[voice_sample]
-                        agent.tts(prompt, agent.audio_path)
-                    elif model_type[agent.nickname] == 'image' or model_type[agent.nickname] == 'video':
-                        agent.generate_image(prompt)
+                    for model in models:
+                        if model['model_name'] == agent.nickname:
+                            if model['model_type'] == 'llm':
+                                if self.system_prompt != '':
+                                    if agent.system_prompt == '':
+                                        agent.system_prompt = self.system_prompt
+                                agent.generate_response(agent.system_prompt, agent_prompt)
+                            elif model['model_type'] == 'tts':
+                                if agent.audio_path == '':
+                                    for x, y in voice_samples.items():
+                                        print(f'{x}: {y}')
+                                    voice_sample = input('Select a voice sample by key name: ')
+                                    agent.audio_path = voice_samples[voice_sample]
+                                agent.tts(prompt, agent.audio_path)
+                            elif model['model_type'] == 'image' or model['model_type'] == 'video':
+                                agent.generate_image(prompt)
 
                 except Exception as e:
                     print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
