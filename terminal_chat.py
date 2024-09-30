@@ -10,7 +10,9 @@ init(autoreset=True)
 class TerminalChat:
     def __init__(self, model='I-8b', system_prompt='', provider='replicate', settings=None):
         self.agents = []
-        self.agents.append(Agent(model, system_prompt, provider, settings))
+        for llm in models:
+            if llm['model_name'] == model:
+                self.agents.append(Agent(llm['model_id'], system_prompt, provider, settings))
         self.system_prompt = system_prompt
 
     def chat(self, prompt, name_mention = 0.5, random_response = 0.1):
