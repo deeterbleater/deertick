@@ -18,7 +18,7 @@ def clean_html(html):
 
 def scrape_blog(url, output_dir):
     # Create an Agent instance
-    agent = Agent(model="gpt-4o", provider="openai")
+    agent = Agent(model="gemini-pro", provider="openrouter")
 
     # Fetch the webpage
     response = requests.get(url)
