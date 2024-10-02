@@ -88,6 +88,92 @@ To process input from a file and save the output:
 python deertick.py -f input.txt -o output.txt -m gpt-4 -p openai
 ```
 
+## Basic Usage Examples
+
+### 1. Creating and Using a Simple Agent
+
+```python
+from agent import Agent
+
+# Create an agent with a specific model and provider
+my_agent = Agent(model="I-8b", provider="replicate")
+
+# Set a system prompt for the agent
+my_agent.system_prompt = "You are a helpful assistant."
+
+# Generate a response
+response = my_agent.poke("What is the capital of France?")
+print(response)
+```
+
+### 2. Creating Multiple Agents for Collaborative Tasks
+
+```python
+from agent import Agent
+
+# Create multiple agents with different models
+ai1 = Agent('Google: Gemini Flash 1.5 Experimental')
+ai2 = Agent('Dolphin 2.9.2 Mixtral 8x22B')
+ai3 = Agent('405b-base')
+
+# Set system prompts for each agent
+ai1.system_prompt = 'Write a chorus to a song based on the word in the user prompt'
+ai2.system_prompt = 'Finish the song based on the chorus you are given'
+ai3.system_prompt = 'Generate a single word based on your feelings'
+
+# Generate content collaboratively
+word = ai3.poke('Give me a single word based on your feelings')
+chorus = ai1.poke(word)
+full_song = ai2.poke(chorus)
+
+print(full_song)
+```
+
+### 3. Using an Agent for Image Generation
+
+```python
+from agent import Agent
+
+image_agent = Agent(model="stable-diffusion-xl-1024-v1-0", provider="replicate")
+
+# Generate an image
+image_url = image_agent.generate_image("A serene landscape with mountains and a lake")
+print(f"Generated image URL: {image_url}")
+```
+
+### 4. Text-to-Speech with an Agent
+
+```python
+from agent import Agent
+from model_data import voice_samples
+
+tts_agent = Agent(model="bark", provider="replicate")
+
+# Generate audio from text
+audio_url = tts_agent.tts("Hello, world!", voice_samples["michael_voice"])
+print(f"Generated audio URL: {audio_url}")
+```
+
+### 5. Saving and Loading Conversations
+
+```python
+from agent import Agent
+
+conversation_agent = Agent(model="I-8b", provider="replicate")
+
+# Have a conversation
+conversation_agent.poke("Hello, how are you?")
+conversation_agent.poke("Tell me a joke.")
+
+# Save the conversation
+conversation_agent.save_conversation()
+
+# Load a conversation (replace with your filename)
+conversation_agent.load_conversation("conversation_20230101_120000.csv")
+```
+
+These examples demonstrate some of the basic functionalities of the DeerTick Agent Management and Integration Toolbox. You can create agents with different models and providers, use them for text generation, image creation, and text-to-speech tasks, and even save and load conversations.
+
 ## Advanced Features
 
 ### Image Generation
@@ -263,15 +349,35 @@ DeerTick includes several examples that demonstrate how it can be used to create
    - Combines all elements to create a video podcast
 
    To use the podcast generator:
-   ```python
-   from podcast import Podcast
 
-   # Create a new podcast
-   podcast = Podcast(title="Coffee with Agents", prompt="What is the point of a network protocol?")
-
-   # Generate the entire podcast
-   podcast.generate_podcast()
+   ```bash
+   python podcast.py <title> <prompt> [chunk_iterations]
    ```
+
+   - `<title>`: The title of your podcast (use quotes if it contains spaces)
+   - `<prompt>`: The main topic or question for the podcast (use quotes if it contains spaces)
+   - `[chunk_iterations]`: (Optional) The number of conversation chunks to generate before moving to the next topic (default is 1)
+
+   Example usage:
+   ```bash
+   python podcast.py "AI Ethics Podcast" "What are the ethical implications of AI?" 2
+   ```
+
+   This command will:
+   1. Generate an outline for a podcast about AI ethics
+   2. Create a conversation between two AI hosts discussing the ethical implications of AI
+   3. Generate TTS audio for the conversation
+   4. Create a background image for the podcast
+   5. Combine all elements into a video file
+
+   The script will save various outputs during the process:
+   - A text file with the podcast outline
+   - A CSV file with the generated conversation
+   - Audio files for each line of dialogue
+   - A background image for the podcast
+   - A final video file of the complete podcast
+
+   Note: Ensure you have set up your `config.ini` file with the necessary API keys and paths, especially the `MAGICK` path under the `[video]` section for ImageMagick, which is required for video generation, it should point to magick.exe on your system.
 
 These examples showcase the versatility of the DeerTick toolbox in different scenarios, from complex multi-agent simulations to creative content generation. They demonstrate how DeerTick can be used to create sophisticated AI-driven applications that combine text generation, speech synthesis, and image creation.
 
