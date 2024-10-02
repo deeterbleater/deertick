@@ -86,6 +86,7 @@ class Agent:
         self.nickname = model
         self.color = None
         self.font = None
+        self.request = None
         self.last_response = ''
         self.last_prompt = ''
         self.conversation = {'system': [], 'user': [], 'agent': []}
@@ -292,17 +293,17 @@ class Agent:
                         url="https://openrouter.ai/api/v1/chat/completions",
                         headers={
                             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                            # "HTTP-Referer": f"https://www.epochtarot.org",  # Optional, for including your app on openrouter.ai rankings.
-                            # "X-Title": f"Random Tweet AI",  # Optional. Shows in rankings on openrouter.ai.
+                            "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
+                            "X-Title": f"DeerTick",  # Optional. Shows in rankings on openrouter.ai.
                         },
                         data=json.dumps({
                             "model": "meta-llama/llama-3.1-405b",  # Optional
-                            "max_tokens": 64,
-                            "temperature": 0.5,
-                            "presence_penalty": 0,
+                            "max_tokens": self.max_tokens,
+                            "temperature": self.temperature,
+                            "presence_penalty": self.presence_penalty,
                             "frequency_penalty": 0,
-                            "top_k": 50,
-                            "top_p": 0.9,
+                            "top_k": self.top_k,
+                            "top_p": self.top_p,
                             "messages": [
                                 {"role": "system", "content": system_prompt},
                                 {"role": "user", "content": prompt}
@@ -310,17 +311,24 @@ class Agent:
                         })
                     )
                     # print(response.json())
-                    self.response = response.json()
-                    response_text = response.json()["choices"][0]["message"]["content"]
-                    return response_text
+                    self.request = response.request
+                    self.response = response
+                    try:
+                        response_text = response.json()['choices'][0]['message']['content']
+                        return response_text
+                    except Exception as e:
+                        print(e)
+                        print(self.response.json())
+                        print(self.request.body)
+                        return self.response.json()
                 events = agent405b_base(system_prompt, prompt)
             else:
                 response = requests.post(
                 url="https://openrouter.ai/api/v1/chat/completions",
                 headers={
                     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                    # "HTTP-Referer": f"https://www.epochtarot.org",  # Optional, for including your app on openrouter.ai rankings.
-                    # "X-Title": f"Random Tweet AI",  # Optional. Shows in rankings on openrouter.ai.
+                    "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
+                    "X-Title": f"DeerTick",  # Optional. Shows in rankings on openrouter.ai.
                 },
                 data=json.dumps({
                     "model": self.model,
@@ -333,12 +341,18 @@ class Agent:
                     "messages": [
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": prompt}
-                    ]
-
+                        ]
                     })
                 )
-                self.response = response.json()
-                events = response.json()["choices"][0]["message"]["content"]
+                self.request = response.request
+                self.response = response
+                try:
+                    response_text = self.response.json()['choices'][0]['message']['content']
+                    events = response_text
+                except Exception as e:
+                    print(e)
+                    print(self.response.json())
+                    print(self.request.body)
         elif self.provider == 'mistral':
 
             api_key = os.environ["MISTRAL_API_KEY"]
@@ -360,7 +374,7 @@ class Agent:
                 ]
             )
             self.response = chat_response
-            events = chat_response.choices[0].message.content
+            events = chat_response.json()['choices'][0]['message']['content']
         # Fail
         else:
             print(f"Invalid provider: {self.provider}")
@@ -382,7 +396,7 @@ class Agent:
         Returns:
             str: The generated response.
         """
-        text = self.generate_response(prompt, self.system_prompt)
+        text = self.generate_response(self.system_prompt, prompt)
         text_string = ''.join(text) if isinstance(text, list) else text  # Ensure we have a string
         return text_string  # Return the response without printing it
 
