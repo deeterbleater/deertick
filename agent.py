@@ -79,8 +79,8 @@ class Agent:
         self.provider = provider
         if provider == '':
             for llm in models:
-                if model == llm['model_name']:
-                    self.provider = llm['preferred_provider']
+                if model == llm[0]:
+                    self.provider = llm[3]
                     break
         if type(provider) == int:
             self.provider = providers[provider]
@@ -164,23 +164,23 @@ class Agent:
         It handles different initialization procedures for each provider.
         """
         for llm in models:
-            if llm['model_name'] == self.model:
+            if llm[0] == self.model:
                 if self.provider == 'replicate':
-                    print(f"Replicate: {llm['model_name']}")
-                    self.model = llm['model_name']
+                    print(f"Replicate: {llm[0]}")
+                    self.model = llm[0]
                 elif self.provider == 'openai':
-                    print(f"OpenAI: {llm['model_name']}")
-                    self.model = llm['model_name']
+                    print(f"OpenAI: {llm[0]}")
+                    self.model = llm[0]
                     self.client = OpenAI()  # Create an OpenAI client instance
                 elif self.provider == 'huggingface':
-                    print(f"HuggingFace: {llm['model_name']}")
-                    self.model = llm['model_name']
+                    print(f"HuggingFace: {llm[0]}")
+                    self.model = llm[0]
                 elif self.provider == 'openrouter':
-                    print(f"OpenRouter: {llm['model_name']}")
-                    self.model = llm['model_name']
+                    print(f"OpenRouter: {llm[0]}")
+                    self.model = llm[0]
                 elif self.provider == 'mistral':
-                    print(f"Mistral: {llm['model_name']}")
-                    self.model = llm['model_name']
+                    print(f"Mistral: {llm[0]}")
+                    self.model = llm[0]
                 else:
                     print(f"Invalid provider: {provider}")
             break
@@ -595,11 +595,11 @@ class Agent:
         """
         print("\nmodels:\n")
         for model in models:
-            print(f'"{model['model_name']}": "{model['model_id']}",')
+            print(f'"{model[0]}": "{model[1]}",')
         print("\nproviders:\n")
         index = 0
         for model in models:
-            print(f'"{model['model_name']}": "{model['model_id']}",')
+            print(f'"{model[0]}": "{model[1]}",')
         for x in providers:
             print(f'{index}. {x}')
             index += 1

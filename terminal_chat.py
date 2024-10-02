@@ -12,9 +12,9 @@ class TerminalChat:
         self.agents = []
         llm_name = ''
         for llm in models:
-            llm_name = llm['model_name']
-            if llm['model_name'] == model:
-                self.agents.append(Agent(llm['model_id'], system_prompt, provider, settings))
+            llm_name = llm[0]
+            if llm[0] == model:
+                self.agents.append(Agent(llm[1], system_prompt, provider, settings))
                 break
         self.system_prompt = system_prompt
 
@@ -36,12 +36,12 @@ class TerminalChat:
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
                     for model in models:
-                        print(f'{model['model_name']}: {model['model_id']}')
+                        print(f'{model[0]}: {model[1]}')
                     model_nick = input('Model: ')
                 provider = ''
                 for model in models:
-                    if model['model_name'] == model_nick:
-                        provider = model['preferred_provider']
+                    if model[0] == model_nick:
+                        provider = model[3]
                         break
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
@@ -100,20 +100,20 @@ class TerminalChat:
                 history = agent_prompt
                 try:
                     for model in models:
-                        if model['model_name'] == agent.nickname:
-                            if model['model_type'] == 'llm':
+                        if model[0] == agent.nickname:
+                            if model[2] == 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
-                            elif model['model_type'] == 'tts':
+                            elif model[2] == 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
                                         print(f'{x}: {y}')
                                     voice_sample = input('Select a voice sample by key name: ')
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
-                            elif model['model_type'] == 'image' or model['model_type'] == 'video':
+                            elif model[2] == 'image' or model[2] == 'video':
                                 agent.generate_image(prompt)
                         break
 
