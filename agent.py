@@ -168,22 +168,27 @@ class Agent:
                 if self.provider == 'replicate':
                     print(f"Replicate: {llm[1]}")
                     self.model = llm[1]
+                    break
                 elif self.provider == 'openai':
                     print(f"OpenAI: {llm[1]}")
                     self.model = llm[1]
                     self.client = OpenAI()  # Create an OpenAI client instance
+                    break
                 elif self.provider == 'huggingface':
                     print(f"HuggingFace: {llm[1]}")
                     self.model = llm[1]
+                    break
                 elif self.provider == 'openrouter':
                     print(f"OpenRouter: {llm[1]}")
                     self.model = llm[1]
+                    break
                 elif self.provider == 'mistral':
                     print(f"Mistral: {llm[1]}")
                     self.model = llm[1]
+                    break
                 else:
                     print(f"Invalid provider: {provider}")
-            break
+                    break
 
     def create_tool(self, name, description, parameters):
         """
