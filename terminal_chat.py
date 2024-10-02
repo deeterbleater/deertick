@@ -100,7 +100,7 @@ class TerminalChat:
                 history = agent_prompt
                 try:
                     for model in models:
-                        if model[0] == agent.nickname:
+                        if model[1] == agent.nickname:
                             if model[2] == 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
