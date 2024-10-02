@@ -17,13 +17,11 @@ for _, row in df.iterrows():
         row_providers
     ])
     #store any new providers
-    new_provider = True
     for row_provider in row_providers:
         for provider in providers:
             if provider == row_provider:
-                new_provider = False
                 break
-        if new_provider:
+        else:
             providers.append(row_provider)
 
 
