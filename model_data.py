@@ -3,13 +3,22 @@ import pandas as pd
 
 df = pd.read_csv('model_data.csv')
 
-models = df.iterrows()
+models = []
 providers = []
 
-for _, row in models:
+for _, row in df.iterrows():
+    row_providers = row['providers'].split(', ')
+    #store model
+    models.append([
+        row['model_name'],
+        row['model_id'],
+        row['model_type'],
+        row['preferred_provider'],
+        row_providers
+    ])
     #store any new providers
     new_provider = True
-    for row_provider in row['providers'].split(', '):
+    for row_provider in row_providers:
         for provider in providers:
             if provider == row_provider:
                 new_provider = False

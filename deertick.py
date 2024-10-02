@@ -48,7 +48,7 @@ if __name__ == "__main__":
     if args.list:
         print("Available models:")
         for model in models:
-            print(f"- {model['model_name']}")
+            print(f"- {models[0]}")
         print("\nAvailable providers:")
         for provider in providers:
             print(f"- {provider}")
