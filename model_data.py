@@ -13,6 +13,7 @@ for _, row in models:
         for provider in providers:
             if provider == row_provider:
                 new_provider = False
+                break
         if new_provider:
             providers.append(row_provider)
 

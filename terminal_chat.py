@@ -15,6 +15,7 @@ class TerminalChat:
             llm_name = llm['model_name']
             if llm['model_name'] == model:
                 self.agents.append(Agent(llm['model_id'], system_prompt, provider, settings))
+                break
         self.system_prompt = system_prompt
 
     def chat(self, prompt, name_mention = 0.5, random_response = 0.1):
@@ -41,6 +42,7 @@ class TerminalChat:
                 for model in models:
                     if model['model_name'] == model_nick:
                         provider = model['preferred_provider']
+                        break
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
             elif prompt.lower() == '%remove_agent':
@@ -113,6 +115,7 @@ class TerminalChat:
                                 agent.tts(prompt, agent.audio_path)
                             elif model['model_type'] == 'image' or model['model_type'] == 'video':
                                 agent.generate_image(prompt)
+                        break
 
                 except Exception as e:
                     print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")

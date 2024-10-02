@@ -81,6 +81,7 @@ class Agent:
             for llm in models:
                 if model == llm['model_name']:
                     self.provider = llm['preferred_provider']
+                    break
         if type(provider) == int:
             self.provider = providers[provider]
         self.content = ''
@@ -182,6 +183,7 @@ class Agent:
                     self.model = llm['model_name']
                 else:
                     print(f"Invalid provider: {provider}")
+            break
 
     def create_tool(self, name, description, parameters):
         """
