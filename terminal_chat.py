@@ -106,6 +106,7 @@ class TerminalChat:
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
+                                break
                             elif model[2] == 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
@@ -113,9 +114,10 @@ class TerminalChat:
                                     voice_sample = input('Select a voice sample by key name: ')
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
+                                break
                             elif model[2] == 'image' or model[2] == 'video':
                                 agent.generate_image(prompt)
-                        break
+                                break
 
                 except Exception as e:
                     print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
