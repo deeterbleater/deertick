@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import preferred_providers, providers, model, voice_samples, model_type
+from model_data import providers, models, voice_samples
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -78,7 +78,10 @@ class Agent:
         self.model = model
         self.provider = provider
         if provider == '':
-            self.provider = preferred_providers[model]
+            for llm in models:
+                if model == llm[0]:
+                    self.provider = llm[3]
+                    break
         if type(provider) == int:
             self.provider = providers[provider]
         self.content = ''
@@ -161,24 +164,32 @@ class Agent:
         This method sets the provider and initializes the corresponding model.
         It handles different initialization procedures for each provider.
         """
-        if self.provider == 'replicate':
-            print(f"Replicate: {model[self.model]}")
-            self.model = model[self.model]
-        elif self.provider == 'openai':
-            print(f"OpenAI: {model[self.model]}")
-            self.model = model[self.model]
-            self.client = OpenAI()  # Create an OpenAI client instance
-        elif self.provider == 'huggingface':
-            print(f"HuggingFace: {model[self.model]}")
-            self.model = model[self.model]
-        elif self.provider == 'openrouter':
-            print(f"OpenRouter: {model[self.model]}")
-            self.model = model[self.model]
-        elif self.provider == 'mistral':
-            print(f"Mistral: {model[self.model]}")
-            self.model = model[self.model]
-        else:
-            print(f"Invalid provider: {provider}")
+        for llm in models:
+            if llm[1] == self.model:
+                if self.provider == 'replicate':
+                    print(f"Replicate: {llm[1]}")
+                    self.model = llm[1]
+                    break
+                elif self.provider == 'openai':
+                    print(f"OpenAI: {llm[1]}")
+                    self.model = llm[1]
+                    self.client = OpenAI()  # Create an OpenAI client instance
+                    break
+                elif self.provider == 'huggingface':
+                    print(f"HuggingFace: {llm[1]}")
+                    self.model = llm[1]
+                    break
+                elif self.provider == 'openrouter':
+                    print(f"OpenRouter: {llm[1]}")
+                    self.model = llm[1]
+                    break
+                elif self.provider == 'mistral':
+                    print(f"Mistral: {llm[1]}")
+                    self.model = llm[1]
+                    break
+                else:
+                    print(f"Invalid provider: {provider}")
+                    break
 
     def create_tool(self, name, description, parameters):
         """
@@ -602,12 +613,12 @@ class Agent:
         It helps users understand the options for model and provider selection.
         """
         print("\nmodels:\n")
-        for x, y in model.items():
-            print(f'"{x}": "{y}",')
+        for model in models:
+            print(f'"{model[0]}": "{model[1]}",')
         print("\nproviders:\n")
         index = 0
-        for x, y in model_type.items():
-            print(f'"{x}": "{y}",')
-        for x in preferred_providers:
+        for model in models:
+            print(f'"{model[0]}": "{model[1]}",')
+        for x in providers:
             print(f'{index}. {x}')
             index += 1

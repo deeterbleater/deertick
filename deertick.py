@@ -28,7 +28,7 @@ For more information, please refer to the documentation or README file.
 """
 import argparse
 from agent import Agent
-from model_data import model, providers
+from model_data import models, providers
 from terminal_chat import TerminalChat
 import pandas as pd
 
@@ -47,11 +47,11 @@ if __name__ == "__main__":
 
     if args.list:
         print("Available models:")
-        for model_name in model:
-            print(f"- {model_name}")
+        for model in models:
+            print(f"- {models[0]}")
         print("\nAvailable providers:")
-        for provider_name in providers:
-            print(f"- {provider_name}")
+        for provider in providers:
+            print(f"- {provider}")
     elif args.interactive:
         deertick = TerminalChat(args.model, args.system, args.provider)
         deertick.chat("", name_mention=0.5, random_response=0.1)
