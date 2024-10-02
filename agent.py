@@ -164,23 +164,23 @@ class Agent:
         It handles different initialization procedures for each provider.
         """
         for llm in models:
-            if llm[0] == self.model:
+            if llm[1] == self.model:
                 if self.provider == 'replicate':
-                    print(f"Replicate: {llm[0]}")
-                    self.model = llm[0]
+                    print(f"Replicate: {llm[1]}")
+                    self.model = llm[1]
                 elif self.provider == 'openai':
-                    print(f"OpenAI: {llm[0]}")
-                    self.model = llm[0]
+                    print(f"OpenAI: {llm[1]}")
+                    self.model = llm[1]
                     self.client = OpenAI()  # Create an OpenAI client instance
                 elif self.provider == 'huggingface':
-                    print(f"HuggingFace: {llm[0]}")
-                    self.model = llm[0]
+                    print(f"HuggingFace: {llm[1]}")
+                    self.model = llm[1]
                 elif self.provider == 'openrouter':
-                    print(f"OpenRouter: {llm[0]}")
-                    self.model = llm[0]
+                    print(f"OpenRouter: {llm[1]}")
+                    self.model = llm[1]
                 elif self.provider == 'mistral':
-                    print(f"Mistral: {llm[0]}")
-                    self.model = llm[0]
+                    print(f"Mistral: {llm[1]}")
+                    self.model = llm[1]
                 else:
                     print(f"Invalid provider: {provider}")
             break
