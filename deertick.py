@@ -53,8 +53,18 @@ if __name__ == "__main__":
         for provider in providers:
             print(f"- {provider}")
     elif args.interactive:
-        #don't allow incompatible provider
-        print(model.get(args.model))
+        #check model exists
+        for model in models:
+            if model[0] == args.model:
+                #don't allow incompatible provider
+                for avail_provider in model[4]:
+                    if avail_provider == args.provider:
+                        break
+                else:
+                    print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
+                break
+        else:
+            print("The model you have chosen does not exist in the csv file. Please check your spelling.")
         deertick = TerminalChat(args.model, args.system, args.provider)
         deertick.chat("", name_mention=0.5, random_response=0.1)
     elif args.file:
