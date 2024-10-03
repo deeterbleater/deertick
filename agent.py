@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import providers, models, voice_samples
+from model_data import providers, models, voice_samples, list_all
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -606,19 +606,4 @@ class Agent:
         return output
 
     def help(self):
-        """
-        Display available models and providers.
-
-        This function prints the available models and providers to the console.
-        It helps users understand the options for model and provider selection.
-        """
-        print("\nmodels:\n")
-        for model in models:
-            print(f'"{model[0]}": "{model[1]}",')
-        print("\nproviders:\n")
-        index = 0
-        for model in models:
-            print(f'"{model[0]}": "{model[1]}",')
-        for x in providers:
-            print(f'{index}. {x}')
-            index += 1
+        list_all()

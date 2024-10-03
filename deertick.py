@@ -28,7 +28,7 @@ For more information, please refer to the documentation or README file.
 """
 import argparse
 from agent import Agent
-from model_data import models, providers
+from model_data import models, list_all
 from terminal_chat import TerminalChat
 import pandas as pd
 
@@ -46,12 +46,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.list:
-        print("Available models:")
-        for model in models:
-            print(f"- {models[0]}")
-        print("\nAvailable providers:")
-        for provider in providers:
-            print(f"- {provider}")
+        list_all()
     elif args.interactive:
         #check model exists
         for model in models:
