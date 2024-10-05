@@ -31,6 +31,8 @@ class TerminalChat:
                 self.help()
             elif prompt_low == '%clear':
                 self.clear_history()
+            elif prompt_low == '%file_read':
+                print()
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
