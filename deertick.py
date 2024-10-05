@@ -45,6 +45,7 @@ def main():
     parser.add_argument("--list-agents", action="store_true", help="List all available agents")
     
     args = parser.parse_args()
+    deertick = Agent(args.model, args.system, args.provider)
 
     if args.list:
         list_all()
@@ -62,8 +63,7 @@ def main():
                         break
                 else:
                     from terminal_chat import TerminalChat
-                    deertick = TerminalChat(args.model, args.system, args.provider)
-                    deertick.chat("", name_mention=0.5, random_response=0.1)
+                    TerminalChat(deertick).chat("", name_mention=0.5, random_response=0.1)
                 break
         else:
             print("The model you have chosen does not exist in the csv file. Please check your spelling.")
@@ -71,7 +71,6 @@ def main():
     elif args.file:
         with open(args.file, 'r') as file:
             input_text = file.read()
-        deertick = Agent(args.model, args.system, args.provider)
         response = deertick.generate_response(args.system, input_text)
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as file:

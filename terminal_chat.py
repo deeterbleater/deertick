@@ -8,13 +8,10 @@ from model_data import voice_samples, models, ModelHead
 init(autoreset=True)
 
 class TerminalChat:
-    def __init__(self, model='I-8b', system_prompt='', provider='replicate', settings=None):
+    def __init__(self, init_agent):
         self.agents = []
-        for llm in models:
-            if llm[ModelHead.name.value] == model:
-                self.agents.append(Agent(llm[ModelHead.id.value], system_prompt, provider, settings))
-                break
-        self.system_prompt = system_prompt
+        self.agents.append(init_agent)
+        self.system_prompt = init_agent.system_prompt
 
     def chat(self, prompt, name_mention = 0.5, random_response = 0.1):
         self.system_prompt = input('System Prompt (leave blank for default): ')
