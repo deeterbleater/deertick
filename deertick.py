@@ -66,6 +66,7 @@ def main():
                         break
                 else:
                     from terminal_chat import TerminalChat
+					# noinspection PyUnboundLocalVariable
                     TerminalChat(deertick).chat("", name_mention=0.5, random_response=0.1)
                 break
         else:
@@ -74,6 +75,7 @@ def main():
     elif args.file:
         with open(args.file, 'r') as file:
             input_text = file.read()
+        # noinspection PyUnboundLocalVariable
         response = deertick.generate_response(args.system, input_text)
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as file:
