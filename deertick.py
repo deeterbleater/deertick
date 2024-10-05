@@ -45,7 +45,10 @@ def main():
     parser.add_argument("--list-agents", action="store_true", help="List all available agents")
     
     args = parser.parse_args()
-    deertick = Agent(args.model, args.system, args.provider)
+    for llm in models:
+        if llm[0] == args.model:
+            deertick = Agent(llm[1], args.system, args.provider)
+            break
 
     if args.list:
         list_all()
