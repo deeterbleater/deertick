@@ -24,13 +24,14 @@ class TerminalChat:
         responding_agents = self.agents
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
-            if prompt.lower() == '%exit':
+            prompt_low = prompt.lower()
+            if prompt_low == '%exit':
                 break
-            elif prompt.lower() == '%help':
+            elif prompt_low == '%help':
                 self.help()
-            elif prompt.lower() == '%clear':
+            elif prompt_low == '%clear':
                 self.clear_history()
-            elif prompt.lower() == '%new_agent':
+            elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
                     for model in models:
@@ -46,12 +47,12 @@ class TerminalChat:
             elif prompt.lower() == '%remove_agent':
                 self.agents.pop(int(input('Index: ')))
                 print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
-            elif prompt.lower() == '%list_agents':
+            elif prompt_low == '%list_agents':
                 index = 0
                 for x in self.agents:
                     print(f'{index}. {x.model} as {x.nickname} with {x.color} hair and {x.font} font')
                     index += 1
-            elif prompt.lower() == '%agent_settings':
+            elif prompt_low == '%agent_settings':
                 agent_index = int(input('Index: '))
                 settings = input('Settings: ')
                 for x in settings:
@@ -64,11 +65,11 @@ class TerminalChat:
                         value = str()
                     elif x == ',':
                         settings_dict[key] = value
-            elif prompt.lower() == '%set_global_system_prompt':
+            elif prompt_low == '%set_global_system_prompt':
                 self.system_prompt = input('System Prompt: ')
                 for x in self.agents:
                     x.system_prompt = self.system_prompt
-            elif prompt.lower() == '%set_agent_system_prompt':
+            elif prompt_low == '%set_agent_system_prompt':
                 for i in range(len(self.agents)):
                     print(f'{i}. {self.agents[i].model} as {self.agents[i].nickname} with {self.agents[i].color} hair and {self.agents[i].font} font')
                 agent_index = int(input('Select Agent Index: '))
