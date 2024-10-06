@@ -47,10 +47,7 @@ class TerminalChat:
                 self.agents.pop(int(input('Index: ')))
                 print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
             elif prompt_low == '%list_agents':
-                index = 0
-                for x in self.agents:
-                    print(f'{index}. {x.model} as {x.nickname} with {x.color} hair and {x.font} font')
-                    index += 1
+                self.list_agents()
             elif prompt_low == '%agent_settings':
                 agent_index = int(input('Index: '))
                 settings = input('Settings: ')
@@ -145,6 +142,12 @@ class TerminalChat:
         %set_global_system_prompt - set the system prompt for all agents
         %set_agent_system_prompt - set the system prompt for a specific agent
         """)
+
+    def list_agents(self):
+        index = 0
+        for x in self.agents:
+            print(f'{index}. {x.model} as {x.nickname} with {x.color} hair and {x.font} font')
+            index += 1
 
 
 if __name__ == "__main__":
