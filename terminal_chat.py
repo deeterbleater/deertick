@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import voice_samples, models, ModelHead
+from model_data import file_read, voice_samples, models, ModelHead
 
 # Initialize colorama
 init(autoreset=True)
@@ -29,7 +29,8 @@ class TerminalChat:
             elif prompt_low == '%clear':
                 self.clear_history()
             elif prompt_low == '%file_read':
-                print()
+                input_file = input('Input file name: ')
+                prompt = file_read(input_file)
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
