@@ -249,6 +249,11 @@ providers = [
     'openrouter',
 ]
 
+def file_read(input_file):
+    with open(input_file, 'r') as file:
+        input_text = file.read()
+        return input_text
+
 def list_all():
     """
     Display available models and providers.

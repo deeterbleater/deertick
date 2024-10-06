@@ -73,10 +73,8 @@ def main():
             print("The model you have chosen does not exist in the csv file. Please check your spelling.")
 
     elif args.file:
-        with open(args.file, 'r') as file:
-            input_text = file.read()
         # noinspection PyUnboundLocalVariable
-        response = deertick.generate_response(args.system, input_text)
+        response = deertick.generate_response(args.system, file_read(args.file))
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as file:
                 file.write(response)
