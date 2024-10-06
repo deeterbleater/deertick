@@ -2,6 +2,16 @@
 
 DeerTick is a versatile Python-based interface for interacting with various language models from different providers, including Replicate, OpenAI, Hugging Face, OpenRouter, and Mistral. It provides a unified way to manage AI agents and integrate them into various workflows.
 
+## Project Documentation
+
+- [Agent Module](docs/agent_doc.md)
+- [Model Data Module](docs/model_data_doc.md)
+- [DeerTick Main Module](docs/deertick_doc.md)
+- [Crawler Module](docs/crawler_doc.md)
+- [Scraper Module](docs/scraper_doc.md)
+- [Database Module](docs/db_doc.md)
+- [Bot Module](docs/bot_doc.md)
+
 ## Features
 
 - Support for multiple AI providers and models
