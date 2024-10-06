@@ -3,17 +3,42 @@ import pandas as pd
 
 df = pd.read_csv('model_data.csv')
 
-model = {}
-model_type = {}
-preferred_providers = {}
-providers = {}
+models = []
+providers = []
 
 for _, row in df.iterrows():
-    model_name = row['model_name']
-    model[model_name] = row['model_id']
-    model_type[model_name] = row['model_type']
-    preferred_providers[model_name] = row['preferred_provider']
-    providers[model_name] = row['providers'].split(', ')
+    row_providers = row['providers'].split(', ')
+    #store model
+    models.append([
+        row['model_name'],
+        row['model_id'],
+        row['model_type'],
+        row['preferred_provider'],
+        row_providers
+    ])
+    #store any new providers
+    for row_provider in row_providers:
+        for provider in providers:
+            if provider == row_provider:
+                break
+        else:
+            providers.append(row_provider)
+
+def list_all():
+    """
+    Display available models and providers.
+
+    This function prints the available models and providers to the console.
+    It helps users understand the options for model and provider selection.
+    """
+    print("\nmodels:\n")
+    for model in models:
+        print(f'"{model[0]}": "{model[1]}",')
+    print("\nproviders:\n")
+    index = 0
+    for x in providers:
+        print(f'{index}. {x}')
+        index += 1
 
 
 
