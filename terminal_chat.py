@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import file_read, voice_samples, models, ModelHead
+from model_data import file_read, list_models, voice_samples, models, ModelHead
 
 # Initialize colorama
 init(autoreset=True)
@@ -34,8 +34,7 @@ class TerminalChat:
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
-                    for model in models:
-                        print(f'{model[ModelHead.name.value]}: {model[ModelHead.id.value]}')
+                    list_models()
                     model_nick = input('Model: ')
                 provider = ''
                 for model in models:
