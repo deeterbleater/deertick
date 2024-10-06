@@ -31,6 +31,10 @@ class TerminalChat:
             elif prompt_low == '%file_read':
                 input_file = input('Input file name: ')
                 prompt = file_read(input_file)
+                model_nick = input('Model (l to list models): ')
+                if model_nick == 'l':
+                    list_models()
+                    model_nick = input('Model: ')
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
