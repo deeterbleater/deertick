@@ -2,7 +2,7 @@ from enum import Enum
 import pandas as pd
 
 
-
+#id,name,created,description,context_length,per_request_limits,architecture.modality,architecture.tokenizer,architecture.instruct_type,pricing.prompt,pricing.completion,pricing.image,pricing.request,top_provider.context_length,top_provider.max_completion_tokens,top_provider.is_moderated,preferred_provider,model_type
 class ModelHead(Enum):
     name = 0
     id = 1
