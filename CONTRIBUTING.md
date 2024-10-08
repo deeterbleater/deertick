@@ -98,7 +98,7 @@ This project and everyone participating in it is governed by the [DeerTick Code 
 ### Communication Channels
 
 - GitHub Issues: For bug reports, feature requests, and detailed discussions
-- [Discord Server](https://discord.gg/vEtRuGrsnD): For quick questions and community chat (replace with actual link)
+- [Discord Server](https://discord.gg/vEtRuGrsnD): For quick questions and community chat
 
 Thank you for contributing to DeerTick! We appreciate your efforts to make our project better.
 
