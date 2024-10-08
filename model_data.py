@@ -1,6 +1,14 @@
+from enum import Enum
 import pandas as pd
 
 
+
+class ModelHead(Enum):
+    name = 0
+    id = 1
+    type = 2
+    preferred_provider = 3
+    providers = 4
 
 df = pd.read_csv('model_data.csv')
 
