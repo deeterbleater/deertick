@@ -215,6 +215,13 @@ models = [
 ["openai/gpt-3.5-turbo-0301", "OpenAI: GPT-3.5 Turbo (older v0301)", 1685232000, "GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.Training data up to Sep 2021.", 4095, "", "text->text", "GPT", "nan", 1e-06, 2e-06, 0.0, 0.0, 4095.0, 4096.0, True, "openrouter", "llm", []],
 ["openai/gpt-3.5-turbo-0125", "OpenAI: GPT-3.5 Turbo 16k", 1685232000, "The latest GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Training data: up to Sep 2021.This version has a higher accuracy at responding in requested formats and a fix for a bug which caused a text encoding issue for non-English language function calls.", 16385, "", "text->text", "GPT", "nan", 5e-07, 1.5e-06, 0.0, 0.0, 16385.0, 4096.0, True, "openrouter", "llm", []],
 ["openai/gpt-3.5-turbo", "OpenAI: GPT-3.5 Turbo", 1685232000, "GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.Training data up to Sep 2021.", 16385, "", "text->text", "GPT", "nan", 5e-07, 1.5e-06, 0.0, 0.0, 16385.0, 4096.0, True, "openrouter", "llm", []],
+    ["black-forest-labs/flux-schnell", "flux-schnell", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
+    ["lucataco/xtts-v2:684bc3855b37866c0c65add2ff39c78f3dea3f4ff103a436465326e0f438d55e", "xtts-v2", 0, "", 0, "", "text->speech", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "tts", []],
+    ["lucataco/flux-dev-lora", "flux-dev-lora", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
+    ["lucataco/animate-diff:beecf59c4aee8d81bf04f0381033dfa10dc16e845b4ae00d281e2fa377e48a9f", "animate-diff", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "video", []],
+    ["yorickvp/llava-13b", "llava-13b", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
+    ["mattshumer/reflection-70b:free", "Reflection 70B (free)", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
+    ["mattshumer/reflection-70b", "Reflection 70B", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
 ]
 providers = [
     'replicate',
