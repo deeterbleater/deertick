@@ -10,8 +10,7 @@ class ModelHead(Enum):
     preferred_provider = 3
     providers = 4
 
-df = pd.read_csv('model_data.csv')
-
+#more options can be found online, this is just a sample of what's available
 models = [
 ["I-8b", "meta/meta-llama-3-8b-instruct", "llm", "replicate", ['replicate', 'mistral', 'huggingface', 'openai']],
 ["I-70b", "meta/meta-llama-3-70b-instruct", "llm", "replicate", ['replicate', 'mistral', 'huggingface', 'openai']],
@@ -215,25 +214,13 @@ models = [
 ["OpenAI: GPT-3.5 Turbo (older v0301)", "openai/gpt-3.5-turbo-0301", "llm", "openrouter", ['replicate', 'mistral', 'huggingface', 'openai', 'openrouter']],
 ["OpenAI: GPT-3.5 Turbo", "openai/gpt-3.5-turbo", "llm", "openrouter", ['replicate', 'mistral', 'huggingface', 'openai', 'openrouter']],
 ]
-providers = []
-
-for _, row in df.iterrows():
-    row_providers = row['providers'].split(', ')
-    #store model
-    models.append([
-        row['model_name'],
-        row['model_id'],
-        row['model_type'],
-        row['preferred_provider'],
-        row_providers
-    ])
-    #store any new providers
-    for row_provider in row_providers:
-        for provider in providers:
-            if provider == row_provider:
-                break
-        else:
-            providers.append(row_provider)
+providers = [
+    'replicate',
+    'mistral',
+    'huggingface',
+    'openai',
+    'openrouter',
+]
 
 def list_all():
     """
