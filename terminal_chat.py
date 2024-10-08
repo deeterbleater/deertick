@@ -20,7 +20,7 @@ class TerminalChat:
         self.system_prompt = input('System Prompt (leave blank for default): ')
         user_name = input('Username: ')
         history = str()
-        print(f"{Fore.GREEN}*{self.agents[0].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+        self.connect_msg(self.agents[0].model)
         responding_agents = self.agents
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
@@ -42,7 +42,7 @@ class TerminalChat:
                         provider = model[3]
                         break
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
-                print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+                self.connect_msg(self.agents[-1].model)
             elif prompt.lower() == '%remove_agent':
                 self.agents.pop(int(input('Index: ')))
                 print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
@@ -126,6 +126,11 @@ class TerminalChat:
 
     def clear_history(self):
         self.history = str()
+
+    def connect_msg(self, connected_model):
+        print(f"{Fore.GREEN}*{connected_model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+        if "free" in connected_model:
+            print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._{Style.RESET_ALL}\n-----------------------")
 
     def help(self):
         print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")
