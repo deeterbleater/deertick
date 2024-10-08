@@ -16,11 +16,6 @@ For a full list of options, use: python deertick.py -h
 import argparse
 from agent import Agent
 from model_data import models, list_all
-from terminal_chat import TerminalChat
-from crawler import WebCrawler
-from scraper import DynamicBlogScraper
-from db import DatabaseManager
-from bot import MyBot
 import pandas as pd
 import asyncio
 import discord
@@ -60,6 +55,7 @@ def main():
                 #don't allow incompatible provider
                 for avail_provider in model[4]:
                     if avail_provider == args.provider:
+                        from terminal_chat import TerminalChat
                         deertick = TerminalChat(args.model, args.system, args.provider)
                         deertick.chat("", name_mention=0.5, random_response=0.1)
                         break
@@ -81,18 +77,22 @@ def main():
             print(f"Agent: {response}")
 
     elif args.crawl:
+        from crawler import WebCrawler
         crawler = WebCrawler(args.crawl, deep_analysis=args.deep_analysis)
         crawler.crawl()
 
     elif args.scrape:
+        from scraper import DynamicBlogScraper
         scraper = DynamicBlogScraper(export_to_db=args.export_db)
         asyncio.run(scraper.scrape_url(args.scrape))
 
     elif args.backup_db:
+        from db import DatabaseManager
         db_manager = DatabaseManager()
         db_manager.backup_database()
 
     elif args.discord:
+        from bot import MyBot
         bot = MyBot(command_prefix='!', intents=discord.Intents.default())
         bot.run(config.get('keys', 'DISCORD_BOT_TOKEN'))
 
