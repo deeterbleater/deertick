@@ -1,6 +1,7 @@
 import pandas as pd
 
 
+
 df = pd.read_csv('model_data.csv')
 
 models = []
@@ -46,6 +47,17 @@ df = pd.read_csv('samples.csv')
 
 voice_samples = {}
 
-for _, row in df.iterrows():
+# Populate the voice_samples dictionary
+for _, row in samples_df.iterrows():
     voice_name = row['voice_name']
     voice_samples[voice_name] = row['url']
+
+# Print some information to verify the data loading
+print(f"Loaded data for {len(model_data)} models")
+print(f"Loaded {len(voice_samples)} voice samples")
+
+# Example of how to access the data:
+# print(model_data['Meta: Llama 3.2 3B Instruct']['id'])
+# print(model_data['Meta: Llama 3.2 3B Instruct']['context_length'])
+# print(model_index['Meta: Llama 3.2 3B Instruct'])  # Get index of a model
+# print(index_to_model[0])  # Get model name for index 0
