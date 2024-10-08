@@ -4,8 +4,11 @@ import pandas as pd
 
 #id,name,created,description,context_length,per_request_limits,architecture.modality,architecture.tokenizer,architecture.instruct_type,pricing.prompt,pricing.completion,pricing.image,pricing.request,top_provider.context_length,top_provider.max_completion_tokens,top_provider.is_moderated,preferred_provider,model_type
 class ModelHead(Enum):
-    name = 0
-    id = 1
+    id = 0
+    name = 1
+    created = 2
+    description = 3
+    context_length = 4
     type = 2
     preferred_provider = 3
     incompatible = 4
