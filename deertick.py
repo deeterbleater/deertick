@@ -15,12 +15,7 @@ For a full list of options, use: python deertick.py -h
 """
 import argparse
 from agent import Agent
-from model_data import model, providers
-from terminal_chat import TerminalChat
-from crawler import WebCrawler
-from scraper import DynamicBlogScraper
-from db import DatabaseManager
-from bot import MyBot
+from model_data import models, list_all
 import pandas as pd
 import asyncio
 import discord
@@ -52,16 +47,23 @@ def main():
     args = parser.parse_args()
 
     if args.list:
-        print("Available models:")
-        for model_name in model:
-            print(f"- {model_name}")
-        print("\nAvailable providers:")
-        for provider_name in providers:
-            print(f"- {provider_name}")
-
+        list_all()
     elif args.interactive:
-        deertick = TerminalChat(args.model, args.system, args.provider)
-        deertick.chat("", name_mention=0.5, random_response=0.1)
+        #check model exists
+        for model in models:
+            if model[0] == args.model:
+                #don't allow incompatible provider
+                for avail_provider in model[4]:
+                    if avail_provider == args.provider:
+                        from terminal_chat import TerminalChat
+                        deertick = TerminalChat(args.model, args.system, args.provider)
+                        deertick.chat("", name_mention=0.5, random_response=0.1)
+                        break
+                else:
+                    print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
+                break
+        else:
+            print("The model you have chosen does not exist in the csv file. Please check your spelling.")
 
     elif args.file:
         with open(args.file, 'r') as file:
@@ -75,18 +77,22 @@ def main():
             print(f"Agent: {response}")
 
     elif args.crawl:
+        from crawler import WebCrawler
         crawler = WebCrawler(args.crawl, deep_analysis=args.deep_analysis)
         crawler.crawl()
 
     elif args.scrape:
+        from scraper import DynamicBlogScraper
         scraper = DynamicBlogScraper(export_to_db=args.export_db)
         asyncio.run(scraper.scrape_url(args.scrape))
 
     elif args.backup_db:
+        from db import DatabaseManager
         db_manager = DatabaseManager()
         db_manager.backup_database()
 
     elif args.discord:
+        from bot import MyBot
         bot = MyBot(command_prefix='!', intents=discord.Intents.default())
         bot.run(config.get('keys', 'DISCORD_BOT_TOKEN'))
 

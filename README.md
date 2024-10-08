@@ -49,9 +49,12 @@ DeerTick is a versatile Python-based interface for interacting with various lang
    user = your_database_username
    password = your_secure_database_password
    database = your_database_name
-   ec2_user = your_ec2_username
    ec2_key = path/to/your/ec2/key.pem
+   ec2_user = your_ec2_username
    cert = path/to/your/ssl/cert.pem
+
+   [video]
+   MAGICK = C:\Path\To\ImageMagick\magick.exe
 
    [keys]
    REPLICATE_API_TOKEN = your_replicate_token
@@ -64,6 +67,7 @@ DeerTick is a versatile Python-based interface for interacting with various lang
    MESHY_API_KEY = your_meshy_key
    TWILIO_ACCOUNT_SID = your_twilio_sid
    TWILIO_AUTH_TOKEN = your_twilio_auth_token
+   TWILIO_VERIFY_SID = your_twilio_verify_sid
    DISCORD_BOT_TOKEN = your_discord_bot_token
    ```
 
