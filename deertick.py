@@ -15,7 +15,7 @@ For a full list of options, use: python deertick.py -h
 """
 import argparse
 from agent import Agent
-from model_data import models, list_all
+from model_data import models, list_all, ModelHead
 import pandas as pd
 import asyncio
 import discord
@@ -51,12 +51,12 @@ def main():
     elif args.interactive:
         #check model exists
         for model in models:
-            if model[0] == args.model:
-                if model[2] != "llm" and args.provider == "openrouter":
+            if model[ModelHead.name] == args.model:
+                if model[ModelHead.type] != "llm" and args.provider == "openrouter":
                     print("Openrouter only works with llm models, please choose another provider.")
                     break
                 #don't allow incompatible provider
-                for incompatibility in model[4]:
+                for incompatibility in model[ModelHead.incompatible]:
                     if incompatibility == args.provider:
                         print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
                         break

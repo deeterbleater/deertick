@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import providers, models, voice_samples, list_all
+from model_data import providers, models, voice_samples, list_all, ModelHead
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -79,8 +79,8 @@ class Agent:
         self.provider = provider
         if provider == '':
             for llm in models:
-                if model == llm[0]:
-                    self.provider = llm[3]
+                if model == llm[ModelHead.name]:
+                    self.provider = llm[ModelHead.preferred_provider]
                     break
         if type(provider) == int:
             self.provider = providers[provider]
@@ -165,27 +165,27 @@ class Agent:
         It handles different initialization procedures for each provider.
         """
         for llm in models:
-            if llm[1] == self.model:
+            if llm[ModelHead.id] == self.model:
                 if self.provider == 'replicate':
-                    print(f"Replicate: {llm[1]}")
-                    self.model = llm[1]
+                    print(f"Replicate: {llm[ModelHead.id]}")
+                    self.model = llm[ModelHead.id]
                     break
                 elif self.provider == 'openai':
-                    print(f"OpenAI: {llm[1]}")
-                    self.model = llm[1]
+                    print(f"OpenAI: {llm[ModelHead.id]}")
+                    self.model = llm[ModelHead.id]
                     self.client = OpenAI()  # Create an OpenAI client instance
                     break
                 elif self.provider == 'huggingface':
-                    print(f"HuggingFace: {llm[1]}")
-                    self.model = llm[1]
+                    print(f"HuggingFace: {llm[ModelHead.id]}")
+                    self.model = llm[ModelHead.id]
                     break
                 elif self.provider == 'openrouter':
-                    print(f"OpenRouter: {llm[1]}")
-                    self.model = llm[1]
+                    print(f"OpenRouter: {llm[ModelHead.id]}")
+                    self.model = llm[ModelHead.id]
                     break
                 elif self.provider == 'mistral':
-                    print(f"Mistral: {llm[1]}")
-                    self.model = llm[1]
+                    print(f"Mistral: {llm[ModelHead.id]}")
+                    self.model = llm[ModelHead.id]
                     break
                 else:
                     print(f"Invalid provider: {provider}")
