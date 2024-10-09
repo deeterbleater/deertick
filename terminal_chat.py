@@ -11,8 +11,8 @@ class TerminalChat:
     def __init__(self, model='I-8b', system_prompt='', provider='replicate', settings=None):
         self.agents = []
         for llm in models:
-            if llm[ModelHead.name] == model:
-                self.agents.append(Agent(llm[ModelHead.id], system_prompt, provider, settings))
+            if llm[ModelHead.name.value] == model:
+                self.agents.append(Agent(llm[ModelHead.id.value], system_prompt, provider, settings))
                 break
         self.system_prompt = system_prompt
 
@@ -34,12 +34,12 @@ class TerminalChat:
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
                     for model in models:
-                        print(f'{model[ModelHead.name]}: {model[ModelHead.id]}')
+                        print(f'{model[ModelHead.name.value]}: {model[ModelHead.id.value]}')
                     model_nick = input('Model: ')
                 provider = ''
                 for model in models:
-                    if model[ModelHead.name] == model_nick:
-                        provider = model[ModelHead.preferred_provider]
+                    if model[ModelHead.name.value] == model_nick:
+                        provider = model[ModelHead.preferred_provider.value]
                         break
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 self.connect_msg(self.agents[-1].model)
@@ -98,14 +98,14 @@ class TerminalChat:
                 history = agent_prompt
                 try:
                     for model in models:
-                        if model[ModelHead.id] == agent.nickname:
-                            if model[ModelHead.type] == 'llm':
+                        if model[ModelHead.id.value] == agent.nickname:
+                            if model[ModelHead.type.value] == 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
                                 break
-                            elif model[ModelHead.type] == 'tts':
+                            elif model[ModelHead.type.value] == 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
                                         print(f'{x}: {y}')
@@ -113,7 +113,7 @@ class TerminalChat:
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
                                 break
-                            elif model[ModelHead.type] == 'image' or model[ModelHead.type] == 'video':
+                            elif model[ModelHead.type.value] == 'image' or model[ModelHead.type.value] == 'video':
                                 agent.generate_image(prompt)
                                 break
 

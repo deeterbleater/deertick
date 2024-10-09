@@ -258,7 +258,7 @@ def list_all():
     """
     print("\nmodels:\n")
     for model in models:
-        print(f'"{model[ModelHead.name]}": "{model[ModelHead.id]}",')
+        print(f'"{model[ModelHead.name.value]}": "{model[ModelHead.id.value]}",')
     print("\nproviders:\n")
     index = 0
     for x in providers:

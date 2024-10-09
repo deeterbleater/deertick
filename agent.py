@@ -79,8 +79,8 @@ class Agent:
         self.provider = provider
         if provider == '':
             for llm in models:
-                if model == llm[ModelHead.name]:
-                    self.provider = llm[ModelHead.preferred_provider]
+                if model == llm[ModelHead.name.value]:
+                    self.provider = llm[ModelHead.preferred_provider.value]
                     break
         if type(provider) == int:
             self.provider = providers[provider]
@@ -165,27 +165,27 @@ class Agent:
         It handles different initialization procedures for each provider.
         """
         for llm in models:
-            if llm[ModelHead.id] == self.model:
+            if llm[ModelHead.id.value] == self.model:
                 if self.provider == 'replicate':
-                    print(f"Replicate: {llm[ModelHead.id]}")
-                    self.model = llm[ModelHead.id]
+                    print(f"Replicate: {llm[ModelHead.id.value]}")
+                    self.model = llm[ModelHead.id.value]
                     break
                 elif self.provider == 'openai':
-                    print(f"OpenAI: {llm[ModelHead.id]}")
-                    self.model = llm[ModelHead.id]
+                    print(f"OpenAI: {llm[ModelHead.id.value]}")
+                    self.model = llm[ModelHead.id.value]
                     self.client = OpenAI()  # Create an OpenAI client instance
                     break
                 elif self.provider == 'huggingface':
-                    print(f"HuggingFace: {llm[ModelHead.id]}")
-                    self.model = llm[ModelHead.id]
+                    print(f"HuggingFace: {llm[ModelHead.id.value]}")
+                    self.model = llm[ModelHead.id.value]
                     break
                 elif self.provider == 'openrouter':
-                    print(f"OpenRouter: {llm[ModelHead.id]}")
-                    self.model = llm[ModelHead.id]
+                    print(f"OpenRouter: {llm[ModelHead.id.value]}")
+                    self.model = llm[ModelHead.id.value]
                     break
                 elif self.provider == 'mistral':
-                    print(f"Mistral: {llm[ModelHead.id]}")
-                    self.model = llm[ModelHead.id]
+                    print(f"Mistral: {llm[ModelHead.id.value]}")
+                    self.model = llm[ModelHead.id.value]
                     break
                 else:
                     print(f"Invalid provider: {provider}")

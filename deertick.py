@@ -51,12 +51,12 @@ def main():
     elif args.interactive:
         #check model exists
         for model in models:
-            if model[ModelHead.name] == args.model:
-                if model[ModelHead.type] != "llm" and args.provider == "openrouter":
+            if model[ModelHead.name.value] == args.model:
+                if model[ModelHead.type.value] != "llm" and args.provider == "openrouter":
                     print("Openrouter only works with llm models, please choose another provider.")
                     break
                 #don't allow incompatible provider
-                for incompatibility in model[ModelHead.incompatible]:
+                for incompatibility in model[ModelHead.incompatible.value]:
                     if incompatibility == args.provider:
                         print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
                         break
