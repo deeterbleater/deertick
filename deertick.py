@@ -15,7 +15,7 @@ For a full list of options, use: python deertick.py -h
 """
 import argparse
 from agent import Agent
-from model_data import models, list_all
+from model_data import models, list_all, ModelHead
 import pandas as pd
 import asyncio
 import discord
@@ -51,16 +51,19 @@ def main():
     elif args.interactive:
         #check model exists
         for model in models:
-            if model[0] == args.model:
+            if model[ModelHead.name.value] == args.model:
+                if model[ModelHead.type.value] != "llm" and args.provider == "openrouter":
+                    print("Openrouter only works with llm models, please choose another provider.")
+                    break
                 #don't allow incompatible provider
-                for avail_provider in model[4]:
-                    if avail_provider == args.provider:
-                        from terminal_chat import TerminalChat
-                        deertick = TerminalChat(args.model, args.system, args.provider)
-                        deertick.chat("", name_mention=0.5, random_response=0.1)
+                for incompatibility in model[ModelHead.incompatible.value]:
+                    if incompatibility == args.provider:
+                        print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
                         break
                 else:
-                    print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
+                    from terminal_chat import TerminalChat
+                    deertick = TerminalChat(args.model, args.system, args.provider)
+                    deertick.chat("", name_mention=0.5, random_response=0.1)
                 break
         else:
             print("The model you have chosen does not exist in the csv file. Please check your spelling.")

@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import voice_samples, models
+from model_data import voice_samples, models, ModelHead
 
 # Initialize colorama
 init(autoreset=True)
@@ -11,8 +11,8 @@ class TerminalChat:
     def __init__(self, model='I-8b', system_prompt='', provider='replicate', settings=None):
         self.agents = []
         for llm in models:
-            if llm[0] == model:
-                self.agents.append(Agent(llm[1], system_prompt, provider, settings))
+            if llm[ModelHead.name.value] == model:
+                self.agents.append(Agent(llm[ModelHead.id.value], system_prompt, provider, settings))
                 break
         self.system_prompt = system_prompt
 
@@ -20,7 +20,7 @@ class TerminalChat:
         self.system_prompt = input('System Prompt (leave blank for default): ')
         user_name = input('Username: ')
         history = str()
-        print(f"{Fore.GREEN}*{self.agents[0].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+        self.connect_msg(self.agents[0].model)
         responding_agents = self.agents
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
@@ -34,15 +34,15 @@ class TerminalChat:
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
                     for model in models:
-                        print(f'{model[0]}: {model[1]}')
+                        print(f'{model[ModelHead.name.value]}: {model[ModelHead.id.value]}')
                     model_nick = input('Model: ')
                 provider = ''
                 for model in models:
-                    if model[0] == model_nick:
-                        provider = model[3]
+                    if model[ModelHead.name.value] == model_nick:
+                        provider = model[ModelHead.preferred_provider.value]
                         break
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
-                print(f"{Fore.GREEN}*{self.agents[-1].model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+                self.connect_msg(self.agents[-1].model)
             elif prompt.lower() == '%remove_agent':
                 self.agents.pop(int(input('Index: ')))
                 print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
@@ -98,14 +98,14 @@ class TerminalChat:
                 history = agent_prompt
                 try:
                     for model in models:
-                        if model[1] == agent.nickname:
-                            if model[2] == 'llm':
+                        if model[ModelHead.id.value] == agent.nickname:
+                            if model[ModelHead.type.value] == 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
                                 break
-                            elif model[2] == 'tts':
+                            elif model[ModelHead.type.value] == 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
                                         print(f'{x}: {y}')
@@ -113,7 +113,7 @@ class TerminalChat:
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
                                 break
-                            elif model[2] == 'image' or model[2] == 'video':
+                            elif model[ModelHead.type.value] == 'image' or model[ModelHead.type.value] == 'video':
                                 agent.generate_image(prompt)
                                 break
 
@@ -126,6 +126,11 @@ class TerminalChat:
 
     def clear_history(self):
         self.history = str()
+
+    def connect_msg(self, connected_model):
+        print(f"{Fore.GREEN}*{connected_model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+        if "free" in connected_model:
+            print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._{Style.RESET_ALL}\n-----------------------")
 
     def help(self):
         print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")
