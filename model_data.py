@@ -2,16 +2,27 @@ from enum import Enum
 import pandas as pd
 
 
-#id,name,created,description,context_length,per_request_limits,architecture.modality,architecture.tokenizer,architecture.instruct_type,pricing.prompt,pricing.completion,pricing.image,pricing.request,top_provider.context_length,top_provider.max_completion_tokens,top_provider.is_moderated,preferred_provider,model_type
+
 class ModelHead(Enum):
     id = 0
     name = 1
     created = 2
     description = 3
     context_length = 4
-    type = 2
-    preferred_provider = 3
-    incompatible = 4
+    request_limits = 5
+    modality = 6
+    tokenizer = 7
+    instruct_type = 8
+    cost_prompt = 9
+    cost_completion = 10
+    cost_image = 11
+    cost_request = 12
+    context_length_top_provider = 13
+    max_completion_tokens_top_provider = 14
+    is_moderated = 15
+    preferred_provider = 16
+    type = 17
+    incompatible = 18
 
 #more options can be found online, this is just a sample of what's available
 gemma2_9bdesc = "Gemma 2 9B by Google is an advanced, open-source language model that sets a new standard for efficiency and performance in its size class.Designed for a wide variety of tasks, it empowers developers and researchers to build innovative applications, while maintaining accessibility, safety, and cost-effectiveness.See the [launch announcement](https://blog.google/technology/developers/google-gemma-2/) for more details. Usage of Gemma is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms)."
