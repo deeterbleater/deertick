@@ -66,7 +66,7 @@ def main():
                         break
                 else:
                     from terminal_chat import TerminalChat
-					# noinspection PyUnboundLocalVariable
+                    # noinspection PyUnboundLocalVariable
                     TerminalChat(deertick).chat("", name_mention=0.5, random_response=0.1)
                 break
         else:
