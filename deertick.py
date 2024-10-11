@@ -15,7 +15,7 @@ For a full list of options, use: python deertick.py -h
 """
 import argparse
 from agent import Agent
-from model_data import models, list_all, ModelHead
+from model_data import models, list_all, ModelHead, file_read
 import pandas as pd
 import asyncio
 import discord
