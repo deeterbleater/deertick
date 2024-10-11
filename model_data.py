@@ -263,7 +263,7 @@ def list_models():
     """
     print("\nmodels:\n")
     for model in models:
-        print(f'"{model[0]}": "{model[1]}",')
+        print(f'"{model[ModelHead.name.value]}": "{model[ModelHead.id.value]}",')
 
 def list_all():
     """

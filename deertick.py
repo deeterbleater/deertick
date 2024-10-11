@@ -46,8 +46,8 @@ def main():
     
     args = parser.parse_args()
     for llm in models:
-        if llm[0] == args.model:
-            deertick = Agent(llm[1], args.system, args.provider)
+        if llm[ModelHead.name.value] == args.model:
+            deertick = Agent(llm[ModelHead.id.value], args.system, args.provider)
             break
 
     if args.list:
