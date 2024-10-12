@@ -35,6 +35,7 @@ class TerminalChat:
                 if agent_nick == 'l':
                     self.list_agents()
                     agent_nick = input('Model: ')
+                responding_agents.append(self.agents[int(agent_nick)])
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
