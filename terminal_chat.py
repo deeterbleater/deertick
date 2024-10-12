@@ -31,10 +31,10 @@ class TerminalChat:
             elif prompt_low == '%file_read':
                 input_file = input('Input file name: ')
                 prompt = file_read(input_file)
-                model_nick = input('Model (l to list models): ')
-                if model_nick == 'l':
-                    list_models()
-                    model_nick = input('Model: ')
+                agent_nick = input('Agent (l to list agents): ')
+                if agent_nick == 'l':
+                    self.list_agents()
+                    agent_nick = input('Model: ')
             elif prompt_low == '%new_agent':
                 model_nick = input('Model (l to list models): ')
                 if model_nick == 'l':
@@ -70,8 +70,7 @@ class TerminalChat:
                 for x in self.agents:
                     x.system_prompt = self.system_prompt
             elif prompt_low == '%set_agent_system_prompt':
-                for i in range(len(self.agents)):
-                    print(f'{i}. {self.agents[i].model} as {self.agents[i].nickname} with {self.agents[i].color} hair and {self.agents[i].font} font')
+                self.list_agents()
                 agent_index = int(input('Select Agent Index: '))
                 system_prompt = input('System Prompt: ')
                 self.agents[agent_index].system_prompt = system_prompt
@@ -148,10 +147,8 @@ class TerminalChat:
         """)
 
     def list_agents(self):
-        index = 0
-        for x in self.agents:
-            print(f'{index}. {x.model} as {x.nickname} with {x.color} hair and {x.font} font')
-            index += 1
+        for i in range(len(self.agents)):
+            print(f'{i}. {self.agents[i].model} as {self.agents[i].nickname} with {self.agents[i].color} hair and {self.agents[i].font} font')
 
 
 if __name__ == "__main__":
