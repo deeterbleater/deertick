@@ -279,6 +279,16 @@ def list_all():
         print(f'{index}. {x}')
         index += 1
 
+def model_index(model_name):
+    for model in models:
+        if model[ModelHead.name.value] == model_name:
+            return model[ModelHead.id.value]
+    else:
+        print("id not found, please check spelling")
+
+def index_to_model(index):
+    return models[index]
+
 
 
 df = pd.read_csv('samples.csv')
@@ -294,8 +304,8 @@ for _, row in df.iterrows():
 print(f"Loaded data for {len(models)} models")
 print(f"Loaded {len(voice_samples)} voice samples")
 
-# Example of how to access the data (WIP):
-# print(model_data['Meta: Llama 3.2 3B Instruct']['id'])
-# print(model_data['Meta: Llama 3.2 3B Instruct']['context_length'])
-# print(model_index['Meta: Llama 3.2 3B Instruct'])  # Get index of a model
-# print(index_to_model[0])  # Get model name for index 0
+# Example of how to access the data:
+# print(models[i][ModelHead.id.value])
+# print(models[i][ModelHead.context_length.value])
+# print(model_index('Meta: Llama 3.2 3B Instruct'))  # Get index of a model
+# print(index_to_model(0))  # Get model name for index 0
