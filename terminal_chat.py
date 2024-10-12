@@ -129,7 +129,7 @@ class TerminalChat:
         self.history = str()
 
     def connect_msg(self, connected_model):
-        print(f"{Fore.GREEN}*{connected_model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
+        print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
         if "free" in connected_model:
             print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._{Style.RESET_ALL}\n-----------------------")
 
