@@ -139,6 +139,7 @@ class TerminalChat:
         %exit - exit the chat
         %help - show this message
         %clear - clear the chat history
+        %file_read - show a file's contents to an agent
         %new_agent - create a new agent
         %remove_agent - remove an agent
         %list_agents - list all agents
