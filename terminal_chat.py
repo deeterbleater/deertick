@@ -31,7 +31,7 @@ class TerminalChat:
             elif prompt_low == '%file_read':
                 input_file = input('Input file name: ')
                 prompt = file_read(input_file)
-                agent_nick = input('Agent (l to list agents): ')
+                agent_nick = input('Agent to show file to (l to list agents): ')
                 if agent_nick == 'l':
                     self.list_agents()
                     agent_nick = input('Model: ')
