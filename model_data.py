@@ -279,7 +279,7 @@ providers = [
 ]
 
 def file_read(input_file):
-    with open(input_file, 'r') as file:
+    with open(input_file) as file:
         input_text = file.read()
         return input_text
 
