@@ -271,11 +271,11 @@ models.append(
     ["huggingfaceh4/zephyr-7b-beta:free", "Hugging Face: Zephyr 7B (free)", 1690934400, "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of [mistralai/Mistral-7B-v0.1](/models/mistralai/mistral-7b-instruct-v0.1) that was trained on a mix of publicly available, synthetic datasets using Direct Preference Optimization (DPO)._These are free, rate-limited endpoints for [Zephyr 7B](/models/huggingfaceh4/zephyr-7b-beta)._", 4096, "", "text->text", "Mistral", "zephyr", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", []],
 )
 providers = [
+    'openrouter',
     'replicate',
     'mistral',
     'huggingface',
     'openai',
-    'openrouter',
 ]
 
 def file_read(input_file):
@@ -308,15 +308,25 @@ def list_all():
         print(f'{index}. {x}')
         index += 1
 
-def model_index(model_name):
+def model_by_name(model_name):
     for model_row in models:
         if model_row[ModelHead.name.value] == model_name:
-            return model_row[ModelHead.id.value]
+            return model_row
     else:
-        print("id not found, please check spelling")
+        print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
+
+def model_index(model_name):
+    return model_by_name(model_name)[ModelHead.id.value]
 
 def index_to_model_name(index):
     return models[index][ModelHead.name.value]
+
+def validate_provider(provider, model_name):
+    if provider == '':
+        return model_by_name(model_name)[ModelHead.preferred_provider.value]
+    else:
+        int(provider)
+        return providers[provider]
 
 
 

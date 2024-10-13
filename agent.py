@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import providers, models, voice_samples, list_all, ModelHead
+from model_data import models, voice_samples, list_all, ModelHead, validate_provider
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -76,14 +76,7 @@ class Agent:
         if settings is not None:
             self.settings = settings
         self.model = model
-        self.provider = provider
-        if provider == '':
-            for llm in models:
-                if model == llm[ModelHead.name.value]:
-                    self.provider = llm[ModelHead.preferred_provider.value]
-                    break
-        if type(provider) == int:
-            self.provider = providers[provider]
+        self.provider = validate_provider(provider, model)
         self.content = ''
         self.model_key = model
         self.nickname = model

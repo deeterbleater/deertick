@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import file_read, list_models, voice_samples, models, ModelHead
+from model_data import file_read, list_models, voice_samples, models, ModelHead, validate_provider
 
 # Initialize colorama
 init(autoreset=True)
@@ -41,11 +41,7 @@ class TerminalChat:
                 if model_nick == 'l':
                     list_models()
                     model_nick = input('Model: ')
-                provider = ''
-                for model in models:
-                    if model[ModelHead.name.value] == model_nick:
-                        provider = model[ModelHead.preferred_provider.value]
-                        break
+                provider = validate_provider('', model_nick)
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 self.connect_msg(self.agents[-1].model)
             elif prompt.lower() == '%remove_agent':
