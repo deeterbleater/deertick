@@ -230,29 +230,51 @@ models_free_only = [
 ]
 #free versions of models
 models_free = [
-    ["liquid/lfm-40b:free", "Liquid: LFM 40B MoE (free)", 1727654400, lfm40bdesc + "_These are free, rate-limited endpoints for [LFM 40B MoE](/models/liquid/lfm-40b)._", 32768, "", "text->text", "Other", "vicuna", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["mattshumer/reflection-70b:free", "Reflection 70B (free)", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.2-3b-instruct:free", "Meta: Llama 3.2 3B Instruct (free)", 1727222400, llama32_3bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 3B Instruct](/models/meta-llama/llama-3.2-3b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["undi95/toppy-m-7b:free", "Toppy M 7B (free)", 1699574400, toppym7bdesc + "_These are free, rate-limited endpoints for [Toppy M 7B](/models/undi95/toppy-m-7b)._", 4096, "", "text->text", "Mistral", "alpaca", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", [], False, False, False],
-    ["openchat/openchat-7b:free", "OpenChat 3.5 7B (free)", 1701129600, openchat7bdesc + "_These are free, rate-limited endpoints for [OpenChat 3.5 7B](/models/openchat/openchat-7b)._", 8192, "", "text->text", "Mistral", "openchat", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["gryphe/mythomist-7b:free", "MythoMist 7B (free)", 1701907200, mythomist7bdesc + "_These are free, rate-limited endpoints for [MythoMist 7B](/models/gryphe/mythomist-7b)._", 32768, "", "text->text", "Mistral", "alpaca", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3-8b-instruct:free", "Meta: Llama 3 8B Instruct (free)", 1713398400, llama3_8bdesc + "_These are free, rate-limited endpoints for [Llama 3 8B Instruct](/models/meta-llama/llama-3-8b-instruct)._", 8192, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["microsoft/phi-3-medium-128k-instruct:free","Phi-3 Medium 128K Instruct (free)", 1716508800,  phi3medium128kinstructdesc + "_These are free, rate-limited endpoints for [Phi-3 Medium 128K Instruct](/models/microsoft/phi-3-medium-128k-instruct)._", 128000, "", "text->text", "Other", "phi3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["microsoft/phi-3-mini-128k-instruct:free", "Phi-3 Mini 128K Instruct (free)", 1716681600, phi3minidesc + "_These are free, rate-limited endpoints for [Phi-3 Mini 128K Instruct](/models/microsoft/phi-3-mini-128k-instruct)._", 128000, "", "text->text", "Other", "phi3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["mistralai/mistral-7b-instruct:free", "Mistral: Mistral 7B Instruct (free)", 1716768000, mistral7b_desc + "_These are free, rate-limited endpoints for [Mistral 7B Instruct](/models/mistralai/mistral-7b-instruct)._", 32768, "", "text->text", "Mistral", "mistral", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.2-1b-instruct:free", "Meta: Llama 3.2 1B Instruct (free)", 1727222400, llama32_1bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 1B Instruct](/models/meta-llama/llama-3.2-1b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.2-11b-vision-instruct:free", "Meta: Llama 3.2 11B Vision Instruct (free)", 1727222400, llama32_11bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 11B Vision Instruct](/models/meta-llama/llama-3.2-11b-vision-instruct)._", 131072, "", "text+image->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["mistralai/pixtral-12b:free", "Mistral: Pixtral 12B (free)", 1725926400, pixtral12bdesc, 0, "", "text+image->text",
-     "Mistral", "mistral", 0, 0, 0, 0.0, 0, 0, False, "openrouter", "llm", [], False, False, False],
-    ["qwen/qwen-2-vl-7b-instruct:free", "Qwen2-VL 7B Instruct (free)", 1724803200, qwen2vl7bdesc, 0, "",
-     "text+image->text", "Qwen", "chatml", 0, 0, 0, 0.0, 0, 0, False, "openrouter", "llm", [], False, False, False],
-    ["nousresearch/hermes-3-llama-3.1-405b:free", "Nous: Hermes 3 405B Instruct (free)", 1723766400, hermes405bdesc + "_These are free, rate-limited endpoints for [Hermes 3 405B Instruct](/models/nousresearch/hermes-3-llama-3.1-405b)._", 131072, "", "text->text", "Llama3", "chatml", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.1-70b-instruct:free", "Meta: Llama 3.1 70B Instruct (free)", 1721692800, llama31_70bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 70B Instruct](/models/meta-llama/llama-3.1-70b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.1-8b-instruct:free", "Meta: Llama 3.1 8B Instruct (free)", 1721692800, llama31_8bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 8B Instruct](/models/meta-llama/llama-3.1-8b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["meta-llama/llama-3.1-405b-instruct:free", "Meta: Llama 3.1 405B Instruct (free)", 1721692800, llama31_405bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 405B Instruct](/models/meta-llama/llama-3.1-405b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["qwen/qwen-2-7b-instruct:free", "Qwen 2 7B Instruct (free)", 1721088000, qwen2_7bdesc + "_These are free, rate-limited endpoints for [Qwen 2 7B Instruct](/models/qwen/qwen-2-7b-instruct)._", 32768, "", "text->text", "Qwen", "chatml", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm", [], False, False, False],
-    ["google/gemma-2-9b-it:free", "Google: Gemma 2 9B (free)", 1719532800, gemma2_9bdesc + "_These are free, rate-limited endpoints for [Gemma 2 9B](/models/google/gemma-2-9b-it)._", 8192, "", "text->text", "Gemini", "gemma", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", [], False, False, False],
+    ["liquid/lfm-40b:free", "Liquid: LFM 40B MoE (free)", 1727654400, lfm40bdesc + "_These are free, rate-limited endpoints for [LFM 40B MoE](/models/liquid/lfm-40b)._", 32768, "", "text->text", "Other", "vicuna", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["mattshumer/reflection-70b:free", "Reflection 70B (free)", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.2-3b-instruct:free", "Meta: Llama 3.2 3B Instruct (free)", 1727222400, llama32_3bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 3B Instruct](/models/meta-llama/llama-3.2-3b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["undi95/toppy-m-7b:free", "Toppy M 7B (free)", 1699574400, toppym7bdesc + "_These are free, rate-limited endpoints for [Toppy M 7B](/models/undi95/toppy-m-7b)._", 4096, "", "text->text", "Mistral", "alpaca", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm"],
+    ["openchat/openchat-7b:free", "OpenChat 3.5 7B (free)", 1701129600, openchat7bdesc + "_These are free, rate-limited endpoints for [OpenChat 3.5 7B](/models/openchat/openchat-7b)._", 8192, "", "text->text", "Mistral", "openchat", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["gryphe/mythomist-7b:free", "MythoMist 7B (free)", 1701907200, mythomist7bdesc + "_These are free, rate-limited endpoints for [MythoMist 7B](/models/gryphe/mythomist-7b)._", 32768, "", "text->text", "Mistral", "alpaca", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3-8b-instruct:free", "Meta: Llama 3 8B Instruct (free)", 1713398400, llama3_8bdesc + "_These are free, rate-limited endpoints for [Llama 3 8B Instruct](/models/meta-llama/llama-3-8b-instruct)._", 8192, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["microsoft/phi-3-medium-128k-instruct:free", "Phi-3 Medium 128K Instruct (free)", 1716508800, phi3medium128kinstructdesc + "_These are free, rate-limited endpoints for [Phi-3 Medium 128K Instruct](/models/microsoft/phi-3-medium-128k-instruct)._", 128000, "", "text->text", "Other", "phi3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["microsoft/phi-3-mini-128k-instruct:free", "Phi-3 Mini 128K Instruct (free)", 1716681600, phi3minidesc + "_These are free, rate-limited endpoints for [Phi-3 Mini 128K Instruct](/models/microsoft/phi-3-mini-128k-instruct)._", 128000, "", "text->text", "Other", "phi3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["mistralai/mistral-7b-instruct:free", "Mistral: Mistral 7B Instruct (free)", 1716768000, mistral7b_desc + "_These are free, rate-limited endpoints for [Mistral 7B Instruct](/models/mistralai/mistral-7b-instruct)._", 32768, "", "text->text", "Mistral", "mistral", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.2-1b-instruct:free", "Meta: Llama 3.2 1B Instruct (free)", 1727222400, llama32_1bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 1B Instruct](/models/meta-llama/llama-3.2-1b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.2-11b-vision-instruct:free", "Meta: Llama 3.2 11B Vision Instruct (free)", 1727222400, llama32_11bdesc + "_These are free, rate-limited endpoints for [Llama 3.2 11B Vision Instruct](/models/meta-llama/llama-3.2-11b-vision-instruct)._", 131072, "", "text+image->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["mistralai/pixtral-12b:free", "Mistral: Pixtral 12B (free)", 1725926400, pixtral12bdesc, 0, "", "text+image->text", "Mistral", "mistral", 0, 0, 0, 0.0, 0, 0, False, "openrouter", "llm"],
+    ["qwen/qwen-2-vl-7b-instruct:free", "Qwen2-VL 7B Instruct (free)", 1724803200, qwen2vl7bdesc, 0, "", "text+image->text", "Qwen", "chatml", 0, 0, 0, 0.0, 0, 0, False, "openrouter", "llm"],
+    ["nousresearch/hermes-3-llama-3.1-405b:free", "Nous: Hermes 3 405B Instruct (free)", 1723766400, hermes405bdesc + "_These are free, rate-limited endpoints for [Hermes 3 405B Instruct](/models/nousresearch/hermes-3-llama-3.1-405b)._", 131072, "", "text->text", "Llama3", "chatml", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.1-70b-instruct:free", "Meta: Llama 3.1 70B Instruct (free)", 1721692800, llama31_70bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 70B Instruct](/models/meta-llama/llama-3.1-70b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.1-8b-instruct:free", "Meta: Llama 3.1 8B Instruct (free)", 1721692800, llama31_8bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 8B Instruct](/models/meta-llama/llama-3.1-8b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["meta-llama/llama-3.1-405b-instruct:free", "Meta: Llama 3.1 405B Instruct (free)", 1721692800, llama31_405bdesc + "_These are free, rate-limited endpoints for [Llama 3.1 405B Instruct](/models/meta-llama/llama-3.1-405b-instruct)._", 131072, "", "text->text", "Llama3", "llama3", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["qwen/qwen-2-7b-instruct:free", "Qwen 2 7B Instruct (free)", 1721088000, qwen2_7bdesc + "_These are free, rate-limited endpoints for [Qwen 2 7B Instruct](/models/qwen/qwen-2-7b-instruct)._", 32768, "", "text->text", "Qwen", "chatml", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
+    ["google/gemma-2-9b-it:free", "Google: Gemma 2 9B (free)", 1719532800, gemma2_9bdesc + "_These are free, rate-limited endpoints for [Gemma 2 9B](/models/google/gemma-2-9b-it)._", 8192, "", "text->text", "Gemini", "gemma", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm"],
 ]
+#a reusable template! this allows insertions with reduced data ;3
+temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", [], False, False, False]
+id = 0
+name = 1
+created = 2
+description = 3
+context_length = 4
+request_limits = 5
+modality = 6
+tokenizer = 7
+instruct_type = 8
+cost_prompt = 9
+cost_completion = 10
+cost_image = 11
+cost_request = 12
+context_length_top_provider = 13
+max_completion_tokens_top_provider = 14
+is_moderated = 15
+preferred_provider = 16
+type = 17
+for model in models_free:
+    print()
+for model in models_free_only:
+    models.append(model)
 providers = [
     'replicate',
     'mistral',
@@ -274,8 +296,8 @@ def list_models():
     It helps users understand the options for model selection.
     """
     print("\nmodels:\n")
-    for model in models:
-        print(f'"{model[ModelHead.name.value]}": "{model[ModelHead.id.value]}",')
+    for model_row in models:
+        print(f'"{model_row[ModelHead.name.value]}": "{model_row[ModelHead.id.value]}",')
 
 def list_all():
     """
@@ -292,9 +314,9 @@ def list_all():
         index += 1
 
 def model_index(model_name):
-    for model in models:
-        if model[ModelHead.name.value] == model_name:
-            return model[ModelHead.id.value]
+    for model_row in models:
+        if model_row[ModelHead.name.value] == model_name:
+            return model_row[ModelHead.id.value]
     else:
         print("id not found, please check spelling")
 
