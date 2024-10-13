@@ -61,7 +61,7 @@ def main():
         else:
             from terminal_chat import TerminalChat
             # noinspection PyUnboundLocalVariable
-            TerminalChat(deertick).chat("", name_mention=0.5, random_response=0.1)
+            TerminalChat(deertick).chat("")
 
     elif args.file:
         # noinspection PyUnboundLocalVariable
