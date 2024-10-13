@@ -315,8 +315,8 @@ def model_index(model_name):
     else:
         print("id not found, please check spelling")
 
-def index_to_model(index):
-    return models[index]
+def index_to_model_name(index):
+    return models[index][ModelHead.name.value]
 
 
 
@@ -337,4 +337,4 @@ print(f"Loaded {len(voice_samples)} voice samples")
 # print(models[i][ModelHead.id.value])
 # print(models[i][ModelHead.context_length.value])
 # print(model_index('Meta: Llama 3.2 3B Instruct'))  # Get index of a model
-# print(index_to_model(0))  # Get model name for index 0
+# print(index_to_model_name(0))  # Get model name for index 0
