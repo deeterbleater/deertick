@@ -221,10 +221,6 @@ models = [
     ["yorickvp/llava-13b", "llava-13b", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
     ["mattshumer/reflection-70b", "Reflection 70B", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
 ]
-#models that are only ever free
-models_free_only = [
-    ["huggingfaceh4/zephyr-7b-beta:free", "Hugging Face: Zephyr 7B (free)", 1690934400, "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of [mistralai/Mistral-7B-v0.1](/models/mistralai/mistral-7b-instruct-v0.1) that was trained on a mix of publicly available, synthetic datasets using Direct Preference Optimization (DPO)._These are free, rate-limited endpoints for [Zephyr 7B](/models/huggingfaceh4/zephyr-7b-beta)._", 4096, "", "text->text", "Mistral", "zephyr", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", []],
-]
 #free versions of models
 models_free = [
     ["liquid/lfm-40b:free", "Liquid: LFM 40B MoE (free)", 1727654400, lfm40bdesc + "_These are free, rate-limited endpoints for [LFM 40B MoE](/models/liquid/lfm-40b)._", 32768, "", "text->text", "Other", "vicuna", 0.0, 0.0, 0.0, 0.0, 8192.0, 4096.0, False, "openrouter", "llm"],
@@ -249,7 +245,7 @@ models_free = [
     ["google/gemma-2-9b-it:free", "Google: Gemma 2 9B (free)", 1719532800, gemma2_9bdesc + "_These are free, rate-limited endpoints for [Gemma 2 9B](/models/google/gemma-2-9b-it)._", 8192, "", "text->text", "Gemini", "gemma", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm"],
 ]
 #a reusable template! this allows insertions with reduced data ;3
-temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", [], False, False, False]
+temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
 id = 0
 name = 1
 created = 2
@@ -270,8 +266,10 @@ preferred_provider = 16
 type = 17
 for model in models_free:
     print()
-for model in models_free_only:
-    models.append(model)
+#add final model that breaks conventions by only being available free
+models.append(
+    ["huggingfaceh4/zephyr-7b-beta:free", "Hugging Face: Zephyr 7B (free)", 1690934400, "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of [mistralai/Mistral-7B-v0.1](/models/mistralai/mistral-7b-instruct-v0.1) that was trained on a mix of publicly available, synthetic datasets using Direct Preference Optimization (DPO)._These are free, rate-limited endpoints for [Zephyr 7B](/models/huggingfaceh4/zephyr-7b-beta)._", 4096, "", "text->text", "Mistral", "zephyr", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", []],
+)
 providers = [
     'replicate',
     'mistral',
