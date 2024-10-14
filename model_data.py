@@ -249,6 +249,22 @@ providers = [
     'openrouter',
 ]
 
+def file_read(input_file):
+    with open(input_file, 'r') as file:
+        input_text = file.read()
+        return input_text
+
+def list_models():
+    """
+    Display available models.
+
+    This function prints the available models to the console.
+    It helps users understand the options for model selection.
+    """
+    print("\nmodels:\n")
+    for model in models:
+        print(f'"{model[ModelHead.name.value]}": "{model[ModelHead.id.value]}",')
+
 def list_all():
     """
     Display available models and providers.
@@ -256,9 +272,7 @@ def list_all():
     This function prints the available models and providers to the console.
     It helps users understand the options for model and provider selection.
     """
-    print("\nmodels:\n")
-    for model in models:
-        print(f'"{model[ModelHead.name.value]}": "{model[ModelHead.id.value]}",')
+    list_models()
     print("\nproviders:\n")
     index = 0
     for x in providers:
