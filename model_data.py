@@ -227,34 +227,31 @@ def model_by_name(model_name):
             return model_row
     else:
         print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
-#free versions of models with higher limits
+#free versions of models, each line is a pair of name then limit tier. this could probably be turned into a dic
+#8192.0, 4096.0
+#4096.0, 2048.0
+#0, 0
 models_free_high = [
-    [model_by_name("Liquid: LFM 40B MoE"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.2 3B Instruct"), 8192.0, 4096.0],
-    [model_by_name("OpenChat 3.5 7B"), 8192.0, 4096.0],
-    [model_by_name("MythoMist 7B"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3 8B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Phi-3 Medium 128K Instruct"), 8192.0, 4096.0],
-    [model_by_name("Phi-3 Mini 128K Instruct"), 8192.0, 4096.0],
-    [model_by_name("Mistral: Mistral 7B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.2 1B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.2 11B Vision Instruct"), 8192.0, 4096.0],
-    [model_by_name("Nous: Hermes 3 405B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.1 70B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.1 8B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Meta: Llama 3.1 405B Instruct"), 8192.0, 4096.0],
-    [model_by_name("Qwen 2 7B Instruct"), 8192.0, 4096.0],
-]
-#free versions of models with lower limits
-models_free_low = [
-    [model_by_name("Toppy M 7B"), 4096.0, 2048.0],
-    [model_by_name("Google: Gemma 2 9B"), 4096.0, 2048.0],
-]
-#free versions of models with unknown limits
-models_free = [
-    [model_by_name("Reflection 70B"), 0, 0],
-    [model_by_name("Mistral: Pixtral 12B"), 0, 0],
-    [model_by_name("Qwen2-VL 7B Instruct"), 0, 0],
+    ["Liquid: LFM 40B MoE", 2],
+    ["Meta: Llama 3.2 3B Instruct", 2],
+    ["OpenChat 3.5 7B", 2],
+    ["MythoMist 7B", 2],
+    ["Meta: Llama 3 8B Instruct", 2],
+    ["Phi-3 Medium 128K Instruct", 2],
+    ["Phi-3 Mini 128K Instruct", 2],
+    ["Mistral: Mistral 7B Instruct", 2],
+    ["Meta: Llama 3.2 1B Instruct", 2],
+    ["Meta: Llama 3.2 11B Vision Instruct", 2],
+    ["Nous: Hermes 3 405B Instruct", 2],
+    ["Meta: Llama 3.1 70B Instruct", 2],
+    ["Meta: Llama 3.1 8B Instruct", 2],
+    ["Meta: Llama 3.1 405B Instruct", 2],
+    ["Qwen 2 7B Instruct", 2],
+    ["Toppy M 7B", 1],
+    ["Google: Gemma 2 9B", 1],
+    ["Reflection 70B", 0],
+    ["Mistral: Pixtral 12B", 0],
+    ["Qwen2-VL 7B Instruct", 0],
 ]
 #a reusable template! this allows insertions with reduced data ;3
 temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
