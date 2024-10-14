@@ -231,7 +231,7 @@ def model_by_name(model_name):
 #8192.0, 4096.0
 #4096.0, 2048.0
 #0, 0
-models_free_high = [
+models_free_high = {
     ["Liquid: LFM 40B MoE", 2],
     ["Meta: Llama 3.2 3B Instruct", 2],
     ["OpenChat 3.5 7B", 2],
@@ -252,7 +252,7 @@ models_free_high = [
     ["Reflection 70B", 0],
     ["Mistral: Pixtral 12B", 0],
     ["Qwen2-VL 7B Instruct", 0],
-]
+}
 #a reusable template! this allows insertions with reduced data ;3
 temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
 id = 0
