@@ -342,7 +342,10 @@ def validate_provider(provider, model_name):
     if provider == '':
         return model_by_name(model_name)[ModelHead.preferred_provider.value]
     else:
-        int(provider)
+        try:
+            int(provider)
+        except:
+            return provider
         return providers[provider]
 
 
