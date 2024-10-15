@@ -221,12 +221,6 @@ models = [
     ["yorickvp/llava-13b", "llava-13b", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
     ["mattshumer/reflection-70b", "Reflection 70B", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
 ]
-def model_by_name(model_name):
-    for model_row in models:
-        if model_row[ModelHead.name.value] == model_name:
-            return model_row
-    else:
-        print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
 #free versions of models, each line is a pair of name then limit tier. this could probably be turned into a dic
 models_free = {
     "Liquid: LFM 40B MoE": 2,
@@ -270,6 +264,12 @@ max_completion_tokens_top_provider = 14
 is_moderated = 15
 preferred_provider = 16
 type = 17
+def model_by_name(model_name):
+    for model_row in models:
+        if model_row[ModelHead.name.value] == model_name:
+            return model_row
+    else:
+        print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
 for model in models_free:
     new_model = model_by_name(model).copy()
     new_model[ModelHead.name.value] = model + " (free)"
