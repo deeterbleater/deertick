@@ -221,7 +221,7 @@ models = [
     ["yorickvp/llava-13b", "llava-13b", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
     ["mattshumer/reflection-70b", "Reflection 70B", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
 ]
-#free versions of models, each line is a pair of name then limit tier. this could probably be turned into a dic
+#free versions of models, each line is a pair of name then limit tier.
 models_free = {
     "Liquid: LFM 40B MoE": 2,
     "Meta: Llama 3.2 3B Instruct": 2,
