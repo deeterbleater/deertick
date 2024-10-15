@@ -228,30 +228,27 @@ def model_by_name(model_name):
     else:
         print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
 #free versions of models, each line is a pair of name then limit tier. this could probably be turned into a dic
-#8192.0, 4096.0
-#4096.0, 2048.0
-#0, 0
-models_free_high = {
-    ["Liquid: LFM 40B MoE", 2],
-    ["Meta: Llama 3.2 3B Instruct", 2],
-    ["OpenChat 3.5 7B", 2],
-    ["MythoMist 7B", 2],
-    ["Meta: Llama 3 8B Instruct", 2],
-    ["Phi-3 Medium 128K Instruct", 2],
-    ["Phi-3 Mini 128K Instruct", 2],
-    ["Mistral: Mistral 7B Instruct", 2],
-    ["Meta: Llama 3.2 1B Instruct", 2],
-    ["Meta: Llama 3.2 11B Vision Instruct", 2],
-    ["Nous: Hermes 3 405B Instruct", 2],
-    ["Meta: Llama 3.1 70B Instruct", 2],
-    ["Meta: Llama 3.1 8B Instruct", 2],
-    ["Meta: Llama 3.1 405B Instruct", 2],
-    ["Qwen 2 7B Instruct", 2],
-    ["Toppy M 7B", 1],
-    ["Google: Gemma 2 9B", 1],
-    ["Reflection 70B", 0],
-    ["Mistral: Pixtral 12B", 0],
-    ["Qwen2-VL 7B Instruct", 0],
+models_free = {
+    "Liquid: LFM 40B MoE": 2,
+    "Meta: Llama 3.2 3B Instruct": 2,
+    "OpenChat 3.5 7B": 2,
+    "MythoMist 7B": 2,
+    "Meta: Llama 3 8B Instruct": 2,
+    "Phi-3 Medium 128K Instruct": 2,
+    "Phi-3 Mini 128K Instruct": 2,
+    "Mistral: Mistral 7B Instruct": 2,
+    "Meta: Llama 3.2 1B Instruct": 2,
+    "Meta: Llama 3.2 11B Vision Instruct": 2,
+    "Nous: Hermes 3 405B Instruct": 2,
+    "Meta: Llama 3.1 70B Instruct": 2,
+    "Meta: Llama 3.1 8B Instruct": 2,
+    "Meta: Llama 3.1 405B Instruct": 2,
+    "Qwen 2 7B Instruct": 2,
+    "Toppy M 7B": 1,
+    "Google: Gemma 2 9B": 1,
+    "Reflection 70B": 0,
+    "Mistral: Pixtral 12B": 0,
+    "Qwen2-VL 7B Instruct": 0,
 }
 #a reusable template! this allows insertions with reduced data ;3
 temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
@@ -274,7 +271,25 @@ is_moderated = 15
 preferred_provider = 16
 type = 17
 for model in models_free:
-    print()
+    new_model = model_by_name(model).copy()
+    new_model[ModelHead.name.value] = model + " (free)"
+    new_model[ModelHead.id.value] = new_model[ModelHead.id.value] + ":free"
+    length = 0.0
+    tokens = 0.0
+    match models_free[model]:
+        case 0:
+            break
+        case 1:
+            length = 4096.0
+            tokens = 2048.0
+        case 2:
+            length = 8192.0
+            tokens = 4096.0
+        case _:
+            print("Unknown limit tier")
+    new_model[ModelHead.context_length_top_provider.value] = length
+    new_model[ModelHead.max_completion_tokens_top_provider.value] = tokens
+    models.append(new_model)
 #add final model that breaks conventions by only being available free
 models.append(
     ["huggingfaceh4/zephyr-7b-beta:free", "Hugging Face: Zephyr 7B (free)", 1690934400, "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of [mistralai/Mistral-7B-v0.1](/models/mistralai/mistral-7b-instruct-v0.1) that was trained on a mix of publicly available, synthetic datasets using Direct Preference Optimization (DPO)._These are free, rate-limited endpoints for [Zephyr 7B](/models/huggingfaceh4/zephyr-7b-beta)._", 4096, "", "text->text", "Mistral", "zephyr", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", []],
