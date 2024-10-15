@@ -278,7 +278,7 @@ for model in models_free:
     tokens = 0.0
     match models_free[model]:
         case 0:
-            break
+            pass
         case 1:
             length = 4096.0
             tokens = 2048.0
