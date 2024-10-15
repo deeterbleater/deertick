@@ -22,7 +22,7 @@ import discord
 
 def main():
     parser = argparse.ArgumentParser(description="DeerTick: A Multi-Provider Language Model Interface")
-    parser.add_argument("-m", "--model", default="405b-base", help="Specify the model to use")
+    parser.add_argument("-m", "--model", default="Meta: Llama 3.1 405B (base)", help="Specify the model to use")
     parser.add_argument("-p", "--provider", default="openrouter", help="Specify the provider")
     parser.add_argument("-s", "--system", default="", help="Set the system prompt for the conversation")
     parser.add_argument("-i", "--interactive", action="store_true", help="Start an interactive chat session")
