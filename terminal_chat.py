@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import file_read, list_models, voice_samples, models, ModelHead, validate_provider, model_by_name
+from model_data import file_read, list_models, voice_samples, ModelHead, validate_provider, model_by_name, model_by_id
 
 # Initialize colorama
 init(autoreset=True)
@@ -94,25 +94,25 @@ class TerminalChat:
                 print("-----------------------")
                 history = agent_prompt
                 try:
-                    for model in models:
-                        if model[ModelHead.id.value] == agent.nickname:
-                            if model[ModelHead.type.value] == 'llm':
+                    model = model_by_id(agent.nickname)
+                    if model:
+                        match model[ModelHead.type.value]:
+                            case 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
-                                break
-                            elif model[ModelHead.type.value] == 'tts':
+                            case 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
                                         print(f'{x}: {y}')
                                     voice_sample = input('Select a voice sample by key name: ')
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
-                                break
-                            elif model[ModelHead.type.value] == 'image' or model[ModelHead.type.value] == 'video':
+                            case 'image':
                                 agent.generate_image(prompt)
-                                break
+                            case 'video':
+                                agent.generate_image(prompt)
 
                 except Exception as e:
                     print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")

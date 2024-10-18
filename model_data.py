@@ -264,12 +264,25 @@ max_completion_tokens_top_provider = 14
 is_moderated = 15
 preferred_provider = 16
 type = 17
-def model_by_name(model_name):
+def model_find(field, head):
+    """
+    field: the value you wish to search with
+    head: the specific header enum that you wish to match your field against
+
+    Search for a model using a specified unique field that is matched against the specified header's enum.
+
+    This function returns the matching model if it exists, otherwise returns None.
+    It simplifies searching for a model using a unique field.
+    """
     for model_row in models:
-        if model_row[ModelHead.name.value] == model_name:
+        if model_row[head] == field:
             return model_row
-    else:
-        print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
+        else:
+            print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
+def model_by_name(model_name):
+    return model_find(model_name, ModelHead.name.value)
+def model_by_id(model_id):
+    return model_find(model_id, ModelHead.id.value)
 for model in models_free:
     new_model = model_by_name(model).copy()
     new_model[ModelHead.name.value] = model + " (free)"
