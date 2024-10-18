@@ -295,7 +295,7 @@ for model in models_free:
     new_model = spawn_variant(model, "free")
     length = 0.0
     tokens = 0.0
-    match model[1]:
+    match models_free[model]:
         case 0:
             pass
         case 1:
