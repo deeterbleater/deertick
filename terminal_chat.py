@@ -124,18 +124,25 @@ class TerminalChat:
     def clear_history(self):
         self.history = str()
 
-    def endpoint_str(self, model, descstr, endstr):
+    def endpoint_str(self, model, descstr, is_pricy):
         connected_model = model_by_id(model)
-        print(f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]}).{endstr}_{Style.RESET_ALL}\n-----------------------")
+        msg = f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]})."
+        if is_pricy:
+            msg += " They may have higher prices."
+        msg += f"_{Style.RESET_ALL}\n-----------------------"
+        print(msg)
 
     def connect_msg(self, connected_model):
         print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
         if "extended" in connected_model:
-            self.endpoint_str(connected_model, "extended-context", " They may have higher prices.")
+            self.endpoint_str(connected_model, "extended-context", True)
 
         if "free" in connected_model:
             print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
-            self.endpoint_str(connected_model, "free, rate-limited", "")
+            self.endpoint_str(connected_model, "free, rate-limited", False)
+
+        if "nitro" in connected_model:
+            self.endpoint_str(connected_model, "higher-throughput", True)
 
     def help(self):
         print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")
