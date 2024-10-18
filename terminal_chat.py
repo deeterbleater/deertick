@@ -124,12 +124,18 @@ class TerminalChat:
     def clear_history(self):
         self.history = str()
 
+    def endpoint_str(self, model, descstr, endstr):
+        connected_model = model_by_name(model)
+        print(f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]}).{endstr}_{Style.RESET_ALL}\n-----------------------")
+
     def connect_msg(self, connected_model):
         print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
+        if "extended" in connected_model:
+            self.endpoint_str(connected_model, "extended-context", " They may have higher prices.")
+
         if "free" in connected_model:
             print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
-            connected_model = model_by_name(connected_model)
-            print(f"{Fore.GREEN}_These are free, rate-limited endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]})._{Style.RESET_ALL}\n-----------------------")
+            self.endpoint_str(connected_model, "free, rate-limited", "")
 
     def help(self):
         print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")

@@ -73,7 +73,6 @@ models = [
     ["microsoft/phi-3.5-mini-128k-instruct", "Phi-3.5 Mini 128K Instruct", 1724198400, "Phi-3.5 models are lightweight, state-of-the-art open models. These models were trained with Phi-3 datasets that include both synthetic data and the filtered, publicly available websites data, with a focus on high quality and reasoning-dense properties. Phi-3.5 Mini uses 3.8B parameters, and is a dense decoder-only transformer model using the same tokenizer as [Phi-3 Mini](/models/microsoft/phi-3-mini-128k-instruct).The models underwent a rigorous enhancement process, incorporating both supervised fine-tuning, proximal policy optimization, and direct preference optimization to ensure precise instruction adherence and robust safety measures. When assessed against benchmarks that test common sense, language understanding, math, code, long context and logical reasoning, Phi-3.5 models showcased robust and state-of-the-art performance among models with less than 13 billion parameters.", 128000, "", "text->text", "Other", "phi3", 1e-07, 1e-07, 0.0, 0.0, 128000.0, 0, False, "openrouter", "llm", []],
     ["nousresearch/hermes-3-llama-3.1-70b", "Nous: Hermes 3 70B Instruct", 1723939200, "Hermes 3 is a generalist language model with many improvements over [Hermes 2](/models/nousresearch/nous-hermes-2-mistral-7b-dpo), including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the board.Hermes 3 70B is a competitive, if not superior finetune of the [Llama-3.1 70B foundation model](/models/meta-llama/llama-3.1-70b-instruct), focused on aligning LLMs to the user, with powerful steering capabilities and control given to the end user.The Hermes 3 series builds and expands on the Hermes 2 set of capabilities, including more powerful and reliable function calling and structured output capabilities, generalist assistant capabilities, and improved code generation skills.", 131072, "", "text->text", "Llama3", "chatml", 4e-07, 4e-07, 0.0, 0.0, 12288.0, 0, False, "openrouter", "llm", []],
     ["nousresearch/hermes-3-llama-3.1-405b", "Nous: Hermes 3 405B Instruct", 1723766400, hermes405bdesc, 131072, "", "text->text", "Llama3", "chatml", 4.5e-06, 4.5e-06, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
-    ["nousresearch/hermes-3-llama-3.1-405b:extended", "Nous: Hermes 3 405B Instruct (extended)", 1723766400, hermes405bdesc + "_These are extended-context endpoints for [Hermes 3 405B Instruct](/models/nousresearch/hermes-3-llama-3.1-405b). They may have higher prices._", 128000, "", "text->text", "Llama3", "chatml", 4.5e-06, 4.5e-06, 0.0, 0.0, 128000.0, 0, False, "openrouter", "llm", []],
     ["perplexity/llama-3.1-sonar-huge-128k-online", "Perplexity: Llama 3.1 Sonar 405B Online", 1723593600, "Llama 3.1 Sonar is Perplexity's latest model family. It surpasses their earlier Sonar models in cost-efficiency, speed, and performance. The model is built upon the Llama 3.1 405B and has internet access.", 127072, "", "text->text", "Llama3", "nan", 5e-06, 5e-06, 0.0, 0.005, 127072.0, 0, False, "openrouter", "llm", []],
     ["openai/chatgpt-4o-latest", "OpenAI: ChatGPT-4o", 1723593600, "Dynamic model continuously updated to the current version of [GPT-4o](/models/openai/gpt-4o) in ChatGPT. Intended for research and evaluation.Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.", 128000, "", "text+image->text", "GPT", "nan", 5e-06, 1.5e-05, 0.007225, 0.0, 128000.0, 16384.0, True, "openrouter", "llm", []],
     ["sao10k/l3-lunaris-8b", "Llama 3 8B Lunaris", 1723507200, "Lunaris 8B is a versatile generalist and roleplaying model based on Llama 3. It's a strategic merge of multiple models, designed to balance creativity with improved logic and general knowledge.Created by [Sao10k](https://huggingface.co/Sao10k), this model aims to offer an improved experience over Stheno v3.2, with enhanced creativity and logical reasoning.For best results, use with Llama 3 Instruct context template, temperature 1.4, and min_p 0.1.", 8192, "", "text->text", "Llama3", "llama3", 2e-06, 2e-06, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
@@ -120,17 +119,14 @@ models = [
     ["meta-llama/llama-guard-2-8b", "Meta: LlamaGuard 2 8B", 1715558400, "This safeguard model has 8B parameters and is based on the Llama 3 family. Just like is predecessor, [LlamaGuard 1](https://huggingface.co/meta-llama/LlamaGuard-7b), it can do both prompt and response classification.LlamaGuard 2 acts as a normal LLM would, generating text that indicates whether the given input/output is safe/unsafe. If deemed unsafe, it will also share the content categories violated.For best results, please use raw prompt input or the `/completions` endpoint, instead of the chat API.It has demonstrated strong performance compared to leading closed-source models in human evaluations.Usage of this model is subject to [Meta's Acceptable Use Policy](https://www.llama.com/llama3/use-policy/).", 8192, "", "text->text", "Llama3", "none", 1.8e-07, 1.8e-07, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
     ["openai/gpt-4o-2024-05-13", "OpenAI: GPT-4o (2024-05-13)", 1715558400, "GPT-4o ('o' for 'omni') is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.For benchmarking against other models, it was briefly called ['im-also-a-good-gpt2-chatbot'](https://twitter.com/LiamFedus/status/1790064963966370209)", 128000, "", "text+image->text", "GPT", "nan", 5e-06, 1.5e-05, 0.007225, 0.0, 128000.0, 4096.0, True, "openrouter", "llm", []],
     ["openai/gpt-4o", "OpenAI: GPT-4o", 1715558400, "GPT-4o ('o' for 'omni') is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.For benchmarking against other models, it was briefly called ['im-also-a-good-gpt2-chatbot'](https://twitter.com/LiamFedus/status/1790064963966370209)", 128000, "", "text+image->text", "GPT", "nan", 5e-06, 1.5e-05, 0.007225, 0.0, 128000.0, 4096.0, True, "openrouter", "llm", []],
-    ["openai/gpt-4o:extended", "OpenAI: GPT-4o (extended)", 1715558400, "GPT-4o Extended is an experimental variant of GPT-4o with an extended max output tokens. This model supports only text input to text output._These are extended-context endpoints for [GPT-4o](/models/openai/gpt-4o). They may have higher prices._", 128000, "", "text->text", "GPT", "nan", 6e-06, 1.8e-05, 0.007225, 0.0, 128000.0, 64000.0, False, "openrouter", "llm", []],
     ["qwen/qwen-72b-chat", "Qwen 1.5 72B Chat", 1715212800, "Qwen1.5 72B is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen, the improvements include:- Significant performance improvement in human preference for chat models- Multilingual support of both base and chat models- Stable support of 32K context length for models of all sizesFor more details, see this [blog post](https://qwenlm.github.io/blog/qwen1.5/) and [GitHub repo](https://github.com/QwenLM/Qwen1.5).Usage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).", 32768, "", "text->text", "Qwen", "chatml", 8.1e-07, 8.1e-07, 0.0, 0.0, 32768.0, 0, False, "openrouter", "llm", []],
     ["qwen/qwen-110b-chat", "Qwen 1.5 110B Chat", 1715212800, "Qwen1.5 110B is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen, the improvements include:- Significant performance improvement in human preference for chat models- Multilingual support of both base and chat models- Stable support of 32K context length for models of all sizesFor more details, see this [blog post](https://qwenlm.github.io/blog/qwen1.5/) and [GitHub repo](https://github.com/QwenLM/Qwen1.5).Usage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).", 32768, "", "text->text", "Qwen", "chatml", 1.62e-06, 1.62e-06, 0.0, 0.0, 32768.0, 0, False, "openrouter", "llm", []],
     ["neversleep/llama-3-lumimaid-8b", "Llama 3 Lumimaid 8B", 1714780800, "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.To enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).", 24576, "", "text->text", "Llama3", "llama3", 1.875e-07, 1.125e-06, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
-    ["neversleep/llama-3-lumimaid-8b:extended", "Llama 3 Lumimaid 8B (extended)", 1714780800, "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.To enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/)._These are extended-context endpoints for [Llama 3 Lumimaid v0.1 8B](/models/neversleep/llama-3-lumimaid-8b). They may have higher prices._", 24576, "", "text->text", "Llama3", "llama3", 1.875e-07, 1.125e-06, 0.0, 0.0, 24576.0, 2048.0, False, "openrouter", "llm", []],
     ["sao10k/fimbulvetr-11b-v2", "Fimbulvetr 11B v2", 1713657600, "Creative writing model, routed with permission. It's fast, it keeps the conversation going, and it stays in character.If you submit a raw prompt, you can use Alpaca or Vicuna formats.", 8192, "", "text->text", "Llama2", "alpaca", 3.75e-07, 1.5e-06, 0.0, 0.0, 8192.0, 2048.0, False, "openrouter", "llm", []],
     ["meta-llama/llama-3-70b-instruct", "Meta: Llama 3 70B Instruct", 1713398400, "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.It has demonstrated strong performance compared to leading closed-source models in human evaluations.Usage of this model is subject to [Meta's Acceptable Use Policy](https://www.llama.com/llama3/use-policy/).", 8192, "", "text->text", "Llama3", "llama3", 3.5e-07, 4e-07, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
     ["meta-llama/llama-3-70b-instruct:nitro", "Meta: Llama 3 70B Instruct (nitro)", 1713398400, "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.It has demonstrated strong performance compared to leading closed-source models in human evaluations.Usage of this model is subject to [Meta's Acceptable Use Policy](https://www.llama.com/llama3/use-policy/)._These are higher-throughput endpoints for [Llama 3 70B Instruct](/models/meta-llama/llama-3-70b-instruct). They may have higher prices._", 8192, "", "text->text", "Llama3", "llama3", 7.92e-07, 7.92e-07, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
     ["meta-llama/llama-3-8b-instruct", "Meta: Llama 3 8B Instruct", 1713398400, llama3_8bdesc, 8192, "", "text->text", "Llama3", "llama3", 5.5e-08, 5.5e-08, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
     ["meta-llama/llama-3-8b-instruct:nitro", "Meta: Llama 3 8B Instruct (nitro)", 1713398400, llama3_8bdesc + "_These are higher-throughput endpoints for [Llama 3 8B Instruct](/models/meta-llama/llama-3-8b-instruct). They may have higher prices._", 8192, "", "text->text", "Llama3", "llama3", 1.62e-07, 1.62e-07, 0.0, 0.0, 8192.0, 0, False, "openrouter", "llm", []],
-    ["meta-llama/llama-3-8b-instruct:extended", "Meta: Llama 3 8B Instruct (extended)", 1713398400, llama3_8bdesc + "_These are extended-context endpoints for [Llama 3 8B Instruct](/models/meta-llama/llama-3-8b-instruct). They may have higher prices._", 16384, "", "text->text", "Llama3", "llama3", 1.875e-07, 1.125e-06, 0.0, 0.0, 16384.0, 2048.0, False, "openrouter", "llm", []],
     ["mistralai/mixtral-8x22b-instruct", "Mistral: Mixtral 8x22B Instruct", 1713312000, "Mistral's official instruct fine-tuned version of [Mixtral 8x22B](/models/mistralai/mixtral-8x22b). It uses 39B active parameters out of 141B, offering unparalleled cost efficiency for its size. Its strengths include:- strong math, coding, and reasoning- large context length (64k)- fluency in English, French, Italian, German, and SpanishSee benchmarks on the launch announcement [here](https://mistral.ai/news/mixtral-8x22b/).#moe", 65536, "", "text->text", "Mistral", "mistral", 9e-07, 9e-07, 0.0, 0.0, 65536.0, 0, False, "openrouter", "llm", []],
     ["microsoft/wizardlm-2-7b", "WizardLM-2 7B", 1713225600, "WizardLM-2 7B is the smaller variant of Microsoft AI's latest Wizard model. It is the fastest and achieves comparable performance with existing 10x larger opensource leading modelsIt is a finetune of [Mistral 7B Instruct](/models/mistralai/mistral-7b-instruct), using the same technique as [WizardLM-2 8x22B](/models/microsoft/wizardlm-2-8x22b).To read more about the model release, [click here](https://wizardlm.github.io/WizardLM2/).#moe", 32000, "", "text->text", "Mistral", "vicuna", 5.5e-08, 5.5e-08, 0.0, 0.0, 32000.0, 0, False, "openrouter", "llm", []],
     ["microsoft/wizardlm-2-8x22b", "WizardLM-2 8x22B", 1713225600, "WizardLM-2 8x22B is Microsoft AI's most advanced Wizard model. It demonstrates highly competitive performance compared to leading proprietary models, and it consistently outperforms all existing state-of-the-art opensource models.It is an instruct finetune of [Mixtral 8x22B](/models/mistralai/mixtral-8x22b).To read more about the model release, [click here](https://wizardlm.github.io/WizardLM2/).#moe", 65536, "", "text->text", "Mistral", "vicuna", 5e-07, 5e-07, 0.0, 0.0, 65536.0, 0, False, "openrouter", "llm", []],
@@ -202,12 +198,10 @@ models = [
     ["anthropic/claude-2.0", "Anthropic: Claude v2.0", 1690502400, "Anthropic's flagship model. Superior performance on tasks that require complex reasoning. Supports hundreds of pages of text.", 100000, "", "text->text", "Claude", "nan", 8e-06, 2.4e-05, 0.0, 0.0, 100000.0, 4096.0, True, "openrouter", "llm", []],
     ["anthropic/claude-2.0:beta", "Anthropic: Claude v2.0 (self-moderated)", 1690502400, "Anthropic's flagship model. Superior performance on tasks that require complex reasoning. Supports hundreds of pages of text._This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-2.0) variant._", 100000, "", "text->text", "Claude", "nan", 8e-06, 2.4e-05, 0.0, 0.0, 100000.0, 4096.0, False, "openrouter", "llm", []],
     ["undi95/remm-slerp-l2-13b", "ReMM SLERP 13B", 1689984000, "A recreation trial of the original MythoMax-L2-B13 but with updated models. #merge", 4096, "", "text->text", "Llama2", "alpaca", 1.125e-06, 1.125e-06, 0.0, 0.0, 6144.0, 400.0, False, "openrouter", "llm", []],
-    ["undi95/remm-slerp-l2-13b:extended", "ReMM SLERP 13B (extended)", 1689984000, "A recreation trial of the original MythoMax-L2-B13 but with updated models. #merge_These are extended-context endpoints for [ReMM SLERP 13B](/models/undi95/remm-slerp-l2-13b). They may have higher prices._", 6144, "", "text->text", "Llama2", "alpaca", 1.125e-06, 1.125e-06, 0.0, 0.0, 6144.0, 400.0, False, "openrouter", "llm", []],
     ["google/palm-2-codechat-bison", "Google: PaLM 2 Code Chat", 1689811200, "PaLM 2 fine-tuned for chatbot conversations that help with code-related questions.", 7168, "", "text->text", "PaLM", "nan", 1e-06, 2e-06, 0.0, 0.0, 7168.0, 1024.0, False, "openrouter", "llm", []],
     ["google/palm-2-chat-bison", "Google: PaLM 2 Chat", 1689811200, "PaLM 2 is a language model by Google with improved multilingual, reasoning and coding capabilities.", 9216, "", "text->text", "PaLM", "nan", 1e-06, 2e-06, 0.0, 0.0, 9216.0, 1024.0, False, "openrouter", "llm", []],
     ["gryphe/mythomax-l2-13b", "MythoMax 13B", 1688256000, "One of the highest performing and most popular fine-tunes of Llama 2 13B, with rich descriptions and roleplay. #merge", 4096, "", "text->text", "Llama2", "alpaca", 1e-07, 1e-07, 0.0, 0.0, 4096.0, 0, False, "openrouter", "llm", []],
     ["gryphe/mythomax-l2-13b:nitro", "MythoMax 13B (nitro)", 1688256000, "One of the highest performing and most popular fine-tunes of Llama 2 13B, with rich descriptions and roleplay. #merge_These are higher-throughput endpoints for [MythoMax 13B](/models/gryphe/mythomax-l2-13b). They may have higher prices._", 4096, "", "text->text", "Llama2", "alpaca", 2e-07, 2e-07, 0.0, 0.0, 4096.0, 0, False, "openrouter", "llm", []],
-    ["gryphe/mythomax-l2-13b:extended", "MythoMax 13B (extended)", 1688256000, "One of the highest performing and most popular fine-tunes of Llama 2 13B, with rich descriptions and roleplay. #merge_These are extended-context endpoints for [MythoMax 13B](/models/gryphe/mythomax-l2-13b). They may have higher prices._", 8192, "", "text->text", "Llama2", "alpaca", 1.125e-06, 1.125e-06, 0.0, 0.0, 8192.0, 400.0, False, "openrouter", "llm", []],
     ["meta-llama/llama-2-13b-chat", "Meta: Llama v2 13B Chat", 1687219200, "A 13 billion parameter language model from Meta, fine tuned for chat completions", 4096, "", "text->text", "Llama2", "llama2", 1.98e-07, 1.98e-07, 0.0, 0.0, 4096.0, 0, False, "openrouter", "llm", []],
     ["openai/gpt-4-0314", "OpenAI: GPT-4 (older v0314)", 1685232000, "GPT-4-0314 is the first version of GPT-4 released, with a context length of 8,192 tokens, and was supported until June 14. Training data: up to Sep 2021.", 8191, "", "text->text", "GPT", "nan", 3e-05, 6e-05, 0.0, 0.0, 8191.0, 4096.0, True, "openrouter", "llm", []],
     ["openai/gpt-4", "OpenAI: GPT-4", 1685232000, "OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and advanced reasoning capabilities. Training data: up to Sep 2021.", 8191, "", "text->text", "GPT", "nan", 3e-05, 6e-05, 0.0, 0.0, 8191.0, 4096.0, True, "openrouter", "llm", []],
@@ -221,28 +215,37 @@ models = [
     ["yorickvp/llava-13b", "llava-13b", 0, "", 0, "", "", "", "", 0, 0, 0, 0, 0, 0, False, "replicate", "image", []],
     ["mattshumer/reflection-70b", "Reflection 70B", 0, "", 0, "", "text->text", "", "", 0, 0, 0, 0, 0, 0, False, "openrouter", "llm", []],
 ]
+#versions of models with extended context, each line is a list of changed values.
+models_extended = [
+    ["gryphe/mythomax-l2-13b", 8192, 1.125e-06, 1.125e-06, 8192.0, 400.0],
+    ["undi95/remm-slerp-l2-13b", 6144, 1.125e-06, 1.125e-06, 6144.0, 400.0],
+    ["nousresearch/hermes-3-llama-3.1-405b", 128000, 4.5e-06, 4.5e-06, 128000.0, 0],
+    ["openai/gpt-4o", 128000, 6e-06, 1.8e-05, 128000.0, 64000.0],
+    ["neversleep/llama-3-lumimaid-8b", 24576, 1.875e-07, 1.125e-06, 24576.0, 2048.0],
+    ["meta-llama/llama-3-8b-instruct", 16384, 1.875e-07, 1.125e-06, 16384.0, 2048.0],
+]
 #free versions of models, each line is a pair of name then limit tier.
 models_free = {
-    "Liquid: LFM 40B MoE": 2,
-    "Meta: Llama 3.2 3B Instruct": 2,
-    "OpenChat 3.5 7B": 2,
-    "MythoMist 7B": 2,
-    "Meta: Llama 3 8B Instruct": 2,
-    "Phi-3 Medium 128K Instruct": 2,
-    "Phi-3 Mini 128K Instruct": 2,
-    "Mistral: Mistral 7B Instruct": 2,
-    "Meta: Llama 3.2 1B Instruct": 2,
-    "Meta: Llama 3.2 11B Vision Instruct": 2,
-    "Nous: Hermes 3 405B Instruct": 2,
-    "Meta: Llama 3.1 70B Instruct": 2,
-    "Meta: Llama 3.1 8B Instruct": 2,
-    "Meta: Llama 3.1 405B Instruct": 2,
-    "Qwen 2 7B Instruct": 2,
-    "Toppy M 7B": 1,
-    "Google: Gemma 2 9B": 1,
-    "Reflection 70B": 0,
-    "Mistral: Pixtral 12B": 0,
-    "Qwen2-VL 7B Instruct": 0,
+    "liquid/lfm-40b": 2,
+    "meta-llama/llama-3.2-3b-instruct": 2,
+    "openchat/openchat-7b": 2,
+    "gryphe/mythomist-7b": 2,
+    "meta-llama/llama-3-8b-instruct": 2,
+    "microsoft/phi-3-medium-128k-instruct": 2,
+    "microsoft/phi-3-mini-128k-instruct": 2,
+    "mistralai/mistral-7b-instruct": 2,
+    "meta-llama/llama-3.2-1b-instruct": 2,
+    "meta-llama/llama-3.2-11b-vision-instruct": 2,
+    "nousresearch/hermes-3-llama-3.1-405b": 2,
+    "meta-llama/llama-3.1-70b-instruct": 2,
+    "meta-llama/llama-3.1-8b-instruct": 2,
+    "meta-llama/llama-3.1-405b-instruct": 2,
+    "qwen/qwen-2-7b-instruct": 2,
+    "undi95/toppy-m-7b": 1,
+    "google/gemma-2-9b-it": 1,
+    "mattshumer/reflection-70b": 0,
+    "mistralai/pixtral-12b": 0,
+    "qwen/qwen-2-vl-7b-instruct": 0,
 }
 #a reusable template! this allows insertions with reduced data ;3
 temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
@@ -283,13 +286,16 @@ def model_by_name(model_name):
     return model_find(model_name, ModelHead.name.value)
 def model_by_id(model_id):
     return model_find(model_id, ModelHead.id.value)
+def spawn_variant(model_row, varstr):
+    var_model = model_by_id(model_row).copy()
+    var_model[ModelHead.name.value] = f"{var_model[ModelHead.name.value]} ({varstr})"
+    var_model[ModelHead.id.value] = f"{var_model[ModelHead.id.value]}:{varstr}"
+    return var_model
 for model in models_free:
-    new_model = model_by_name(model).copy()
-    new_model[ModelHead.name.value] = model + " (free)"
-    new_model[ModelHead.id.value] = new_model[ModelHead.id.value] + ":free"
+    new_model = spawn_variant(model, "free")
     length = 0.0
     tokens = 0.0
-    match models_free[model]:
+    match model[1]:
         case 0:
             pass
         case 1:
@@ -302,7 +308,17 @@ for model in models_free:
             print("Unknown limit tier")
     new_model[ModelHead.context_length_top_provider.value] = length
     new_model[ModelHead.max_completion_tokens_top_provider.value] = tokens
+    new_model[ModelHead.cost_prompt.value] = 0.0
+    new_model[ModelHead.cost_completion.value] = 0.0
     models.append(new_model)
+for model in models_extended:
+    new_model = spawn_variant(model, "extended")
+    new_model[ModelHead.context_length.value] = model[1]
+    new_model[ModelHead.cost_prompt.value] = model[2]
+    new_model[ModelHead.cost_completion.value] = model[3]
+    new_model[ModelHead.context_length_top_provider.value] = model[4]
+    new_model[ModelHead.max_completion_tokens_top_provider.value] = model[5]
+    models.append(model)
 #add final model that breaks conventions by only being available free
 models.append(
     ["huggingfaceh4/zephyr-7b-beta:free", "Hugging Face: Zephyr 7B (free)", 1690934400, "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of [mistralai/Mistral-7B-v0.1](/models/mistralai/mistral-7b-instruct-v0.1) that was trained on a mix of publicly available, synthetic datasets using Direct Preference Optimization (DPO)._These are free, rate-limited endpoints for [Zephyr 7B](/models/huggingfaceh4/zephyr-7b-beta)._", 4096, "", "text->text", "Mistral", "zephyr", 0.0, 0.0, 0.0, 0.0, 4096.0, 2048.0, False, "openrouter", "llm", []],
