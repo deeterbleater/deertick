@@ -15,14 +15,14 @@ For a full list of options, use: python deertick.py -h
 """
 import argparse
 from agent import Agent
-from model_data import models, list_all, ModelHead, file_read
+from model_data import list_all, ModelHead, file_read, model_by_name
 import pandas as pd
 import asyncio
 import discord
 
 def main():
     parser = argparse.ArgumentParser(description="DeerTick: A Multi-Provider Language Model Interface")
-    parser.add_argument("-m", "--model", default="405b-base", help="Specify the model to use")
+    parser.add_argument("-m", "--model", default="Meta: Llama 3.1 405B (base)", help="Specify the model to use")
     parser.add_argument("-p", "--provider", default="openrouter", help="Specify the provider")
     parser.add_argument("-s", "--system", default="", help="Set the system prompt for the conversation")
     parser.add_argument("-i", "--interactive", action="store_true", help="Start an interactive chat session")
@@ -45,32 +45,23 @@ def main():
     parser.add_argument("--list-agents", action="store_true", help="List all available agents")
     
     args = parser.parse_args()
-    for llm in models:
-        if llm[ModelHead.name.value] == args.model:
-            deertick = Agent(llm[ModelHead.id.value], args.system, args.provider)
-            break
+    deertick = Agent(model_by_name(args.model)[ModelHead.id.value], args.system, args.provider)
 
     if args.list:
         list_all()
     elif args.interactive:
-        #check model exists
-        for model in models:
-            if model[ModelHead.name.value] == args.model:
-                if model[ModelHead.type.value] != "llm" and args.provider == "openrouter":
-                    print("Openrouter only works with llm models, please choose another provider.")
-                    break
-                #don't allow incompatible provider
-                for incompatibility in model[ModelHead.incompatible.value]:
-                    if incompatibility == args.provider:
-                        print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
-                        break
-                else:
-                    from terminal_chat import TerminalChat
-                    # noinspection PyUnboundLocalVariable
-                    TerminalChat(deertick).chat("", name_mention=0.5, random_response=0.1)
+        model = model_by_name(args.model)
+        if model[ModelHead.type.value] != "llm" and args.provider == "openrouter":
+                print("Openrouter only works with llm models, please choose another provider.")
+        #don't allow incompatible provider
+        for incompatibility in model[ModelHead.incompatible.value]:
+            if incompatibility == args.provider:
+                print("The provider you have chosen is currently incompatible with this model. Please consider asking in the deerTick discord for more information.")
                 break
         else:
-            print("The model you have chosen does not exist in the csv file. Please check your spelling.")
+            from terminal_chat import TerminalChat
+            # noinspection PyUnboundLocalVariable
+            TerminalChat(deertick).chat("")
 
     elif args.file:
         # noinspection PyUnboundLocalVariable
