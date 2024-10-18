@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import file_read, list_models, voice_samples, ModelHead, validate_provider, model_by_name, model_by_id
+from model_data import file_read, list_models, voice_samples, ModelHead, validate_provider, model_by_id
 
 # Initialize colorama
 init(autoreset=True)
@@ -125,7 +125,7 @@ class TerminalChat:
         self.history = str()
 
     def endpoint_str(self, model, descstr, endstr):
-        connected_model = model_by_name(model)
+        connected_model = model_by_id(model)
         print(f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]}).{endstr}_{Style.RESET_ALL}\n-----------------------")
 
     def connect_msg(self, connected_model):
