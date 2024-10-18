@@ -137,6 +137,8 @@ class TerminalChat:
         #print licence related info
         if "cohere" in connected_model:
             print("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~")
+        elif "google/g" in connected_model:
+            print("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~")
         elif "llama" in connected_model:
             print("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~")
         elif "qwen/" in connected_model:
