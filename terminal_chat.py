@@ -134,14 +134,17 @@ class TerminalChat:
 
     def connect_msg(self, connected_model):
         print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
+        if "llama" in connected_model:
+            print("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~")
+
         if "extended" in connected_model:
             self.endpoint_str(connected_model, "extended-context", True)
 
-        if "free" in connected_model:
+        elif "free" in connected_model:
             print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
             self.endpoint_str(connected_model, "free, rate-limited", False)
 
-        if "nitro" in connected_model:
+        elif "nitro" in connected_model:
             self.endpoint_str(connected_model, "higher-throughput", True)
 
     def help(self):
