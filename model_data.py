@@ -286,8 +286,8 @@ def model_by_name(model_name):
     return model_find(model_name, ModelHead.name.value)
 def model_by_id(model_id):
     return model_find(model_id, ModelHead.id.value)
-def spawn_variant(model_row, varstr):
-    var_model = model_by_id(model_row[0]).copy()
+def spawn_variant(model_id, varstr):
+    var_model = model_by_id(model_id).copy()
     var_model[ModelHead.name.value] = f"{var_model[ModelHead.name.value]} ({varstr})"
     var_model[ModelHead.id.value] = f"{var_model[ModelHead.id.value]}:{varstr}"
     return var_model
@@ -312,7 +312,7 @@ for model in models_free:
     new_model[ModelHead.cost_completion.value] = 0.0
     models.append(new_model)
 for model in models_extended:
-    new_model = spawn_variant(model, "extended")
+    new_model = spawn_variant(model[0], "extended")
     new_model[ModelHead.context_length.value] = model[1]
     new_model[ModelHead.cost_prompt.value] = model[2]
     new_model[ModelHead.cost_completion.value] = model[3]
