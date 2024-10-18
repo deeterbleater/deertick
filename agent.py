@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import models, voice_samples, list_all, ModelHead, validate_provider, model_by_id, providers
+from model_data import providers, models, voice_samples, list_all, ModelHead, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
 config.read("config.ini")
