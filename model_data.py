@@ -280,8 +280,8 @@ def model_find(field, head):
     for model_row in models:
         if model_row[head] == field:
             return model_row
-        else:
-            print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
+    else:
+        print("The model you have chosen does not exist in the currently loaded data. Please check your spelling.")
 def model_by_name(model_name):
     return model_find(model_name, ModelHead.name.value)
 def model_by_id(model_id):
