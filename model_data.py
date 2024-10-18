@@ -287,7 +287,7 @@ def model_by_name(model_name):
 def model_by_id(model_id):
     return model_find(model_id, ModelHead.id.value)
 def spawn_variant(model_row, varstr):
-    var_model = model_by_id(model_row).copy()
+    var_model = model_by_id(model_row[0]).copy()
     var_model[ModelHead.name.value] = f"{var_model[ModelHead.name.value]} ({varstr})"
     var_model[ModelHead.id.value] = f"{var_model[ModelHead.id.value]}:{varstr}"
     return var_model
