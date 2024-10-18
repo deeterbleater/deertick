@@ -231,26 +231,6 @@ models_nitro = {
     "meta-llama/llama-3-8b-instruct": 1.62e-07,
     "mistralai/mixtral-8x7b-instruct": 5.4e-07,
 }
-#a reusable template! this allows insertions with reduced data ;3
-temp = ["", "", 0, "", 0, "", "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False, "", "", []]
-id = 0
-name = 1
-created = 2
-description = 3
-context_length = 4
-request_limits = 5
-modality = 6
-tokenizer = 7
-instruct_type = 8
-cost_prompt = 9
-cost_completion = 10
-cost_image = 11
-cost_request = 12
-context_length_top_provider = 13
-max_completion_tokens_top_provider = 14
-is_moderated = 15
-preferred_provider = 16
-type = 17
 def model_find(field, head):
     """
     field: the value you wish to search with
