@@ -27,7 +27,7 @@ DeerTick is a versatile Python-based interface for interacting with various lang
 - Easy switching between different providers and models
 - Discord bot integration for interactive AI conversations and agent management
 - Web scraping and crawling for data extraction
-- Database backup and erro logging
+- Database backup and error logging
 
 ## Installation
 
