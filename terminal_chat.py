@@ -2,7 +2,7 @@ import random
 from agent import Agent
 import pandas as pd
 from colorama import init, Fore, Back, Style
-from model_data import file_read, list_models, voice_samples, models, ModelHead
+from model_data import file_read, list_models, voice_samples, ModelHead, validate_provider, model_by_id
 
 # Initialize colorama
 init(autoreset=True)
@@ -41,11 +41,7 @@ class TerminalChat:
                 if model_nick == 'l':
                     list_models()
                     model_nick = input('Model: ')
-                provider = ''
-                for model in models:
-                    if model[ModelHead.name.value] == model_nick:
-                        provider = model[ModelHead.preferred_provider.value]
-                        break
+                provider = validate_provider('', model_nick)
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
                 self.connect_msg(self.agents[-1].model)
             elif prompt.lower() == '%remove_agent':
@@ -98,25 +94,25 @@ class TerminalChat:
                 print("-----------------------")
                 history = agent_prompt
                 try:
-                    for model in models:
-                        if model[ModelHead.id.value] == agent.nickname:
-                            if model[ModelHead.type.value] == 'llm':
+                    model = model_by_id(agent.nickname)
+                    if model:
+                        match model[ModelHead.type.value]:
+                            case 'llm':
                                 if self.system_prompt != '':
                                     if agent.system_prompt == '':
                                         agent.system_prompt = self.system_prompt
                                 agent.generate_response(agent.system_prompt, agent_prompt)
-                                break
-                            elif model[ModelHead.type.value] == 'tts':
+                            case 'tts':
                                 if agent.audio_path == '':
                                     for x, y in voice_samples.items():
                                         print(f'{x}: {y}')
                                     voice_sample = input('Select a voice sample by key name: ')
                                     agent.audio_path = voice_samples[voice_sample]
                                 agent.tts(prompt, agent.audio_path)
-                                break
-                            elif model[ModelHead.type.value] == 'image' or model[ModelHead.type.value] == 'video':
+                            case 'image':
                                 agent.generate_image(prompt)
-                                break
+                            case 'video':
+                                agent.generate_image(prompt)
 
                 except Exception as e:
                     print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
@@ -128,10 +124,36 @@ class TerminalChat:
     def clear_history(self):
         self.history = str()
 
+    def endpoint_str(self, model, descstr, is_pricy):
+        connected_model = model_by_id(model)
+        msg = f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]})."
+        if is_pricy:
+            msg += " They may have higher prices."
+        msg += f"_{Style.RESET_ALL}\n-----------------------"
+        print(msg)
+
     def connect_msg(self, connected_model):
-        print(f"{Fore.GREEN}*{connected_model} connected to the chat*{Style.RESET_ALL}\n-----------------------")
-        if "free" in connected_model:
-            print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._{Style.RESET_ALL}\n-----------------------")
+        print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
+        #print licence related info
+        if "cohere" in connected_model:
+            print("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~")
+        elif "gemma" in connected_model:
+            print("~ Usage of Gemma is subject to Google's Gemma Terms of Use: https://ai.google.dev/gemma/terms ~")
+        elif "google/g" in connected_model:
+            print("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~")
+        elif "llama" in connected_model:
+            print("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~")
+        elif "qwen/" in connected_model:
+            print("~ Usage of this model is subject to Tongyi Qianwen LICENSE AGREEMENT: https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE ~")
+
+        #print variant related info
+        if "extended" in connected_model:
+            self.endpoint_str(connected_model, "extended-context", True)
+        elif "free" in connected_model:
+            print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
+            self.endpoint_str(connected_model, "free, rate-limited", False)
+        elif "nitro" in connected_model:
+            self.endpoint_str(connected_model, "higher-throughput", True)
 
     def help(self):
         print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")

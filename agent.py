@@ -11,7 +11,7 @@ from openai import OpenAI
 import uuid
 import configparser
 
-from model_data import providers, models, voice_samples, list_all, ModelHead
+from model_data import providers, models, voice_samples, list_all, ModelHead, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -76,14 +76,7 @@ class Agent:
         if settings is not None:
             self.settings = settings
         self.model = model
-        self.provider = provider
-        if provider == '':
-            for llm in models:
-                if model == llm[ModelHead.name.value]:
-                    self.provider = llm[ModelHead.preferred_provider.value]
-                    break
-        if type(provider) == int:
-            self.provider = providers[provider]
+        self.provider = validate_provider(provider, model)
         self.content = ''
         self.model_key = model
         self.nickname = model
@@ -164,33 +157,13 @@ class Agent:
         This method sets the provider and initializes the corresponding model.
         It handles different initialization procedures for each provider.
         """
-        for llm in models:
-            if llm[ModelHead.id.value] == self.model:
-                if self.provider == 'replicate':
-                    print(f"Replicate: {llm[ModelHead.id.value]}")
-                    self.model = llm[ModelHead.id.value]
-                    break
-                elif self.provider == 'openai':
-                    print(f"OpenAI: {llm[ModelHead.id.value]}")
-                    self.model = llm[ModelHead.id.value]
+        if model_by_id(self.model):
+            if self.provider in providers:
+                print(f"{self.provider}: {self.model}")
+                if self.provider == 'openai':
                     self.client = OpenAI()  # Create an OpenAI client instance
-                    break
-                elif self.provider == 'huggingface':
-                    print(f"HuggingFace: {llm[ModelHead.id.value]}")
-                    self.model = llm[ModelHead.id.value]
-                    break
-                elif self.provider == 'openrouter':
-                    print(f"OpenRouter: {llm[ModelHead.id.value]}")
-                    self.model = llm[ModelHead.id.value]
-                    break
-                elif self.provider == 'mistral':
-                    print(f"Mistral: {llm[ModelHead.id.value]}")
-                    self.model = llm[ModelHead.id.value]
-                    break
-                else:
-                    print(f"Invalid provider: {provider}")
-                    break
-
+            else:
+                print(f"This provider has not been implemented: {provider}")
     def create_tool(self, name, description, parameters):
         """
         Create a new tool for the agent.
