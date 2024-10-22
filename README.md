@@ -14,6 +14,7 @@ DeerTick is a versatile Python-based interface for interacting with various lang
 - [Data Set Module](docs/data_gen_doc.md)
 - [Hypertext Heaven](docs/hypertext_heaven_doc.md)
 - [Data Tool UI](docs/data_tool_doc.md)
+- [PDF to TXT Formatting](docs/pdf_to_txt_formatting_doc.md)
 
 ## Features
 
