@@ -10,6 +10,10 @@ import mistralai
 from openai import OpenAI
 import uuid
 import configparser
+import asyncio
+import aiohttp
+from typing import Optional, Dict, Any
+import time
 
 from model_data import providers, models, voice_samples, list_all, ModelHead, validate_provider, model_by_id
 
@@ -27,7 +31,7 @@ os.environ["MISTRAL_API_KEY"] = config.get("keys", "MISTRAL_API_KEY")
 
 
 class Agent:
-    def __init__(self, model, system_prompt='', provider='', settings=None):
+    def __init__(self, model, system_prompt='', provider='', settings=None, rate_limit: float = 2.0, max_concurrent: int = 5):
         '''
         Initialize an Agent object.
 
@@ -144,6 +148,11 @@ class Agent:
                     },
                 }
             }
+        self.api_url = self._get_api_url()
+        self.headers = self._get_headers()
+        self.rate_limit = rate_limit
+        self.semaphore = asyncio.Semaphore(max_concurrent)
+        self.last_request_time = 0
 
     def update_provider(self, provider):
         """
@@ -578,5 +587,98 @@ class Agent:
         self.content = output
         return output
 
+    def _get_api_url(self) -> str:
+        if self.provider == "openai":
+            return "https://api.openai.com/v1/chat/completions"
+        elif self.provider == "openrouter":
+            return "https://openrouter.ai/api/v1/chat/completions"
+        elif self.provider == "anthropic":
+            return "https://api.anthropic.com/v1/messages"
+        elif self.provider == "replicate":
+            return "https://api.replicate.com/v1/predictions"
+        elif self.provider == "huggingface":
+            return "https://api-inference.huggingface.co/models/"
+        elif self.provider == "mistral":
+            return "https://api.mistral.ai/v1/chat/completions"
+        else:
+            raise ValueError(f"Unsupported provider: {self.provider}")
+
+    def _get_headers(self) -> Dict[str, str]:
+        if self.provider == "openai":
+            return {
+                "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+                "Content-Type": "application/json"
+            }
+        elif self.provider == "openrouter":
+            return {
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "HTTP-Referer": "https://deertick.io",
+                "X-Title": "DeerTick",
+                "Content-Type": "application/json"
+            }
+        elif self.provider == "anthropic":
+            return {
+                "Authorization": f"Bearer {os.environ['ANTHROPIC_API_KEY']}",
+                "Content-Type": "application/json"
+            }
+        elif self.provider == "mistral":
+            return {
+                "Authorization": f"Bearer {os.environ['MISTRAL_API_KEY']}",
+                "Content-Type": "application/json"
+            }
+        elif self.provider == "replicate":
+            return {
+                "Authorization": f"Bearer {os.environ['REPLICATE_API_KEY']}",
+                "Content-Type": "application/json"
+            }
+        elif self.provider == "huggingface":
+            return {
+                "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
+                "Content-Type": "application/json"
+            }
+        else:
+            raise ValueError(f"Unsupported provider: {self.provider}")
+
+    async def async_poke(self, prompt: str, system_prompt: Optional[str] = None) -> str:
+        """
+        Asynchronously send a prompt to the AI model and get a response.
+        """
+        if system_prompt is None:
+            system_prompt = self.system_prompt
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
+        ]
+
+        payload = self._create_payload(messages)
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(self.api_url, json=payload, headers=self.headers) as response:
+                if response.status != 200:
+                    error_message = await response.text()
+                    raise Exception(f"API request failed with status {response.status}: {error_message}")
+
+                result = await response.json()
+
+        return self._extract_response(result)
+
+    def _create_payload(self, messages: list) -> Dict[str, Any]:
+        """
+        Create the payload for the API request.
+        """
+        return {
+            "model": self.model,
+            "messages": messages
+        }
+
+    def _extract_response(self, result: Dict[str, Any]) -> str:
+        """
+        Extract the response text from the API result.
+        """
+        return result['choices'][0]['message']['content']
+
     def help(self):
         list_all()
+
+
