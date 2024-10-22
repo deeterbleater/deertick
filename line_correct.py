@@ -239,6 +239,67 @@ class TextProcessor:
         except Exception as e:
             self.handle_error(f"Error removing blank lines: {str(e)}", input_file)
 
+    def txt_to_md(self, input_file, output_file):
+        """
+        Convert a text file to Markdown format.
+        
+        Args:
+        input_file (str): Path to the input text file.
+        output_file (str): Path to the output Markdown file.
+        
+        Returns:
+        None
+        """
+        try:
+            with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', encoding='utf-8') as outfile:
+                in_code_block = False
+                for line in infile:
+                    stripped_line = line.strip()
+                    
+                    # Handle empty lines
+                    if not stripped_line:
+                        outfile.write('\n')
+                        continue
+                    
+                    # Check for code blocks
+                    if stripped_line.startswith('```'):
+                        in_code_block = not in_code_block
+                        outfile.write(line)
+                        continue
+                    
+                    if not in_code_block:
+                        # Convert headers
+                        if stripped_line.startswith('#'):
+                            outfile.write(line)
+                        # Convert lists
+                        elif stripped_line.startswith(('- ', '* ', '+ ')):
+                            outfile.write(line)
+                        # Convert numbered lists
+                        elif stripped_line[0].isdigit() and len(stripped_line) > 1 and stripped_line[1:].startswith('. '):
+                            outfile.write(line)
+                        # Convert links
+                        elif '[' in line and '](' in line and ')' in line:
+                            outfile.write(line)
+                        # Convert emphasis
+                        elif '*' in line or '_' in line:
+                            outfile.write(line)
+                        # Convert horizontal rules
+                        elif set(stripped_line) in [set('-'), set('*'), set('_')] and len(stripped_line) >= 3:
+                            outfile.write(line)
+                        # Convert blockquotes
+                        elif stripped_line.startswith('>'):
+                            outfile.write(line)
+                        # Regular paragraph
+                        else:
+                            outfile.write(line)
+                    else:
+                        # Inside code block, write as is
+                        outfile.write(line)
+            
+            self.logger.info(f"Text file converted to Markdown. Output saved to {output_file}")
+        except Exception as e:
+            self.handle_error(f"Error converting text to Markdown: {str(e)}", input_file)
+
 async def main_async():
     parser = argparse.ArgumentParser(description="Process files and correct line formatting.")
     parser.add_argument("input_file", help="Input file path (PDF, TXT, MD, or CSV)")
@@ -253,6 +314,7 @@ async def main_async():
     parser.add_argument("--columns", nargs='+', help="Columns to process for CSV input (space-separated)")
     parser.add_argument("--pdf_to_txt", action="store_true", help="Convert PDF to TXT without processing")
     parser.add_argument("--remove_blank_lines", action="store_true", help="Remove blank lines from the input file")
+    parser.add_argument("--txt_to_md", action="store_true", help="Convert TXT to MD without processing")
 
     args = parser.parse_args()
 
@@ -271,6 +333,13 @@ async def main_async():
 
     if args.remove_blank_lines:
         processor.remove_blank_lines(args.input_file, args.output_file)
+        sys.exit(0)
+
+    if args.txt_to_md:
+        if not args.input_file.lower().endswith('.txt'):
+            print("Error: Input file must be a TXT when using --txt_to_md option.")
+            sys.exit(1)
+        processor.txt_to_md(args.input_file, args.output_file)
         sys.exit(0)
 
     input_file = args.input_file
