@@ -8,6 +8,7 @@ import traceback
 import asyncio
 from collections import OrderedDict
 import pandas as pd
+import io
 
 class TextProcessor:
     def __init__(self, model="cohere/command-r-plus-08-2024", provider="openrouter", 
@@ -35,16 +36,17 @@ class TextProcessor:
         self.logger.addHandler(ch)
         self.logger.addHandler(fh)
 
-    def pdf_to_txt(self, pdf_file, txt_file):
+    def pdf_to_txt(self, pdf_file):
         try:
+            text = []
             with open(pdf_file, 'rb') as file:
                 reader = PyPDF2.PdfReader(file)
-                with open(txt_file, 'w', encoding='utf-8') as output:
-                    for page in reader.pages:
-                        output.write(page.extract_text())
-            self.logger.info(f"PDF converted to text. Output saved to {txt_file}")
+                for page in reader.pages:
+                    text.append(page.extract_text())
+            return '\n'.join(text).splitlines()
         except Exception as e:
-            return self.handle_error(f"Error converting PDF to text: {str(e)}", pdf_file)
+            self.handle_error(f"Error converting PDF to text: {str(e)}", pdf_file)
+            return None
 
     def correct_line_formatting(self, input_file, output_file, resume_line=0):
         try:
@@ -139,6 +141,9 @@ class TextProcessor:
     async def correct_line_formatting_async(self, input_file, output_file, resume_line=0, columns=None):
         try:
             lines = self.read_input_file(input_file, columns)
+            if lines is None:
+                return
+
             tasks = []
             results = OrderedDict()
 
