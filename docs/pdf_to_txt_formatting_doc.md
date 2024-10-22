@@ -98,6 +98,12 @@ Removes blank lines from the input file and saves the result to the output file.
 - `output_file` (str): Path to the output file.
 Returns: None
 
+#### txt_to_md(input_file, output_file)
+Converts a text file to Markdown format.
+- `input_file` (str): Path to the input text file.
+- `output_file` (str): Path to the output Markdown file.
+Returns: None
+
 ### Usage Example
 
 ```python
@@ -113,8 +119,11 @@ async def main():
     # Remove blank lines
     processor.remove_blank_lines("input.txt", "no_blanks.txt")
     
+    # Convert text to Markdown
+    processor.txt_to_md("no_blanks.txt", "output.md")
+    
     # Process the text file
-    await processor.correct_line_formatting_async("no_blanks.txt", "output.txt")
+    await processor.correct_line_formatting_async("output.md", "final_output.md")
 
 asyncio.run(main())
 ```
@@ -185,6 +194,7 @@ python line_correct.py input_file output_file
 - `--max_concurrent MAX_CONCURRENT`: Maximum number of concurrent API calls (default: 5)
 - `--pdf_to_txt`: Convert PDF to TXT without processing
 - `--remove_blank_lines`: Remove blank lines from the input file before processing
+- `--txt_to_md`: Convert TXT to MD without processing
 
 ### Examples
 
@@ -228,6 +238,11 @@ python line_correct.py input_file output_file
    python line_correct.py input.txt output.txt --remove_blank_lines
    ```
 
+9. Converting a TXT file to Markdown:
+   ```
+   python line_correct.py input.txt output.md --txt_to_md
+   ```
+
 ### CLI Flow
 
 1. The script parses command-line arguments using `argparse`.
@@ -242,6 +257,7 @@ python line_correct.py input_file output_file
 7. After processing, it cleans up the intermediate text file unless `--keep_txt` is specified.
 8. If the `--pdf_to_txt` option is used, it converts the PDF to text and saves it without further processing.
 9. If the `--remove_blank_lines` option is used, it removes blank lines from the input file and saves the result to the output file without further processing.
+10. If the `--txt_to_md` option is used, it converts the TXT file to Markdown format and saves it without further processing.
 
 ## Asynchronous Processing
 
@@ -260,11 +276,11 @@ This asynchronous approach allows for better utilization of system resources and
 
 The LineCorrector now supports multiple input file types:
 - PDF: Can be processed or directly converted to TXT.
-- TXT: Processed line by line.
+- TXT: Processed line by line or converted to Markdown.
 - MD (Markdown): Treated as plain text and processed line by line.
 - CSV: Can process all columns or specific columns as specified by the user.
 
-Output can be in TXT or CSV format, depending on the specified output file extension.
+Output can be in TXT, MD, or CSV format, depending on the specified output file extension and processing options.
 
 ## Blank Line Removal
 
@@ -276,3 +292,20 @@ The `remove_blank_lines` feature provides a way to clean up input files by remov
 4. If the output file is specified as CSV, the result is saved as a single-column CSV file with the header "text".
 
 This feature can be used independently of the AI processing, allowing users to clean up their files without applying formatting corrections.
+
+## Text to Markdown Conversion
+
+The `txt_to_md` feature provides a way to convert plain text files to Markdown format. This can be useful for preparing text for further processing or for improving readability. Here's how it works:
+
+1. The input text file is read line by line.
+2. The method checks for common text patterns that can be converted to Markdown syntax:
+   - Headers (lines starting with '#')
+   - Lists (lines starting with '-', '*', '+', or numbered)
+   - Links (text containing '[' and ']()')
+   - Emphasis (text containing '*' or '_')
+   - Horizontal rules (lines containing only '-', '*', or '_')
+   - Blockquotes (lines starting with '>')
+   - Code blocks (text between '```' markers)
+3. The converted text is written to the output file in Markdown format.
+
+This feature can be used independently of the AI processing, allowing users to convert their plain text files to Markdown without applying formatting corrections.
