@@ -33,11 +33,33 @@ TextProcessor(model="cohere/command-r-plus-08-2024", provider="openrouter", chun
 #### setup_logging()
 Sets up logging for the TextProcessor.
 
-#### pdf_to_txt(pdf_file, txt_file)
-Converts a PDF file to a text file.
+#### pdf_to_txt(pdf_file)
+Converts a PDF file to text.
 - `pdf_file` (str): Path to the input PDF file.
-- `txt_file` (str): Path to the output text file.
-Returns: None or result of handle_error if an exception occurs.
+Returns: A string containing the text content of the PDF, or None if an error occurs.
+
+#### save_text_to_file(text, file_path)
+Saves a single string of text to a file.
+- `text` (str): The text to be saved.
+- `file_path` (str): Path where the file should be saved.
+Returns: None
+
+#### read_input_file(input_file, columns=None)
+Reads the input file and returns its content as a list of lines.
+- `input_file` (str): Path to the input file (PDF, TXT, MD, or CSV).
+- `columns` (list, optional): List of column names to process for CSV input.
+Returns: A list of lines from the input file.
+
+#### write_csv_output(results, output_file, columns)
+Writes the processed results to a CSV file.
+- `results` (OrderedDict): Processed text chunks.
+- `output_file` (str): Path to the output CSV file.
+- `columns` (list): List of column names for the CSV.
+
+#### write_text_output(results, output_file)
+Writes the processed results to a text file.
+- `results` (OrderedDict): Processed text chunks.
+- `output_file` (str): Path to the output text file.
 
 #### correct_line_formatting(input_file, output_file, resume_line=0)
 Corrects line formatting in the input file and writes to the output file.
@@ -70,6 +92,12 @@ Asynchronously corrects line formatting in the input file and writes to the outp
 - `resume_line` (int): Line number to resume processing from.
 Returns: None or result of handle_error if an exception occurs.
 
+#### remove_blank_lines(input_file, output_file)
+Removes blank lines from the input file and saves the result to the output file.
+- `input_file` (str): Path to the input file.
+- `output_file` (str): Path to the output file.
+Returns: None
+
 ### Usage Example
 
 ```python
@@ -77,8 +105,16 @@ import asyncio
 
 async def main():
     processor = TextProcessor(chunk_size=10, model="gpt-3.5-turbo", provider="openai")
-    await processor.pdf_to_txt("input.pdf", "input.txt")
-    await processor.correct_line_formatting_async("input.txt", "output.txt")
+    
+    # Convert PDF to text
+    text = processor.pdf_to_txt("input.pdf")
+    processor.save_text_to_file(text, "input.txt")
+    
+    # Remove blank lines
+    processor.remove_blank_lines("input.txt", "no_blanks.txt")
+    
+    # Process the text file
+    await processor.correct_line_formatting_async("no_blanks.txt", "output.txt")
 
 asyncio.run(main())
 ```
@@ -108,6 +144,7 @@ flowchart TD
 - sys
 - traceback
 - asyncio
+- pandas
 
 ## Notes
 
@@ -118,6 +155,9 @@ flowchart TD
 - Error handling includes detailed logging and options for user intervention.
 - The processor now uses asynchronous processing to handle multiple chunks concurrently, improving performance for large files.
 - Chunks are processed out of order but reassembled in the correct sequence for the final output.
+- The processor can now handle CSV files, allowing for selective processing of columns.
+- A new option is available to directly convert PDF to TXT without AI processing.
+- A new option is available to remove blank lines from the input file before processing.
 
 ## Command Line Interface (CLI)
 
@@ -140,6 +180,11 @@ python line_correct.py input_file output_file
 - `--keep_txt`: Keep the intermediate text file
 - `--system_prompt SYSTEM_PROMPT`: Custom system prompt for the AI
 - `--resume`: Resume from last saved progress
+- `--columns COLUMNS [COLUMNS ...]`: Columns to process for CSV input (space-separated)
+- `--rate_limit RATE_LIMIT`: Rate limit in seconds between API calls (default: 2.0)
+- `--max_concurrent MAX_CONCURRENT`: Maximum number of concurrent API calls (default: 5)
+- `--pdf_to_txt`: Convert PDF to TXT without processing
+- `--remove_blank_lines`: Remove blank lines from the input file before processing
 
 ### Examples
 
@@ -163,6 +208,26 @@ python line_correct.py input_file output_file
    python line_correct.py input.pdf output.txt --resume
    ```
 
+5. Processing specific columns from a CSV file:
+   ```
+   python line_correct.py input.csv output.csv --columns column1 column2 column3
+   ```
+
+6. Converting a PDF to TXT without processing:
+   ```
+   python line_correct.py input.pdf output.txt --pdf_to_txt
+   ```
+
+7. Setting custom rate limit and max concurrent calls:
+   ```
+   python line_correct.py input.pdf output.txt --rate_limit 3 --max_concurrent 3
+   ```
+
+8. Removing blank lines from a file:
+   ```
+   python line_correct.py input.txt output.txt --remove_blank_lines
+   ```
+
 ### CLI Flow
 
 1. The script parses command-line arguments using `argparse`.
@@ -175,8 +240,8 @@ python line_correct.py input_file output_file
    - Results are collected and reassembled in the correct order.
 6. If an error occurs, it prompts the user to try again with a different input file or exit.
 7. After processing, it cleans up the intermediate text file unless `--keep_txt` is specified.
-
-The CLI now leverages asynchronous processing for improved performance, while still maintaining the correct order of the processed text.
+8. If the `--pdf_to_txt` option is used, it converts the PDF to text and saves it without further processing.
+9. If the `--remove_blank_lines` option is used, it removes blank lines from the input file and saves the result to the output file without further processing.
 
 ## Asynchronous Processing
 
@@ -190,3 +255,24 @@ The `TextProcessor` now uses asynchronous processing to handle multiple chunks o
 6. The reassembled text is written to the output file.
 
 This asynchronous approach allows for better utilization of system resources and can significantly reduce processing time for large documents. However, it's important to note that the actual speed improvement will depend on factors such as the AI model's response time, network latency, and the number of concurrent connections allowed by the AI service provider.
+
+## File Type Support
+
+The LineCorrector now supports multiple input file types:
+- PDF: Can be processed or directly converted to TXT.
+- TXT: Processed line by line.
+- MD (Markdown): Treated as plain text and processed line by line.
+- CSV: Can process all columns or specific columns as specified by the user.
+
+Output can be in TXT or CSV format, depending on the specified output file extension.
+
+## Blank Line Removal
+
+The `remove_blank_lines` feature provides a way to clean up input files by removing empty lines. This can be useful as a preprocessing step before applying AI-based formatting corrections. Here's how it works:
+
+1. The input file is read using the `read_input_file` method, which supports various file types.
+2. All blank lines (lines containing only whitespace) are removed from the content.
+3. The resulting text is written to the output file.
+4. If the output file is specified as CSV, the result is saved as a single-column CSV file with the header "text".
+
+This feature can be used independently of the AI processing, allowing users to clean up their files without applying formatting corrections.
