@@ -7,6 +7,7 @@ import sys
 import traceback
 import asyncio
 from collections import OrderedDict
+import pandas as pd
 
 class TextProcessor:
     def __init__(self, model="cohere/command-r-plus-08-2024", provider="openrouter", 
@@ -120,38 +121,42 @@ class TextProcessor:
         corrected_text = await self.agent.async_poke(input_text)
         return chunk_id, corrected_text.strip().split('\n')
 
-    async def correct_line_formatting_async(self, input_file, output_file, resume_line=0):
+    def read_input_file(self, input_file, columns=None):
+        _, ext = os.path.splitext(input_file)
+        if ext.lower() == '.pdf':
+            return self.pdf_to_txt(input_file)
+        elif ext.lower() in ['.txt', '.md']:
+            with open(input_file, 'r', encoding='utf-8') as f:
+                return f.readlines()
+        elif ext.lower() == '.csv':
+            df = pd.read_csv(input_file)
+            if columns:
+                df = df[columns]
+            return df.apply(lambda row: ' '.join(row.astype(str)), axis=1).tolist()
+        else:
+            raise ValueError(f"Unsupported file type: {ext}")
+
+    async def correct_line_formatting_async(self, input_file, output_file, resume_line=0, columns=None):
         try:
+            lines = self.read_input_file(input_file, columns)
             tasks = []
             results = OrderedDict()
-            with open(input_file, 'r', encoding='utf-8', errors='replace') as infile:
-                chunk = []
-                for i, line in enumerate(infile):
-                    if i < resume_line:
-                        continue
-                    chunk.append(line.strip())
-                    if len(chunk) == self.chunk_size:
-                        chunk_id = i // self.chunk_size
-                        task = asyncio.create_task(self.process_chunk_async(chunk, chunk_id))
-                        tasks.append(task)
-                        chunk = []
 
-                if chunk:
-                    chunk_id = (i // self.chunk_size) + 1
-                    task = asyncio.create_task(self.process_chunk_async(chunk, chunk_id))
-                    tasks.append(task)
+            for i in range(resume_line, len(lines), self.chunk_size):
+                chunk = lines[i:i+self.chunk_size]
+                chunk_id = i // self.chunk_size
+                task = asyncio.create_task(self.process_chunk_async(chunk, chunk_id))
+                tasks.append(task)
 
             for completed_task in asyncio.as_completed(tasks):
                 chunk_id, corrected_lines = await completed_task
                 results[chunk_id] = corrected_lines
 
-            with open(output_file, 'w', encoding='utf-8') as outfile:
-                for chunk_id in sorted(results.keys()):
-                    for line in results[chunk_id]:
-                        outfile.write(line + '\n')
-                    # Save progress
-                    with open(f"{output_file}.progress", 'w') as progress_file:
-                        progress_file.write(str((chunk_id + 1) * self.chunk_size))
+            _, ext = os.path.splitext(output_file)
+            if ext.lower() == '.csv':
+                self.write_csv_output(results, output_file, columns)
+            else:
+                self.write_text_output(results, output_file)
 
             self.logger.info(f"Formatting correction complete. Output saved to {output_file}")
             # Remove progress file if exists
@@ -160,18 +165,38 @@ class TextProcessor:
         except Exception as e:
             return self.handle_error(f"Error correcting line formatting: {str(e)}", input_file)
 
+    def write_csv_output(self, results, output_file, columns):
+        df = pd.DataFrame(columns=columns if columns else ['corrected_text'])
+        for chunk_id in sorted(results.keys()):
+            for line in results[chunk_id]:
+                if columns:
+                    parts = line.split(maxsplit=len(columns)-1)
+                    df = df.append(dict(zip(columns, parts)), ignore_index=True)
+                else:
+                    df = df.append({'corrected_text': line}, ignore_index=True)
+        df.to_csv(output_file, index=False)
+
+    def write_text_output(self, results, output_file):
+        with open(output_file, 'w', encoding='utf-8') as outfile:
+            for chunk_id in sorted(results.keys()):
+                for line in results[chunk_id]:
+                    outfile.write(line + '\n')
+                # Save progress
+                with open(f"{output_file}.progress", 'w') as progress_file:
+                    progress_file.write(str((chunk_id + 1) * self.chunk_size))
+
 async def main_async():
-    parser = argparse.ArgumentParser(description="Process PDF files and correct line formatting.")
-    parser.add_argument("input_file", help="Input PDF file path")
-    parser.add_argument("output_file", help="Output text file path")
+    parser = argparse.ArgumentParser(description="Process files and correct line formatting.")
+    parser.add_argument("input_file", help="Input file path (PDF, TXT, MD, or CSV)")
+    parser.add_argument("output_file", help="Output file path (TXT or CSV)")
     parser.add_argument("--chunk_size", type=int, default=5, help="Number of lines per chunk (default: 5)")
     parser.add_argument("--model", default="cohere/command-r-plus-08-2024", help="AI model to use")
     parser.add_argument("--provider", default="openrouter", help="AI provider to use")
-    parser.add_argument("--keep_txt", action="store_true", help="Keep the intermediate text file")
     parser.add_argument("--system_prompt", help="Custom system prompt for the AI")
     parser.add_argument("--resume", action="store_true", help="Resume from last saved progress")
     parser.add_argument("--rate_limit", type=float, default=2.0, help="Rate limit in seconds between API calls (default: 2.0)")
     parser.add_argument("--max_concurrent", type=int, default=5, help="Maximum number of concurrent API calls (default: 5)")
+    parser.add_argument("--columns", nargs='+', help="Columns to process for CSV input (space-separated)")
 
     args = parser.parse_args()
 
@@ -180,36 +205,12 @@ async def main_async():
                               max_concurrent=args.max_concurrent)
     
     input_file = args.input_file
-    while True:
-        txt_file = input_file.rsplit('.', 1)[0] + ".txt"
+    resume_line = 0
+    if args.resume and os.path.exists(f"{args.output_file}.progress"):
+        with open(f"{args.output_file}.progress", 'r') as progress_file:
+            resume_line = int(progress_file.read().strip())
 
-        # Convert PDF to TXT if not resuming
-        if not args.resume:
-            result = processor.pdf_to_txt(input_file, txt_file)
-            if isinstance(result, str):
-                input_file = result
-                continue
-
-        # Check for progress file
-        resume_line = 0
-        if args.resume and os.path.exists(f"{args.output_file}.progress"):
-            with open(f"{args.output_file}.progress", 'r') as progress_file:
-                resume_line = int(progress_file.read().strip())
-
-        # Correct line formatting asynchronously
-        result = await processor.correct_line_formatting_async(txt_file, args.output_file, resume_line)
-        if isinstance(result, str):
-            input_file = result
-            continue
-
-        break
-
-    # Clean up intermediate txt file if not specified to keep
-    if not args.keep_txt and not args.resume:
-        os.remove(txt_file)
-        print(f"Removed intermediate file: {txt_file}")
-    else:
-        print(f"Kept intermediate file: {txt_file}")
+    await processor.correct_line_formatting_async(input_file, args.output_file, resume_line, args.columns)
 
 if __name__ == "__main__":
     asyncio.run(main_async())
