@@ -5,10 +5,13 @@ import argparse
 import logging
 import sys
 import traceback
+import asyncio
+from collections import OrderedDict
 
 class TextProcessor:
-    def __init__(self, model="cohere/command-r-plus-08-2024", provider="openrouter", chunk_size=5, system_prompt=None):
-        self.agent = Agent(model=model, provider=provider)
+    def __init__(self, model="cohere/command-r-plus-08-2024", provider="openrouter", 
+                 chunk_size=5, system_prompt=None, rate_limit=2.0, max_concurrent=5):
+        self.agent = Agent(model=model, provider=provider, rate_limit=rate_limit, max_concurrent=max_concurrent)
         self.chunk_size = chunk_size
         self.default_system_prompt = "Correct the spacing of each line in the chunk. Some of them will be jumbled together like this 'Britainsuicideremainsthehighestsinglecauseofdeathforbothmalesandfemalesaged15–34.', these are the only ones that need to be adjusted. Do not change the content or add any punctuation. Do not add any capitalization. Only adjust spacing. There may be no need to adjust spacing within a specific chunk. Preserve line breaks."
         self.agent.system_prompt = system_prompt if system_prompt else self.default_system_prompt
@@ -112,7 +115,52 @@ class TextProcessor:
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
 
-def main():
+    async def process_chunk_async(self, chunk, chunk_id):
+        input_text = "\n".join(chunk)
+        corrected_text = await self.agent.async_poke(input_text)
+        return chunk_id, corrected_text.strip().split('\n')
+
+    async def correct_line_formatting_async(self, input_file, output_file, resume_line=0):
+        try:
+            tasks = []
+            results = OrderedDict()
+            with open(input_file, 'r', encoding='utf-8', errors='replace') as infile:
+                chunk = []
+                for i, line in enumerate(infile):
+                    if i < resume_line:
+                        continue
+                    chunk.append(line.strip())
+                    if len(chunk) == self.chunk_size:
+                        chunk_id = i // self.chunk_size
+                        task = asyncio.create_task(self.process_chunk_async(chunk, chunk_id))
+                        tasks.append(task)
+                        chunk = []
+
+                if chunk:
+                    chunk_id = (i // self.chunk_size) + 1
+                    task = asyncio.create_task(self.process_chunk_async(chunk, chunk_id))
+                    tasks.append(task)
+
+            for completed_task in asyncio.as_completed(tasks):
+                chunk_id, corrected_lines = await completed_task
+                results[chunk_id] = corrected_lines
+
+            with open(output_file, 'w', encoding='utf-8') as outfile:
+                for chunk_id in sorted(results.keys()):
+                    for line in results[chunk_id]:
+                        outfile.write(line + '\n')
+                    # Save progress
+                    with open(f"{output_file}.progress", 'w') as progress_file:
+                        progress_file.write(str((chunk_id + 1) * self.chunk_size))
+
+            self.logger.info(f"Formatting correction complete. Output saved to {output_file}")
+            # Remove progress file if exists
+            if os.path.exists(f"{output_file}.progress"):
+                os.remove(f"{output_file}.progress")
+        except Exception as e:
+            return self.handle_error(f"Error correcting line formatting: {str(e)}", input_file)
+
+async def main_async():
     parser = argparse.ArgumentParser(description="Process PDF files and correct line formatting.")
     parser.add_argument("input_file", help="Input PDF file path")
     parser.add_argument("output_file", help="Output text file path")
@@ -122,10 +170,14 @@ def main():
     parser.add_argument("--keep_txt", action="store_true", help="Keep the intermediate text file")
     parser.add_argument("--system_prompt", help="Custom system prompt for the AI")
     parser.add_argument("--resume", action="store_true", help="Resume from last saved progress")
+    parser.add_argument("--rate_limit", type=float, default=2.0, help="Rate limit in seconds between API calls (default: 2.0)")
+    parser.add_argument("--max_concurrent", type=int, default=5, help="Maximum number of concurrent API calls (default: 5)")
 
     args = parser.parse_args()
 
-    processor = TextProcessor(model=args.model, provider=args.provider, chunk_size=args.chunk_size, system_prompt=args.system_prompt)
+    processor = TextProcessor(model=args.model, provider=args.provider, chunk_size=args.chunk_size, 
+                              system_prompt=args.system_prompt, rate_limit=args.rate_limit, 
+                              max_concurrent=args.max_concurrent)
     
     input_file = args.input_file
     while True:
@@ -144,8 +196,8 @@ def main():
             with open(f"{args.output_file}.progress", 'r') as progress_file:
                 resume_line = int(progress_file.read().strip())
 
-        # Correct line formatting
-        result = processor.correct_line_formatting(txt_file, args.output_file, resume_line)
+        # Correct line formatting asynchronously
+        result = await processor.correct_line_formatting_async(txt_file, args.output_file, resume_line)
         if isinstance(result, str):
             input_file = result
             continue
@@ -160,4 +212,4 @@ def main():
         print(f"Kept intermediate file: {txt_file}")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main_async())

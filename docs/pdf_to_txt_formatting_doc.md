@@ -57,12 +57,30 @@ Handles errors that occur during processing.
 - `file_path` (str): Path of the file where the error occurred.
 Returns: New file path if the user chooses to try again, or exits the program.
 
+#### async process_chunk_async(chunk, chunk_id)
+Asynchronously processes a chunk of lines using the AI agent.
+- `chunk` (list): List of lines to process.
+- `chunk_id` (int): Identifier for the chunk.
+Returns: A tuple of (chunk_id, processed_lines).
+
+#### async correct_line_formatting_async(input_file, output_file, resume_line=0)
+Asynchronously corrects line formatting in the input file and writes to the output file.
+- `input_file` (str): Path to the input text file.
+- `output_file` (str): Path to the output text file.
+- `resume_line` (int): Line number to resume processing from.
+Returns: None or result of handle_error if an exception occurs.
+
 ### Usage Example
 
 ```python
-processor = TextProcessor(chunk_size=10, model="gpt-3.5-turbo", provider="openai")
-processor.pdf_to_txt("input.pdf", "input.txt")
-processor.correct_line_formatting("input.txt", "output.txt")
+import asyncio
+
+async def main():
+    processor = TextProcessor(chunk_size=10, model="gpt-3.5-turbo", provider="openai")
+    await processor.pdf_to_txt("input.pdf", "input.txt")
+    await processor.correct_line_formatting_async("input.txt", "output.txt")
+
+asyncio.run(main())
 ```
 
 ## Flow
@@ -70,13 +88,12 @@ processor.correct_line_formatting("input.txt", "output.txt")
 flowchart TD
     A[Start] --> B[Initialize TextProcessor]
     B --> C[Convert PDF to TXT]
-    C --> D[Open input and output files]
-    D --> E[Read chunk of lines]
-    E --> F[Process chunk with AI]
-    F --> G[Write processed chunk to output]
-    G --> H{End of file?}
-    H -->|No| E
-    H -->|Yes| I[Save progress]
+    C --> D[Open input file]
+    D --> E[Create async tasks for chunks]
+    E --> F[Process chunks concurrently]
+    F --> G[Collect results]
+    G --> H[Write processed chunks to output]
+    H --> I[Save progress]
     I --> J[Close files]
     J --> K[End]
 ```
@@ -90,6 +107,7 @@ flowchart TD
 - logging
 - sys
 - traceback
+- asyncio
 
 ## Notes
 
@@ -98,6 +116,8 @@ flowchart TD
 - Progress is saved after each chunk, allowing for resumption of interrupted processing.
 - Custom system prompts can be provided to tailor the AI's behavior.
 - Error handling includes detailed logging and options for user intervention.
+- The processor now uses asynchronous processing to handle multiple chunks concurrently, improving performance for large files.
+- Chunks are processed out of order but reassembled in the correct sequence for the final output.
 
 ## Command Line Interface (CLI)
 
@@ -149,8 +169,24 @@ python line_correct.py input_file output_file
 2. It creates a `TextProcessor` instance with the specified or default parameters.
 3. If not resuming, it converts the input PDF to a text file.
 4. If resuming, it checks for a progress file and resumes from the last processed line.
-5. It processes the text file, correcting line formatting.
+5. It asynchronously processes the text file, correcting line formatting:
+   - The file is divided into chunks.
+   - Each chunk is processed concurrently as an asynchronous task.
+   - Results are collected and reassembled in the correct order.
 6. If an error occurs, it prompts the user to try again with a different input file or exit.
 7. After processing, it cleans up the intermediate text file unless `--keep_txt` is specified.
 
-The CLI provides flexibility in how the script is used, allowing for customization of processing parameters and handling of different scenarios like resuming interrupted jobs.
+The CLI now leverages asynchronous processing for improved performance, while still maintaining the correct order of the processed text.
+
+## Asynchronous Processing
+
+The `TextProcessor` now uses asynchronous processing to handle multiple chunks of text concurrently. This approach significantly improves performance, especially for large files. Here's how it works:
+
+1. The input file is divided into chunks of a specified size.
+2. Each chunk is processed as an independent asynchronous task.
+3. These tasks are executed concurrently, allowing for parallel processing.
+4. As tasks complete (potentially out of order), their results are collected.
+5. The results are then reassembled in the correct order based on their chunk IDs.
+6. The reassembled text is written to the output file.
+
+This asynchronous approach allows for better utilization of system resources and can significantly reduce processing time for large documents. However, it's important to note that the actual speed improvement will depend on factors such as the AI model's response time, network latency, and the number of concurrent connections allowed by the AI service provider.
