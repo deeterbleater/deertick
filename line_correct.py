@@ -43,7 +43,7 @@ class TextProcessor:
                 reader = PyPDF2.PdfReader(file)
                 for page in reader.pages:
                     text.append(page.extract_text())
-            return '\n'.join(text).splitlines()
+            return '\n'.join(text)
         except Exception as e:
             self.handle_error(f"Error converting PDF to text: {str(e)}", pdf_file)
             return None
@@ -190,6 +190,55 @@ class TextProcessor:
                 with open(f"{output_file}.progress", 'w') as progress_file:
                     progress_file.write(str((chunk_id + 1) * self.chunk_size))
 
+    def save_text_to_file(self, text: str, file_path: str):
+        """
+        Save a single string of text to a .txt file.
+
+        Args:
+        text (str): The text to be saved.
+        file_path (str): The path where the file should be saved.
+
+        Returns:
+        None
+        """
+        try:
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.write(text)
+            self.logger.info(f"Text successfully saved to {file_path}")
+        except Exception as e:
+            self.logger.error(f"Error saving text to file: {str(e)}")
+            self.handle_error(f"Error saving text to file: {str(e)}", file_path)
+
+    def remove_blank_lines(self, input_file, output_file):
+        """
+        Remove blank lines from the input file and save the result to the output file.
+        
+        Args:
+        input_file (str): Path to the input file.
+        output_file (str): Path to the output file.
+        
+        Returns:
+        None
+        """
+        try:
+            lines = self.read_input_file(input_file)
+            if lines is None:
+                return
+
+            non_blank_lines = [line.strip() for line in lines if line.strip()]
+
+            _, ext = os.path.splitext(output_file)
+            if ext.lower() == '.csv':
+                df = pd.DataFrame(non_blank_lines, columns=['text'])
+                df.to_csv(output_file, index=False)
+            else:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write('\n'.join(non_blank_lines))
+
+            self.logger.info(f"Blank lines removed. Output saved to {output_file}")
+        except Exception as e:
+            self.handle_error(f"Error removing blank lines: {str(e)}", input_file)
+
 async def main_async():
     parser = argparse.ArgumentParser(description="Process files and correct line formatting.")
     parser.add_argument("input_file", help="Input file path (PDF, TXT, MD, or CSV)")
@@ -202,6 +251,8 @@ async def main_async():
     parser.add_argument("--rate_limit", type=float, default=2.0, help="Rate limit in seconds between API calls (default: 2.0)")
     parser.add_argument("--max_concurrent", type=int, default=5, help="Maximum number of concurrent API calls (default: 5)")
     parser.add_argument("--columns", nargs='+', help="Columns to process for CSV input (space-separated)")
+    parser.add_argument("--pdf_to_txt", action="store_true", help="Convert PDF to TXT without processing")
+    parser.add_argument("--remove_blank_lines", action="store_true", help="Remove blank lines from the input file")
 
     args = parser.parse_args()
 
@@ -209,6 +260,19 @@ async def main_async():
                               system_prompt=args.system_prompt, rate_limit=args.rate_limit, 
                               max_concurrent=args.max_concurrent)
     
+    if args.pdf_to_txt:
+        if not args.input_file.lower().endswith('.pdf'):
+            print("Error: Input file must be a PDF when using --pdf_to_txt option.")
+            sys.exit(1)
+        text = processor.pdf_to_txt(args.input_file)
+        if text:
+            processor.save_text_to_file(text, args.output_file)
+        sys.exit(0)
+
+    if args.remove_blank_lines:
+        processor.remove_blank_lines(args.input_file, args.output_file)
+        sys.exit(0)
+
     input_file = args.input_file
     resume_line = 0
     if args.resume and os.path.exists(f"{args.output_file}.progress"):
