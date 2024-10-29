@@ -2047,6 +2047,48 @@ export const models: Model[] = [
     preferredProvider: "openrouter",
     type: "llm",
     incompatible: []
+  },
+  {
+    id: "neversleep/noromaid-20b",
+    name: "Noromaid 20B",
+    created: 1700956800,
+    description: "A collab between IkariDev and Undi. This merge is suitable for RP, ERP, and general knowledge. #merge #uncensored",
+    contextLength: 8192,
+    requestLimits: "",
+    modality: "text->text",
+    tokenizer: "Llama2",
+    instructType: "alpaca",
+    costPrompt: 1.5e-06,
+    costCompletion: 2.25e-06,
+    costImage: 0,
+    costRequest: 0,
+    contextLengthTopProvider: 8192,
+    maxCompletionTokensTopProvider: 2048,
+    isModerated: false,
+    preferredProvider: "openrouter",
+    type: "llm",
+    incompatible: []
+  },
+  {
+    id: "anthropic/claude-instant-1.1",
+    name: "Anthropic: Claude Instant v1.1",
+    created: 1700611200,
+    description: claudeDesc,
+    contextLength: 100000,
+    requestLimits: "",
+    modality: "text->text",
+    tokenizer: "Claude",
+    instructType: "claude",
+    costPrompt: 8e-07,
+    costCompletion: 2.4e-06,
+    costImage: 0,
+    costRequest: 0,
+    contextLengthTopProvider: 100000,
+    maxCompletionTokensTopProvider: 2048,
+    isModerated: true,
+    preferredProvider: "openrouter",
+    type: "llm",
+    incompatible: []
   }
 ];
 
