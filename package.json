@@ -1,0 +1,37 @@
+{
+  "name": "deertick",
+  "version": "1.0.0",
+  "description": "AI Agent Framework",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/node": "^20.11.19",
+    "axios": "^1.6.7",
+    "beautiful-soup": "^1.0.3",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.4",
+    "ini": "^4.1.1",
+    "moviepy": "^1.0.0",
+    "pandas-js": "^0.2.4",
+    "pg": "^8.11.3",
+    "puppeteer": "^22.1.0",
+    "replicate": "^0.25.2",
+    "selenium-webdriver": "^4.17.0",
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/pg": "^8.11.0",
+    "@types/selenium-webdriver": "^4.1.21",
+    "@types/uuid": "^9.0.8",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2"
+  }
+}
