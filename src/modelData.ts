@@ -68,8 +68,6 @@ export const gptDesc = "GPT-3.5 Turbo is OpenAI's fastest model. It can understa
 export const openaiDesc = "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding. The o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1). Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.";
 
 // Models data defined as TypeScript objects
-// Convert Python models array to TypeScript
-// Models data defined as TypeScript objects
 export const models: Model[] = [
   {
     id: "liquid/lfm-40b",
