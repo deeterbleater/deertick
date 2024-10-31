@@ -3527,7 +3527,7 @@ export const models: Model[] = [
   },
 ];
 
-// Extended model configurations
+// versions of models with extended context, each line is a list of changed values.
 export const modelsExtended: [string, number, number, number, number, number][] = [
     ["gryphe/mythomax-l2-13b", 8192, 1.125e-06, 1.125e-06, 8192.0, 400.0],
     ["undi95/remm-slerp-l2-13b", 6144, 1.125e-06, 1.125e-06, 6144.0, 400.0],
@@ -3537,7 +3537,7 @@ export const modelsExtended: [string, number, number, number, number, number][] 
     ["meta-llama/llama-3-8b-instruct", 16384, 1.875e-07, 1.125e-06, 16384.0, 2048.0],
 ];
 
-// Free model tiers
+// Free model tiers, each line is a pair of name then limit tier.
 export const modelsFree: { [key: string]: number } = {
     "liquid/lfm-40b": 2,
     "meta-llama/llama-3.2-3b-instruct": 2,
@@ -3561,7 +3561,7 @@ export const modelsFree: { [key: string]: number } = {
     "qwen/qwen-2-vl-7b-instruct": 0,
 };
 
-// Models with higher throughput
+// Models with higher throughput, each line is a list of changed values.
 export const modelsNitro: { [key: string]: number } = {
     "gryphe/mythomax-l2-13b": 2e-07,
     "undi95/toppy-m-7b": 7e-08,
