@@ -3587,6 +3587,16 @@ export function modelById(modelId: string): Model | undefined {
   return models.find(model => model.name == modelId);
 }
 
+export function spawnVariant(modelId: string, varstr: string): Model | undefined {
+  const baseModel = modelById(modelId);
+  if (!baseModel) return undefined;
+
+  const varModel = { ...baseModel };
+  varModel.name = `${varModel.name} (${varstr})`;
+  varModel.id = `${varModel.id}:${varstr}`;
+  return varModel;
+}
+
 export function validateProvider(provider: string, model: string): string {
   if (!provider) {
     const foundModel = modelByName(model);
@@ -3599,16 +3609,6 @@ export function validateProvider(provider: string, model: string): string {
   }
   
   return provider;
-}
-
-export function spawnVariant(modelId: string, varstr: string): Model | undefined {
-  const baseModel = modelById(modelId);
-  if (!baseModel) return undefined;
-  
-  const varModel = { ...baseModel };
-  varModel.name = `${varModel.name} (${varstr})`;
-  varModel.id = `${varModel.id}:${varstr}`;
-  return varModel;
 }
 
 export function listModels(): void {
