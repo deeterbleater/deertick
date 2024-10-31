@@ -3579,16 +3579,12 @@ export const providers = [
     'openai'
 ];
 
-export function modelFind(field: string, head: ModelHead): Model | undefined {
-  return models.find(model => model[Object.keys(model)[head]] === field);
-}
-
 export function modelByName(modelName: string): Model | undefined {
-  return modelFind(modelName, ModelHead.name);
+  return models.find(model => model.name == modelName);
 }
 
 export function modelById(modelId: string): Model | undefined {
-  return modelFind(modelId, ModelHead.id);
+  return models.find(model => model.name == modelId);
 }
 
 export function validateProvider(provider: string, model: string): string {
