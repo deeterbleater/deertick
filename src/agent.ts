@@ -1,4 +1,4 @@
-import { ConfigParser } from 'configparser';
+import ConfigParser from "configparser";
 import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
