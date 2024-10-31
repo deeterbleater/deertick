@@ -41,9 +41,27 @@ export interface Model {
   maxCompletionTokensTopProvider: number;
   isModerated: boolean;
   preferredProvider: string;
-  type: string;
+  type: ModelType;
   incompatible: string[];
 }
+
+export type ModelType = 'llm' | 'image' | 'tts' | 'video';
+
+export interface ModelVariant {
+  contextLength: number;
+  costPrompt: number;
+  costCompletion: number;
+  contextLengthTop: number;
+  maxTokens: number;
+}
+
+export interface ModelTier {
+  tier: number;
+  contextLength: number;
+  maxTokens: number;
+}
+
+export type ModelExtended = [string, number, number, number, number, number];
 
 export const claudeDesc = "Anthropic's model for low-latency, high throughput text generation. Supports hundreds of pages of text.";
 export const gptDesc = "GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks. Training data up to Sep 2021.";
@@ -3511,12 +3529,56 @@ export const models: Model[] = [
   },
 ];
 
+// Extended model configurations
+export const modelsExtended: [string, number, number, number, number, number][] = [
+    ["gryphe/mythomax-l2-13b", 8192, 1.125e-06, 1.125e-06, 8192.0, 400.0],
+    ["undi95/remm-slerp-l2-13b", 6144, 1.125e-06, 1.125e-06, 6144.0, 400.0],
+    ["nousresearch/hermes-3-llama-3.1-405b", 128000, 4.5e-06, 4.5e-06, 128000.0, 0],
+    ["openai/gpt-4o", 128000, 6e-06, 1.8e-05, 128000.0, 64000.0],
+    ["neversleep/llama-3-lumimaid-8b", 24576, 1.875e-07, 1.125e-06, 24576.0, 2048.0],
+    ["meta-llama/llama-3-8b-instruct", 16384, 1.875e-07, 1.125e-06, 16384.0, 2048.0],
+];
+
+// Free model tiers
+export const modelsFree: { [key: string]: number } = {
+    "liquid/lfm-40b": 2,
+    "meta-llama/llama-3.2-3b-instruct": 2,
+    "openchat/openchat-7b": 2,
+    "gryphe/mythomist-7b": 2,
+    "meta-llama/llama-3-8b-instruct": 2,
+    "microsoft/phi-3-medium-128k-instruct": 2,
+    "microsoft/phi-3-mini-128k-instruct": 2,
+    "mistralai/mistral-7b-instruct": 2,
+    "meta-llama/llama-3.2-1b-instruct": 2,
+    "meta-llama/llama-3.2-11b-vision-instruct": 2,
+    "nousresearch/hermes-3-llama-3.1-405b": 2,
+    "meta-llama/llama-3.1-70b-instruct": 2,
+    "meta-llama/llama-3.1-8b-instruct": 2,
+    "meta-llama/llama-3.1-405b-instruct": 2,
+    "qwen/qwen-2-7b-instruct": 2,
+    "undi95/toppy-m-7b": 1,
+    "google/gemma-2-9b-it": 1,
+    "mattshumer/reflection-70b": 0,
+    "mistralai/pixtral-12b": 0,
+    "qwen/qwen-2-vl-7b-instruct": 0,
+};
+
+// Models with higher throughput
+export const modelsNitro: { [key: string]: number } = {
+    "gryphe/mythomax-l2-13b": 2e-07,
+    "undi95/toppy-m-7b": 7e-08,
+    "mistralai/mistral-7b-instruct": 7e-08,
+    "meta-llama/llama-3-70b-instruct": 7.92e-07,
+    "meta-llama/llama-3-8b-instruct": 1.62e-07,
+    "mistralai/mixtral-8x7b-instruct": 5.4e-07,
+};
+
 export const providers = [
-  'openrouter',
-  'replicate', 
-  'mistral',
-  'huggingface',
-  'openai'
+    'openrouter',
+    'replicate', 
+    'mistral',
+    'huggingface',
+    'openai'
 ];
 
 export function modelFind(field: any, head: ModelHead): Model | undefined {
@@ -3545,20 +3607,119 @@ export function validateProvider(provider: string, model: string): string {
   return provider;
 }
 
-// Load voice samples from CSV
-export const voiceSamples: { [key: string]: string } = {};
-try {
-  const samplesData = readFileSync('samples.csv', 'utf-8');
-  const lines = samplesData.split('\n').slice(1); // Skip header
-  lines.forEach(line => {
-    const [voiceName, url] = line.split(',');
-    if (voiceName && url) {
-      voiceSamples[voiceName.trim()] = url.trim();
-    }
-  });
-} catch (error) {
-  console.error('Error loading voice samples:', error);
+export function spawnVariant(modelId: string, varstr: string): Model | undefined {
+  const baseModel = modelById(modelId);
+  if (!baseModel) return undefined;
+  
+  const varModel = { ...baseModel };
+  varModel.name = `${varModel.name} (${varstr})`;
+  varModel.id = `${varModel.id}:${varstr}`;
+  return varModel;
 }
+
+export function listModels(): void {
+  console.log("\nmodels:\n");
+  models.forEach(model => {
+    console.log(`"${model.name}": "${model.id}",`);
+  });
+}
+
+export function modelIndex(modelName: string): string | undefined {
+  const model = modelByName(modelName);
+  return model ? model.id : undefined;
+}
+
+export function indexToModelName(index: number): string {
+  return models[index].name;
+}
+
+// File reading utility
+export function fileRead(filePath: string): string {
+  try {
+    return readFileSync(filePath, 'utf-8');
+  } catch (error) {
+    console.error(`Error reading file ${filePath}:`, error);
+    return '';
+  }
+}
+
+// Generate model variants
+modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
+    const newModel = spawnVariant(modelId, "extended");
+    if (newModel) {
+        newModel[ModelHead.contextLength] = contextLength;
+        newModel[ModelHead.costPrompt] = costPrompt;
+        newModel[ModelHead.costCompletion] = costCompletion;
+        newModel[ModelHead.contextLengthTopProvider] = contextLengthTop;
+        newModel[ModelHead.maxCompletionTokensTopProvider] = maxTokens;
+        models.push(newModel);
+    }
+});
+
+// Generate free model variants
+Object.entries(modelsFree).forEach(([modelId, tier]) => {
+    const newModel = spawnVariant(modelId, "free");
+    if (newModel) {
+        let length = 0;
+        let tokens = 0;
+        
+        switch(tier) {
+            case 1:
+                length = 4096;
+                tokens = 2048;
+                break;
+            case 2:
+                length = 8192;
+                tokens = 4096;
+                break;
+        }
+        
+        newModel[ModelHead.contextLengthTopProvider] = length;
+        newModel[ModelHead.maxCompletionTokensTopProvider] = tokens;
+        newModel[ModelHead.costPrompt] = 0;
+        newModel[ModelHead.costCompletion] = 0;
+        models.push(newModel);
+    }
+});
+
+// Generate nitro model variants
+Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
+    const newModel = spawnVariant(modelId, "nitro");
+    if (newModel) {
+        newModel[ModelHead.contextLengthTopProvider] = throughput;
+        newModel[ModelHead.maxCompletionTokensTopProvider] = throughput;
+        models.push(newModel);
+    }
+});
+
+// Voice samples interface and implementation
+export interface VoiceSample {
+  voiceName: string;
+  url: string;
+}
+
+export const voiceSamples = new Map<string, string>();
+
+export function loadVoiceSamples(filePath: string = 'samples.csv'): void {
+  try {
+    const samplesData = readFileSync(filePath, 'utf-8');
+    const lines = samplesData.split('\n').slice(1); // Skip header
+    
+    lines.forEach(line => {
+      const [voiceName, url] = line.split(',');
+      if (voiceName && url) {
+        voiceSamples.set(voiceName.trim(), url.trim());
+      }
+    });
+    
+    console.log(`Loaded ${voiceSamples.size} voice samples`);
+  } catch (error) {
+    console.error('Error loading voice samples:', error);
+  }
+}
+
+// Initialize voice samples on module load
+loadVoiceSamples();
 
 export function listAll(): void {
   console.log("\nmodels:\n");
