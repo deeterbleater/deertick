@@ -1,5 +1,5 @@
 import { Agent } from './agent';
-import { listAll, ModelHead, fileRead, modelByName } from './modelData';
+import { listAll, fileRead, modelByName } from './modelData';
 import { program } from 'commander';
 
 program

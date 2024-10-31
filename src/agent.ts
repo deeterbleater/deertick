@@ -2,7 +2,7 @@ import { ConfigParser } from 'configparser';
 import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Model, ModelHead, validateProvider, modelById } from './modelData';
+import { Model, validateProvider, modelById } from './modelData';
 
 interface AgentSettings {
     top_k: number;

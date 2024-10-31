@@ -2,28 +2,6 @@ import { readFileSync } from 'fs';
 var concat = require('lodash.concat');
 var cloneDeep = require('lodash.clonedeep');
 
-export enum ModelHead {
-  id = 0,
-  name = 1,
-  created = 2,
-  description = 3,
-  contextLength = 4,
-  requestLimits = 5,
-  modality = 6,
-  tokenizer = 7,
-  instructType = 8,
-  costPrompt = 9,
-  costCompletion = 10,
-  costImage = 11,
-  costRequest = 12,
-  contextLengthTopProvider = 13,
-  maxCompletionTokensTopProvider = 14,
-  isModerated = 15,
-  preferredProvider = 16,
-  type = 17,
-  incompatible = 18
-}
-
 export interface Model {
   id: string;
   name: string;
