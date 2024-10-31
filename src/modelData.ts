@@ -1,4 +1,6 @@
 import { readFileSync } from 'fs';
+var concat = require('lodash.concat');
+var cloneDeep = require('lodash.clonedeep');
 
 export enum ModelHead {
   id = 0,
@@ -3588,7 +3590,7 @@ export function modelById(modelId: string): Model | undefined {
 }
 
 export function spawnVariant(modelId: string, varstr: string): Model | undefined {
-  const baseModel = modelById(modelId);
+  const baseModel = cloneDeep(modelById(modelId));
   if (!baseModel) return undefined;
 
   const varModel = { ...baseModel };
