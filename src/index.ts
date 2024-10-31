@@ -12,8 +12,8 @@ program
   .option('-p, --provider <provider>', 'Specify the provider', 'openrouter')
   .option('-s, --system <prompt>', 'Set the system prompt for the conversation', '')
   .option('-i, --interactive', 'Start an interactive chat session')
-  .option('-f, --file <path>', 'Read input from a file')
-  .option('-o, --output <path>', 'Write output to a file')
+  .option('-f, --file <path d="">', 'Read input from a file')
+  .option('-o, --output <path d="">', 'Write output to a file')
   .option('-l, --list', 'List available models and providers')
   .option('--crawl <url>', 'Start a web crawl from the specified URL')
   .option('--scrape <url>', 'Scrape content from the specified URL')
@@ -27,7 +27,7 @@ program
   .option('--create-agent <name>', 'Create a new agent with the specified name')
   .option('--delete-agent <name>', 'Delete the agent with the specified name')
   .option('--agent-info <name>', 'Display information about the specified agent')
-  .option('--set-param <agent> <param> <value>', 'Set a parameter for the specified agent')
+  .option('--set-param <agent> <param name="" value=""> <value>', 'Set a parameter for the specified agent')
   .option('--list-agents', 'List all available agents');
 
 program.parse();
