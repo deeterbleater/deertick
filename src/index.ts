@@ -39,7 +39,7 @@ if (!model) {
   process.exit(1);
 }
 
-const agent = new Agent(model[ModelHead.id], options.system, options.provider);
+const agent = new Agent(model, options.system, options.provider);
 
 async function main() {
   if (options.list) {
