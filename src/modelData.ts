@@ -71,7 +71,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "thedrummer/rocinante-12b",
@@ -91,7 +92,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "eva-unit-01/eva-qwen-2.5-14b",
@@ -111,7 +113,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthracite-org/magnum-v2-72b",
@@ -131,7 +134,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.2-3b-instruct",
@@ -151,7 +155,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.2-1b-instruct",
@@ -171,7 +176,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.2-90b-vision-instruct",
@@ -191,7 +197,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.2-11b-vision-instruct",
@@ -211,7 +218,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-2.5-72b-instruct",
@@ -231,7 +239,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-2-vl-72b-instruct",
@@ -251,7 +260,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "neversleep/llama-3.1-lumimaid-8b",
@@ -271,7 +281,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/o1-mini-2024-09-12",
@@ -371,7 +382,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r-plus-08-2024",
@@ -391,7 +403,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r-08-2024",
@@ -411,7 +424,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-2-vl-7b-instruct",
@@ -431,7 +445,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-flash-8b-1.5-exp",
@@ -451,7 +466,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "sao10k/l3.1-euryale-70b",
@@ -471,7 +487,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-flash-1.5-exp",
@@ -491,7 +508,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "ai21/jamba-1-5-large",
@@ -511,7 +529,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "ai21/jamba-1-5-mini",
@@ -531,7 +550,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "microsoft/phi-3.5-mini-128k-instruct",
@@ -551,7 +571,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/hermes-3-llama-3.1-70b",
@@ -571,7 +592,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/hermes-3-llama-3.1-405b",
@@ -591,7 +613,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3.1-sonar-huge-128k-online",
@@ -611,7 +634,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/chatgpt-4o-latest",
@@ -631,7 +655,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 16384.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "sao10k/l3-lunaris-8b",
@@ -651,7 +676,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "aetherwiing/mn-starcannon-12b",
@@ -671,7 +697,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4o-2024-08-06",
@@ -691,7 +718,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 16384.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.1-405b",
@@ -711,7 +739,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nothingiisreal/mn-celeste-12b",
@@ -731,7 +760,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-pro-1.5-exp",
@@ -751,7 +781,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3.1-sonar-large-128k-online",
@@ -771,7 +802,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3.1-sonar-large-128k-chat",
@@ -791,7 +823,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3.1-sonar-small-128k-online",
@@ -811,7 +844,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3.1-sonar-small-128k-chat",
@@ -831,7 +865,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.1-70b-instruct",
@@ -851,7 +886,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.1-8b-instruct",
@@ -871,7 +907,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3.1-405b-instruct",
@@ -891,7 +928,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/codestral-mamba",
@@ -911,7 +949,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-nemo",
@@ -931,7 +970,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4o-mini-2024-07-18",
@@ -951,7 +991,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 16384.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4o-mini",
@@ -971,7 +1012,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 16384.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-2-7b-instruct",
@@ -991,7 +1033,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemma-2-27b-it",
@@ -1011,7 +1054,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "alpindale/magnum-72b",
@@ -1031,7 +1075,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 1024.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/hermes-2-theta-llama-3-8b",
@@ -1051,7 +1096,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemma-2-9b-it",
@@ -1071,7 +1117,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "ai21/jamba-instruct",
@@ -1091,7 +1138,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3.5-sonnet",
@@ -1111,7 +1159,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3.5-sonnet:beta",
@@ -1131,7 +1180,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "sao10k/l3-euryale-70b",
@@ -1151,7 +1201,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cognitivecomputations/dolphin-mixtral-8x22b",
@@ -1171,7 +1222,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-2-72b-instruct",
@@ -1191,7 +1243,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/hermes-2-pro-llama-3-8b",
@@ -1211,7 +1264,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-7b-instruct-v0.3",
@@ -1231,7 +1285,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-7b-instruct",
@@ -1251,7 +1306,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "microsoft/phi-3-mini-128k-instruct",
@@ -1271,7 +1327,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "microsoft/phi-3-medium-128k-instruct",
@@ -1291,7 +1348,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "neversleep/llama-3-lumimaid-70b",
@@ -1311,7 +1369,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-flash-1.5",
@@ -1331,7 +1390,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "deepseek/deepseek-chat",
@@ -1351,7 +1411,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3-sonar-large-32k-online",
@@ -1371,7 +1432,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3-sonar-large-32k-chat",
@@ -1391,7 +1453,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3-sonar-small-32k-online",
@@ -1411,7 +1474,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "perplexity/llama-3-sonar-small-32k-chat",
@@ -1431,7 +1495,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-guard-2-8b",
@@ -1451,7 +1516,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4o-2024-05-13",
@@ -1471,7 +1537,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4o",
@@ -1491,7 +1558,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-72b-chat",
@@ -1511,7 +1579,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "qwen/qwen-110b-chat",
@@ -1531,7 +1600,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "neversleep/llama-3-lumimaid-8b",
@@ -1551,7 +1621,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "sao10k/fimbulvetr-11b-v2",
@@ -1571,7 +1642,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3-70b-instruct",
@@ -1591,7 +1663,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-3-8b-instruct",
@@ -1611,7 +1684,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mixtral-8x22b-instruct",
@@ -1631,7 +1705,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "microsoft/wizardlm-2-7b",
@@ -1651,7 +1726,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "microsoft/wizardlm-2-8x22b",
@@ -1671,7 +1747,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-pro-1.5",
@@ -1691,7 +1768,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-turbo",
@@ -1711,7 +1789,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r-plus",
@@ -1731,7 +1810,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r-plus-04-2024",
@@ -1751,7 +1831,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "databricks/dbrx-instruct",
@@ -1771,7 +1852,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "sophosympatheia/midnight-rose-70b",
@@ -1791,7 +1873,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r",
@@ -1811,7 +1894,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command",
@@ -1831,7 +1915,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-haiku",
@@ -1851,7 +1936,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-haiku:beta",
@@ -1871,7 +1957,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-sonnet",
@@ -1891,7 +1978,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-sonnet:beta",
@@ -1911,7 +1999,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-opus",
@@ -1931,7 +2020,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-3-opus:beta",
@@ -1951,7 +2041,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cohere/command-r-03-2024",
@@ -1971,7 +2062,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-large",
@@ -1991,7 +2083,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-turbo-preview",
@@ -2011,7 +2104,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-0613",
@@ -2031,7 +2125,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/nous-hermes-2-mixtral-8x7b-dpo",
@@ -2051,7 +2146,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-medium",
@@ -2071,7 +2167,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-small",
@@ -2091,7 +2188,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-tiny",
@@ -2111,7 +2209,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "austism/chronos-hermes-13b",
@@ -2131,7 +2230,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/nous-hermes-yi-34b",
@@ -2151,7 +2251,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-7b-instruct-v0.2",
@@ -2171,7 +2272,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "cognitivecomputations/dolphin-mixtral-8x7b",
@@ -2191,7 +2293,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-pro",
@@ -2211,7 +2314,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/gemini-pro-vision",
@@ -2231,7 +2335,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mixtral-8x7b-instruct",
@@ -2251,7 +2356,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mixtral-8x7b",
@@ -2271,7 +2377,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "gryphe/mythomist-7b",
@@ -2291,7 +2398,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openchat/openchat-7b",
@@ -2311,7 +2419,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "neversleep/noromaid-20b",
@@ -2331,7 +2440,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-instant-1.1",
@@ -2351,7 +2461,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 2048.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2.1",
@@ -2371,7 +2482,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2.1:beta",
@@ -2391,7 +2503,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2",
@@ -2411,7 +2524,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2:beta",
@@ -2431,7 +2545,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "teknium/openhermes-2.5-mistral-7b",
@@ -2451,7 +2566,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-vision-preview",
@@ -2471,7 +2587,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "lizpreciatior/lzlv-70b-fp16-hf",
@@ -2491,7 +2608,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "alpindale/goliath-120b",
@@ -2511,7 +2629,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 400.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "undi95/toppy-m-7b",
@@ -2531,7 +2650,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openrouter/auto",
@@ -2551,7 +2671,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-1106-preview",
@@ -2571,7 +2692,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-1106",
@@ -2591,7 +2713,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/palm-2-codechat-bison-32k",
@@ -2611,7 +2734,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/palm-2-chat-bison-32k",
@@ -2631,7 +2755,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 8192.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "jondurbin/airoboros-l2-70b",
@@ -2651,7 +2776,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "xwin-lm/xwin-lm-70b",
@@ -2671,7 +2797,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 400.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mistralai/mistral-7b-instruct-v0.1",
@@ -2691,7 +2818,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-instruct",
@@ -2711,7 +2839,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "pygmalionai/mythalion-13b",
@@ -2731,7 +2860,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 400.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-32k-0314",
@@ -2751,7 +2881,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-32k",
@@ -2771,7 +2902,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-16k",
@@ -2791,7 +2923,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "nousresearch/nous-hermes-llama2-13b",
@@ -2811,7 +2944,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "mancer/weaver",
@@ -2831,7 +2965,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 1000.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-instant-1.0",
@@ -2851,7 +2986,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-1.2",
@@ -2871,7 +3007,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-1",
@@ -2891,7 +3028,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-instant-1",
@@ -2911,7 +3049,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-instant-1:beta",
@@ -2931,7 +3070,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2.0",
@@ -2951,7 +3091,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "anthropic/claude-2.0:beta",
@@ -2971,7 +3112,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "undi95/remm-slerp-l2-13b",
@@ -2991,7 +3133,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 400.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/palm-2-codechat-bison",
@@ -3011,7 +3154,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 1024.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "google/palm-2-chat-bison",
@@ -3031,7 +3175,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 1024.0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "gryphe/mythomax-l2-13b",
@@ -3051,7 +3196,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "meta-llama/llama-2-13b-chat",
@@ -3071,7 +3217,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4-0314",
@@ -3091,7 +3238,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-4",
@@ -3111,7 +3259,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-0301",
@@ -3131,7 +3280,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo-0125",
@@ -3151,7 +3301,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "openai/gpt-3.5-turbo",
@@ -3171,7 +3322,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 4096.0,
     isModerated: true,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
   {
     id: "black-forest-labs/flux-schnell",
@@ -3191,7 +3343,7 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "replicate",
-    type: "image",incompatible: [],
+    type: "image",    incompatible: [],
   },
   {
     id: "lucataco/xtts-v2:684bc3855b37866c0c65add2ff39c78f3dea3f4ff103a436465326e0f438d55e",
@@ -3211,7 +3363,7 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "replicate",
-    type: "tts",incompatible: [],
+    type: "tts",    incompatible: [],
   },
   {
     id: "lucataco/flux-dev-lora",
@@ -3231,7 +3383,7 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "replicate",
-    type: "image",incompatible: [],
+    type: "image",    incompatible: [],
   },
   {
     id: "lucataco/animate-diff:beecf59c4aee8d81bf04f0381033dfa10dc16e845b4ae00d281e2fa377e48a9f",
@@ -3251,7 +3403,7 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "replicate",
-    type: "video",incompatible: [],
+    type: "video",    incompatible: [],
   },
   {
     id: "yorickvp/llava-13b",
@@ -3271,7 +3423,7 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "replicate",
-    type: "image",incompatible: [],
+    type: "image",    incompatible: [],
   },
   {
     id: "mattshumer/reflection-70b",
@@ -3291,7 +3443,8 @@ export const models: Model[] = [
     maxCompletionTokensTopProvider: 0,
     isModerated: false,
     preferredProvider: "openrouter",
-    type: "llm",incompatible: [],
+    type: "llm",
+    incompatible: [],
   },
 ];
 
