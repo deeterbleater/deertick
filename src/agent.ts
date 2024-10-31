@@ -1,8 +1,20 @@
-import ConfigParser from "configparser";
-import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ini from 'ini';
+import axios from 'axios';
 import { Model, validateProvider, modelById } from './modelData';
+
+// Load and parse config.ini
+const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', 'conf', 'config.ini'), 'utf-8'));
+
+// Load Keys from config
+const REPLICATE_API_TOKEN = config.keys.REPLICATE_API_TOKEN;
+const OPENAI_API_TOKEN = config.keys.OPENAI_API_TOKEN; 
+const ANTHROPIC_API_KEY = config.keys.ANTHROPIC_API_KEY;
+const HUGGINGFACE_API_KEY = config.keys.HUGGINGFACE_API_KEY;
+const OPENROUTER_API_KEY = config.keys.OPENROUTER_API_KEY;
+const MISTRAL_API_KEY = config.keys.MISTRAL_API_KEY;
+const GOOGLE_API_KEY = config.keys.GOOGLE_API_KEY;
 
 interface AgentSettings {
     top_k: number;
@@ -190,34 +202,35 @@ export class Agent {
     }
 
     private getHeaders(): Record<string, string> {
-        const config = new ConfigParser();
-        config.read('config.ini');
-
         const headers: Record<string, Record<string, string>> = {
             "openai": {
-                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+                "Authorization": `Bearer ${OPENAI_API_TOKEN}`,
                 "Content-Type": "application/json"
             },
             "openrouter": {
-                "Authorization": `Bearer ${config.get("keys", "OPENROUTER_API_KEY")}`,
+                "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "HTTP-Referer": "https://deertick.io",
                 "X-Title": "DeerTick",
                 "Content-Type": "application/json"
             },
             "anthropic": {
-                "Authorization": `Bearer ${process.env.ANTHROPIC_API_KEY}`,
+                "Authorization": `Bearer ${ANTHROPIC_API_KEY}`,
                 "Content-Type": "application/json"
             },
             "mistral": {
-                "Authorization": `Bearer ${process.env.MISTRAL_API_KEY}`,
+                "Authorization": `Bearer ${MISTRAL_API_KEY}`,
                 "Content-Type": "application/json"
             },
             "replicate": {
-                "Authorization": `Bearer ${process.env.REPLICATE_API_KEY}`,
+                "Authorization": `Bearer ${REPLICATE_API_TOKEN}`,
                 "Content-Type": "application/json"
             },
             "huggingface": {
-                "Authorization": `Bearer ${config.get("keys", "HUGGINGFACE_API_KEY")}`,
+                "Authorization": `Bearer ${HUGGINGFACE_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            "google": {
+                "Authorization": `Bearer ${GOOGLE_API_KEY}`,
                 "Content-Type": "application/json"
             }
         };
