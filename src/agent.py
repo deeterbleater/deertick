@@ -15,7 +15,7 @@ import aiohttp
 from typing import Optional, Dict, Any
 import time
 
-from model_data import providers, models, voice_samples, list_all, ModelHead, validate_provider, model_by_id
+from model_data import providers, voice_samples, list_all, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
 config.read("config.ini")
