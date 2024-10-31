@@ -3648,24 +3648,29 @@ Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
   }
 });
 
-export function validateProvider(provider: string, model: string): string {
-  if (!provider) {
-    const foundModel = modelByName(model);
-    return foundModel ? foundModel.preferredProvider : 'openrouter';
+// File reading utility
+export function fileRead(filePath: string): string {
+  try {
+    return readFileSync(filePath, 'utf-8');
+  } catch (error) {
+    console.error(`Error reading file ${filePath}:`, error);
+    return '';
   }
-  
-  const providerIndex = parseInt(provider);
-  if (!isNaN(providerIndex) && providerIndex >= 0 && providerIndex < providers.length) {
-    return providers[providerIndex];
-  }
-  
-  return provider;
 }
 
 export function listModels(): void {
   console.log("\nmodels:\n");
   models.forEach(model => {
     console.log(`"${model.name}": "${model.id}",`);
+  });
+}
+
+export function listAll(): void {
+  listModels()
+
+  console.log("\nproviders:\n");
+  providers.forEach((provider, index) => {
+    console.log(`${index}. ${provider}`);
   });
 }
 
@@ -3678,14 +3683,18 @@ export function indexToModelName(index: number): string {
   return models[index].name;
 }
 
-// File reading utility
-export function fileRead(filePath: string): string {
-  try {
-    return readFileSync(filePath, 'utf-8');
-  } catch (error) {
-    console.error(`Error reading file ${filePath}:`, error);
-    return '';
+export function validateProvider(provider: string, model: string): string {
+  if (!provider) {
+    const foundModel = modelByName(model);
+    return foundModel ? foundModel.preferredProvider : 'openrouter';
+  } else {
+    const providerIndex = parseInt(provider);
+    if (!isNaN(providerIndex) && providerIndex >= 0 && providerIndex < providers.length) {
+      return providers[providerIndex];
+    }
   }
+  
+  return provider;
 }
 
 // Voice samples interface and implementation
@@ -3716,15 +3725,3 @@ export function loadVoiceSamples(filePath: string = 'samples.csv'): void {
 
 // Initialize voice samples on module load
 loadVoiceSamples();
-
-export function listAll(): void {
-  console.log("\nmodels:\n");
-  models.forEach(model => {
-    console.log(`"${model.name}": "${model.id}",`);
-  });
-  
-  console.log("\nproviders:\n");
-  providers.forEach((provider, index) => {
-    console.log(`${index}. ${provider}`);
-  });
-}
