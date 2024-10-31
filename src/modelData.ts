@@ -3597,6 +3597,55 @@ export function spawnVariant(modelId: string, varstr: string): Model | undefined
   return varModel;
 }
 
+// Generate free model variants
+Object.entries(modelsFree).forEach(([modelId, tier]) => {
+  const newModel = spawnVariant(modelId, "free");
+  if (newModel) {
+    let length = 0;
+    let tokens = 0;
+
+    switch(tier) {
+      case 1:
+        length = 4096;
+        tokens = 2048;
+        break;
+      case 2:
+        length = 8192;
+        tokens = 4096;
+        break;
+    }
+
+    newModel[ModelHead.contextLengthTopProvider] = length;
+    newModel[ModelHead.maxCompletionTokensTopProvider] = tokens;
+    newModel[ModelHead.costPrompt] = 0;
+    newModel[ModelHead.costCompletion] = 0;
+    models.push(newModel);
+  }
+});
+
+// Generate model variants
+modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
+  const newModel = spawnVariant(modelId, "extended");
+  if (newModel) {
+    newModel[ModelHead.contextLength] = contextLength;
+    newModel[ModelHead.costPrompt] = costPrompt;
+    newModel[ModelHead.costCompletion] = costCompletion;
+    newModel[ModelHead.contextLengthTopProvider] = contextLengthTop;
+    newModel[ModelHead.maxCompletionTokensTopProvider] = maxTokens;
+    models.push(newModel);
+  }
+});
+
+// Generate nitro model variants
+Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
+  const newModel = spawnVariant(modelId, "nitro");
+  if (newModel) {
+    newModel[ModelHead.contextLengthTopProvider] = throughput;
+    newModel[ModelHead.maxCompletionTokensTopProvider] = throughput;
+    models.push(newModel);
+  }
+});
+
 export function validateProvider(provider: string, model: string): string {
   if (!provider) {
     const foundModel = modelByName(model);
@@ -3636,55 +3685,6 @@ export function fileRead(filePath: string): string {
     return '';
   }
 }
-
-// Generate model variants
-modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
-    const newModel = spawnVariant(modelId, "extended");
-    if (newModel) {
-        newModel[ModelHead.contextLength] = contextLength;
-        newModel[ModelHead.costPrompt] = costPrompt;
-        newModel[ModelHead.costCompletion] = costCompletion;
-        newModel[ModelHead.contextLengthTopProvider] = contextLengthTop;
-        newModel[ModelHead.maxCompletionTokensTopProvider] = maxTokens;
-        models.push(newModel);
-    }
-});
-
-// Generate free model variants
-Object.entries(modelsFree).forEach(([modelId, tier]) => {
-    const newModel = spawnVariant(modelId, "free");
-    if (newModel) {
-        let length = 0;
-        let tokens = 0;
-        
-        switch(tier) {
-            case 1:
-                length = 4096;
-                tokens = 2048;
-                break;
-            case 2:
-                length = 8192;
-                tokens = 4096;
-                break;
-        }
-        
-        newModel[ModelHead.contextLengthTopProvider] = length;
-        newModel[ModelHead.maxCompletionTokensTopProvider] = tokens;
-        newModel[ModelHead.costPrompt] = 0;
-        newModel[ModelHead.costCompletion] = 0;
-        models.push(newModel);
-    }
-});
-
-// Generate nitro model variants
-Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
-    const newModel = spawnVariant(modelId, "nitro");
-    if (newModel) {
-        newModel[ModelHead.contextLengthTopProvider] = throughput;
-        newModel[ModelHead.maxCompletionTokensTopProvider] = throughput;
-        models.push(newModel);
-    }
-});
 
 // Voice samples interface and implementation
 export interface VoiceSample {
