@@ -20,8 +20,6 @@ from model_data import providers, models, voice_samples, list_all, ModelHead, va
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-df = pd.read_csv('samples.csv')
-
 # Load Keys
 os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
 os.environ["OPENAI_API_TOKEN"] = config.get("keys", "OPENAI_API_TOKEN")
