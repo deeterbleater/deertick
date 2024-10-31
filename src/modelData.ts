@@ -3601,7 +3601,7 @@ export function spawnVariant(modelId: string, varstr: string): Model | undefined
 
 // Generate free model variants
 Object.entries(modelsFree).forEach(([modelId, tier]) => {
-  const newModel = spawnVariant(modelId, "free");
+  let newModel = spawnVariant(modelId, "free");
   if (newModel) {
     let length = 0;
     let tokens = 0;
@@ -3617,33 +3617,33 @@ Object.entries(modelsFree).forEach(([modelId, tier]) => {
         break;
     }
 
-    newModel[ModelHead.contextLengthTopProvider] = length;
-    newModel[ModelHead.maxCompletionTokensTopProvider] = tokens;
-    newModel[ModelHead.costPrompt] = 0;
-    newModel[ModelHead.costCompletion] = 0;
+    newModel.contextLengthTopProvider = length;
+    newModel.maxCompletionTokensTopProvider = tokens;
+    newModel.costPrompt = 0;
+    newModel.costCompletion = 0;
     models.push(newModel);
   }
 });
 
 // Generate model variants
 modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
-  const newModel = spawnVariant(modelId, "extended");
+  let newModel = spawnVariant(modelId, "extended");
   if (newModel) {
-    newModel[ModelHead.contextLength] = contextLength;
-    newModel[ModelHead.costPrompt] = costPrompt;
-    newModel[ModelHead.costCompletion] = costCompletion;
-    newModel[ModelHead.contextLengthTopProvider] = contextLengthTop;
-    newModel[ModelHead.maxCompletionTokensTopProvider] = maxTokens;
+    newModel.contextLength = contextLength;
+    newModel.costPrompt = costPrompt;
+    newModel.costCompletion = costCompletion;
+    newModel.contextLengthTopProvider = contextLengthTop;
+    newModel.maxCompletionTokensTopProvider = maxTokens;
     models.push(newModel);
   }
 });
 
 // Generate nitro model variants
 Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
-  const newModel = spawnVariant(modelId, "nitro");
+  let newModel = spawnVariant(modelId, "nitro");
   if (newModel) {
-    newModel[ModelHead.contextLengthTopProvider] = throughput;
-    newModel[ModelHead.maxCompletionTokensTopProvider] = throughput;
+    newModel.contextLengthTopProvider = throughput;
+    newModel.maxCompletionTokensTopProvider = throughput;
     models.push(newModel);
   }
 });
