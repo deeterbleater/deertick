@@ -3579,7 +3579,7 @@ export const providers = [
     'openai'
 ];
 
-export function modelFind(field: any, head: ModelHead): Model | undefined {
+export function modelFind(field: string, head: ModelHead): Model | undefined {
   return models.find(model => model[Object.keys(model)[head]] === field);
 }
 
