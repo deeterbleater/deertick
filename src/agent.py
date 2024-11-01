@@ -113,7 +113,6 @@ class Agent:
         self.repetition_penalty = 1.0
         self.min_p = 0.0
         self.top_a = 0.0
-        self.seed = None
         self.logit_bias = {}
         self.logprobs = False
         self.top_logprobs = None

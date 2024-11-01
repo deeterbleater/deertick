@@ -142,7 +142,6 @@ export class Agent {
         this.repetitionPenalty = 1.0;
         this.minP = 0.0;
         this.topA = 0.0;
-        this.seed = null;
         this.logitBias = {};
         this.logprobs = false;
         this.topLogprobs = null;
