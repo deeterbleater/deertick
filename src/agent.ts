@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ini from 'ini';
 import axios from 'axios';
-import { Model, validateProvider, modelById } from './modelData';
+import {Model, validateProvider, modelById, providers} from './modelData';
 
 // Load and parse config.ini
 const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', 'conf', 'config.ini'), 'utf-8'));
