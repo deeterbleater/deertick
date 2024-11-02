@@ -188,6 +188,20 @@ export class Agent {
         this.updateProvider(provider);
     }
 
+    public updateProvider(provider: string): void {
+        const modelData = modelById(this.model);
+        if (modelData) {
+            if (this.provider in providers) {
+                console.log(`${this.provider}: ${this.model}`);
+                if (this.provider === 'openai') {
+                    // Initialize OpenAI client
+                }
+            } else {
+                console.log(`This provider has not been implemented: ${provider}`);
+            }
+        }
+    }
+
     private getApiUrl(): string {
         const providerUrls: Record<string, string> = {
             "openai": "https://api.openai.com/v1/chat/completions",
@@ -235,20 +249,6 @@ export class Agent {
         };
 
         return headers[this.provider] || {};
-    }
-
-    public updateProvider(provider: string): void {
-        const modelData = modelById(this.model);
-        if (modelData) {
-            if (this.provider in providers) {
-                console.log(`${this.provider}: ${this.model}`);
-                if (this.provider === 'openai') {
-                    // Initialize OpenAI client
-                }
-            } else {
-                console.log(`This provider has not been implemented: ${provider}`);
-            }
-        }
     }
 
     public async generateResponse(systemPrompt: string, prompt: string): Promise<string> {
