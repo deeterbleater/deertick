@@ -191,7 +191,7 @@ export class Agent {
     public updateProvider(provider: string): void {
         const modelData = modelById(this.model);
         if (modelData) {
-            if (this.provider in providers) {
+            if (providers.includes(this.provider)) {
                 console.log(`${this.provider}: ${this.model}`);
                 if (this.provider === 'openai') {
                     // Initialize OpenAI client
