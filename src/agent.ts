@@ -332,5 +332,199 @@ export class Agent {
         return typeof response === 'string' ? response : Array.isArray(response) ? response.join('') : '';
     }
 
-    // Additional methods for image generation, TTS, etc. would go here
+    public createTool(name: string, description: string, parameters: any): void {
+        const newTool = { ...this.toolTemplate };
+        newTool.function.name = name;
+        newTool.function.description = description;
+        
+        for (const [key, value] of Object.entries(parameters)) {
+            if (key === 'properties') {
+                newTool.function.parameters.properties = {
+                    ...newTool.function.parameters.properties,
+                    ...value
+                };
+            } else if (key === 'required') {
+                newTool.function.parameters.required = [...value];
+            } else {
+                (newTool.function.parameters as any)[key] = value;
+            }
+        }
+
+        const tool = {
+            type: "function",
+            function: {
+                name,
+                description,
+                parameters
+            }
+        };
+        
+        this.tools.push(tool);
+    }
+
+    public saveConversation(): void {
+        const conversationId = crypto.randomUUID();
+        const filename = `conversation_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+        
+        const conversationData = {
+            id: conversationId,
+            system: this.conversation.system,
+            user: this.conversation.user,
+            agent: this.conversation.agent
+        };
+
+        fs.writeFileSync(filename, JSON.stringify(conversationData, null, 2));
+        console.log(`Conversation saved to ${filename}`);
+    }
+
+    public loadConversation(filename: string): void {
+        const data = JSON.parse(fs.readFileSync(filename, 'utf-8'));
+        this.conversation.system = data.system;
+        this.conversation.user = data.user;
+        this.conversation.agent = data.agent;
+        console.log(`Conversation loaded from ${filename}`);
+    }
+
+    private imgError(prompt: string, rejectedPrompt: string): void {
+        console.log(`Rejected image prompt: ${rejectedPrompt}`);
+        const admonish = "sorry, this description was flagged for not being safe for work," +
+            "please tone it down for the heartless censors. describe it again, please.";
+        const imgPrompt = `${prompt}your rejected prompt:${rejectedPrompt}${admonish}`;
+        this.generateImage(imgPrompt);
+    }
+
+    public async generateImage(prompt: string, filePath?: string): Promise<string | string[]> {
+        if (!this.seed) {
+            this.seed = Math.floor(Math.random() * (1000000 - 9000) + 9000);
+        }
+
+        let output: string | string[] = [];
+
+        if (this.provider === 'replicate') {
+            const input: any = {
+                prompt,
+                num_outputs: this.numOutputs,
+                seed: this.seed,
+                output_format: this.outputFormat
+            };
+
+            if (this.model === 'flux-dev-lora') {
+                input.hf_lora = this.model;
+                input.lora_scale = this.loraScale;
+                input.aspect_ratio = this.aspectRatio;
+                input.guidance_scale = this.guidanceScale;
+                input.num_inference_steps = this.numInferenceSteps;
+                input.disable_safety_checker = this.disableSafetyChecker;
+                
+                // Call replicate API
+                const response = await axios.post('https://api.replicate.com/v1/predictions', {
+                    version: "a22c463f11808638ad5e2ebd582e07a469031f48dd567366fb4c6fdab91d614d",
+                    input
+                }, {
+                    headers: this.headers
+                });
+                output = response.data.urls || [];
+            } else if (this.modelKey === 'animate-diff') {
+                const response = await axios.post('https://api.replicate.com/v1/predictions', {
+                    version: this.model,
+                    input: {
+                        path: "toonyou_beta3.safetensors",
+                        seed: this.seed,
+                        steps: this.numInferenceSteps,
+                        prompt: prompt,
+                        n_prompt: "badhandv4, easynegative, ng_deepnegative_v1_75t, verybadimagenegative_v1.3, bad-artist, bad_prompt_version2-neg, teeth",
+                        motion_module: "mm_sd_v14",
+                        guidance_scale: this.guidanceScale
+                    }
+                }, {
+                    headers: this.headers
+                });
+                output = response.data.urls || [];
+            } else {
+                console.log(`seed: ${this.seed}`);
+                try {
+                    const response = await axios.post('https://api.replicate.com/v1/predictions', {
+                        version: this.model,
+                        input: {
+                            ...input,
+                            quality: "standard"
+                        }
+                    }, {
+                        headers: this.headers
+                    });
+                    output = response.data.urls || [];
+                } catch (error) {
+                    console.error(error);
+                    this.imgError(prompt, output as string);
+                }
+            }
+
+            if (output && (typeof output === 'string' || output.length > 0)) {
+                const urls = Array.isArray(output) ? output : [output];
+                for (const imageUrl of urls) {
+                    const imagePath = filePath || `${this.imgPath}${this.imgPath ? '/' : ''}${this.modelKey}_image_${new Date().toISOString().replace(/[:.]/g, '-')}.${this.outputFormat}`;
+                    
+                    try {
+                        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+                        fs.writeFileSync(imagePath, response.data);
+                        console.log(`Image saved to: ${imagePath}`);
+                    } catch (error) {
+                        console.error(`Failed to download image: ${error}`);
+                    }
+                }
+            } else {
+                console.log("No valid image URL received");
+            }
+        } else {
+            console.log(`Invalid provider: ${this.provider}`);
+            return '';
+        }
+
+        this.content = output;
+        return output;
+    }
+
+    public async tts(text: string, audioUrl: string, filePath?: string): Promise<string> {
+        console.log(`text: ${text}`);
+        console.log(`audio_url: ${audioUrl}`);
+
+        const input = {
+            speaker: audioUrl,
+            text: text
+        };
+
+        try {
+            const response = await axios.post('https://api.replicate.com/v1/predictions', {
+                version: this.model,
+                input
+            }, {
+                headers: this.headers
+            });
+
+            const output = response.data.urls?.[0] || '';
+
+            if (output) {
+                const audioPath = filePath || `${this.ttsPath}/${new Date().toISOString().replace(/[:.]/g, '-')}.wav`;
+                
+                const audioResponse = await axios.get(output, { responseType: 'arraybuffer' });
+                fs.writeFileSync(audioPath, audioResponse.data);
+                console.log(`Audio saved to: ${audioPath}`);
+                
+                this.content = output;
+                return output;
+            } else {
+                console.log("No valid audio URL received");
+                return '';
+            }
+        } catch (error) {
+            console.error('Error generating audio:', error);
+            return '';
+        }
+    }
+
+    public help(): void {
+        // Implement the help function based on your needs
+        console.log("Available models and their capabilities:");
+        // Add your help text here
+    }
 }
