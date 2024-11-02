@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as ini from 'ini';
 import axios from 'axios';
 import OpenAI from 'openai';
-import {Model, validateProvider, modelById, providers} from './modelData';
+import {Model, validateProvider, modelById, providers, voiceSamples} from './modelData';
 
 // Load and parse config.ini
 const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', 'conf', 'config.ini'), 'utf-8'));
@@ -360,6 +360,14 @@ export class Agent {
     public async poke(prompt: string): Promise<string> {
         const response = await this.generateResponse(this.systemPrompt, prompt);
         return typeof response === 'string' ? response : Array.isArray(response) ? response.join('') : '';
+    }
+
+    public async ttsPoke(prompt: string, voice: string = "michael_voice"): Promise<string> {
+        const voiceUrl = voiceSamples.get(voice);
+        if (!voiceUrl) {
+            throw new Error(`Voice sample ${voice} not found`);
+        }
+        return await this.tts(prompt, voiceUrl);
     }
 
     public saveConversation(): void {
