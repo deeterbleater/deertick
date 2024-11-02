@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ini from 'ini';
 import axios from 'axios';
+import OpenAI from 'openai';
 import {Model, validateProvider, modelById, providers} from './modelData';
 
 // Load and parse config.ini
@@ -194,7 +195,9 @@ export class Agent {
             if (providers.includes(this.provider)) {
                 console.log(`${this.provider}: ${this.model}`);
                 if (this.provider === 'openai') {
-                    // Initialize OpenAI client
+                    this.client = new OpenAI({
+                        apiKey: config.keys.OPENAI_API_TOKEN
+                    });
                 }
             } else {
                 console.log(`This provider has not been implemented: ${provider}`);
