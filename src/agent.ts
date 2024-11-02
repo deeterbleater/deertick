@@ -99,6 +99,7 @@ export class Agent {
     private rateLimitMs: number;
     private maxConcurrent: number;
     private lastRequestTime: number;
+    private client: OpenAI | undefined;
 
     constructor(
         model: string,
