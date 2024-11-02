@@ -206,6 +206,36 @@ export class Agent {
         }
     }
 
+    public createTool(name: string, description: string, parameters: any): void {
+        const newTool = { ...this.toolTemplate };
+        newTool.function.name = name;
+        newTool.function.description = description;
+
+        for (const [key, value] of Object.entries(parameters)) {
+            if (key === 'properties') {
+                newTool.function.parameters.properties = {
+                    ...newTool.function.parameters.properties,
+                    ...value
+                };
+            } else if (key === 'required') {
+                newTool.function.parameters.required = [...value];
+            } else {
+                (newTool.function.parameters as any)[key] = value;
+            }
+        }
+
+        const tool = {
+            type: "function",
+            function: {
+                name,
+                description,
+                parameters
+            }
+        };
+
+        this.tools.push(tool);
+    }
+
     private getApiUrl(): string {
         const providerUrls: Record<string, string> = {
             "openai": "https://api.openai.com/v1/chat/completions",
@@ -330,36 +360,6 @@ export class Agent {
     public async poke(prompt: string): Promise<string> {
         const response = await this.generateResponse(this.systemPrompt, prompt);
         return typeof response === 'string' ? response : Array.isArray(response) ? response.join('') : '';
-    }
-
-    public createTool(name: string, description: string, parameters: any): void {
-        const newTool = { ...this.toolTemplate };
-        newTool.function.name = name;
-        newTool.function.description = description;
-        
-        for (const [key, value] of Object.entries(parameters)) {
-            if (key === 'properties') {
-                newTool.function.parameters.properties = {
-                    ...newTool.function.parameters.properties,
-                    ...value
-                };
-            } else if (key === 'required') {
-                newTool.function.parameters.required = [...value];
-            } else {
-                (newTool.function.parameters as any)[key] = value;
-            }
-        }
-
-        const tool = {
-            type: "function",
-            function: {
-                name,
-                description,
-                parameters
-            }
-        };
-        
-        this.tools.push(tool);
     }
 
     public saveConversation(): void {
