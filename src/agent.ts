@@ -371,6 +371,7 @@ export class Agent {
     }
 
     public saveConversation(): void {
+        // Create a DataFrame from the conversation history
         const conversationId = crypto.randomUUID();
         const filename = `conversation_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
         
@@ -381,6 +382,7 @@ export class Agent {
             agent: this.conversation.agent
         };
 
+        // Generate filename with current datetime, Save the conversation to a JSON file
         fs.writeFileSync(filename, JSON.stringify(conversationData, null, 2));
         console.log(`Conversation saved to ${filename}`);
     }
