@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as ini from 'ini';
 import axios from 'axios';
 import OpenAI from 'openai';
-import {Model, validateProvider, modelById, providers, voiceSamples} from './modelData';
+import {Model, validateProvider, modelById, providers, voiceSamples, listAll} from './modelData';
 
 // Load and parse config.ini
 const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', 'conf', 'config.ini'), 'utf-8'));
@@ -534,8 +534,6 @@ export class Agent {
     }
 
     public help(): void {
-        // Implement the help function based on your needs
-        console.log("Available models and their capabilities:");
-        // Add your help text here
+        listAll();
     }
 }
