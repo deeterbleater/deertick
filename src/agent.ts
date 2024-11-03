@@ -513,6 +513,7 @@ export class Agent {
 
             const output = response.data.urls?.[0] || '';
 
+            // Download the audio file
             if (output) {
                 const audioPath = filePath || `${this.ttsPath}/${new Date().toISOString().replace(/[:.]/g, '-')}.wav`;
                 
