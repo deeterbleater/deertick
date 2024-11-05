@@ -1,5 +1,5 @@
 import { Agent } from './agent';
-import { listModels, voiceSamples, ModelHead, validateProvider, modelById } from './modelData';
+import { listModels, voiceSamples, validateProvider, modelById } from './modelData';
 import chalk from 'chalk';
 import * as readline from 'readline';
 
