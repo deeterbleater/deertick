@@ -43,7 +43,7 @@ export class TerminalChat {
         const connectedModel = modelById(model);
         if (!connectedModel) return;
 
-        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel[ModelHead.name]} (/models/${connectedModel[ModelHead.id]}).`);
+        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel.name} (/models/${connectedModel.id}).`);
         if (isPricy) {
             msg += " They may have higher prices.";
         }
@@ -173,7 +173,7 @@ export class TerminalChat {
                     try {
                         const model = modelById(agent.nickname);
                         if (model) {
-                            switch (model[ModelHead.type]) {
+                            switch (model.type) {
                                 case 'llm':
                                     if (this.systemPrompt && !agent.systemPrompt) {
                                         agent.systemPrompt = this.systemPrompt;

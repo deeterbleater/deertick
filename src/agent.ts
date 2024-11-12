@@ -45,13 +45,13 @@ interface Tool {
 }
 
 export class Agent {
-    private model: string;
+    model: string;
     private provider: string;
-    private content: string;
+    content: string;
     private modelKey: string;
-    private nickname: string;
-    private color: string | null;
-    private font: string | null;
+    nickname: string;
+    color: string | null;
+    font: string | null;
     private request: any;
     private lastResponse: string;
     private lastPrompt: string;
@@ -61,7 +61,7 @@ export class Agent {
         agent: string[];
     };
     private history: boolean;
-    private systemPrompt: string;
+    systemPrompt: string;
     private response: any;
     private ttsPath: string;
     private imgPath: string;
@@ -73,7 +73,7 @@ export class Agent {
     private numInferenceSteps: number;
     private disableSafetyChecker: boolean;
     private seed: number;
-    private audioPath: string;
+    audioPath: string;
     private maxTokens: number;
     private minTokens: number;
     private temperature: number;
@@ -91,7 +91,7 @@ export class Agent {
     private stop: string[];
     private toolChoice: any;
     private promptTemplate: string;
-    private settings: AgentSettings;
+    settings: AgentSettings;
     private tools: Tool[];
     private toolTemplate: Tool;
     private apiUrl: string;
