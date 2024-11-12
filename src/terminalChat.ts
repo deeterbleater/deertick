@@ -151,6 +151,18 @@ export class TerminalChat {
         rl.close();
     }
 
+    private endpointStr(model: string, descstr: string, isPricy: boolean): void {
+        const connectedModel = modelById(model);
+        if (!connectedModel) return;
+
+        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel.name} (/models/${connectedModel.id}).`);
+        if (isPricy) {
+            msg += " They may have higher prices.";
+        }
+        msg += "_\n-----------------------";
+        console.log(msg);
+    }
+
     private connectMsg(connectedModel: string): void {
         console.log(chalk.green(`*${connectedModel} connected to the chat*`));
         
@@ -176,18 +188,6 @@ export class TerminalChat {
         } else if (connectedModel.includes("nitro")) {
             this.endpointStr(connectedModel, "higher-throughput", true);
         }
-    }
-
-    private endpointStr(model: string, descstr: string, isPricy: boolean): void {
-        const connectedModel = modelById(model);
-        if (!connectedModel) return;
-
-        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel.name} (/models/${connectedModel.id}).`);
-        if (isPricy) {
-            msg += " They may have higher prices.";
-        }
-        msg += "_\n-----------------------";
-        console.log(msg);
     }
 
     private help(): void {
