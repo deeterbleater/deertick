@@ -3701,5 +3701,8 @@ export function loadVoiceSamples(filePath: string = 'samples.csv'): void {
   }
 }
 
+// list number of models
+console.log(`Loaded ${models.length} models`);
+
 // Initialize voice samples on module load
 loadVoiceSamples();
