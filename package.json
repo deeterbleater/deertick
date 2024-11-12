@@ -31,6 +31,8 @@
     "@types/chalk": "^0.4.31",
     "@types/cheerio": "^0.22.35",
     "@types/jest": "^29.5.12",
+    "@types/lodash.clonedeep": "^4.5.9",
+    "@types/lodash.concat": "^4.5.9",
     "@types/node": "^20.17.4",
     "@types/pg": "^8.11.0",
     "@types/selenium-webdriver": "^4.1.21",
