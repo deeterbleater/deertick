@@ -147,19 +147,19 @@ export class TerminalChat {
                 this.agents[agentIndex].systemPrompt = systemPrompt;
             } else {
                 // Handle normal chat interaction
-                for (let i = 0; i < this.agents.length; i++) {
-                    if (prompt.includes(`@${this.agents[i].model}`) || prompt.includes(`@${this.agents[i].nickname}`)) {
-                        respondingAgents.push(this.agents[i]);
-                    } else if (prompt.includes(`${this.agents[i].nickname}>`) || prompt.includes(`<${this.agents[i].model}`)) {
-                        if (!respondingAgents.includes(this.agents[i])) {
+                for (const element of this.agents) {
+                    if (prompt.includes(`@${element.model}`) || prompt.includes(`@${element.nickname}`)) {
+                        respondingAgents.push(element);
+                    } else if (prompt.includes(`${element.nickname}>`) || prompt.includes(`<${element.model}`)) {
+                        if (!respondingAgents.includes(element)) {
                             if (Math.random() < nameMention) {
-                                respondingAgents.push(this.agents[i]);
+                                respondingAgents.push(element);
                             }
                         }
                     } else {
                         if (Math.random() < randomResponse) {
-                            if (!respondingAgents.includes(this.agents[i])) {
-                                respondingAgents.push(this.agents[i]);
+                            if (!respondingAgents.includes(element)) {
+                                respondingAgents.push(element);
                             }
                         }
                     }
