@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
-var concat = require('lodash.concat');
-var cloneDeep = require('lodash.clonedeep');
+import concat from 'lodash.concat';
+import cloneDeep from 'lodash.clonedeep';
 
 export interface Model {
   id: string;
