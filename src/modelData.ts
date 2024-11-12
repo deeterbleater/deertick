@@ -3568,13 +3568,11 @@ export function modelById(modelId: string): Model | undefined {
 }
 
 export function spawnVariant(modelId: string, varstr: string): Model | undefined {
-  const baseModel = cloneDeep(modelById(modelId));
+  let baseModel = cloneDeep(modelById(modelId));
   if (!baseModel) return undefined;
-
-  const varModel = { ...baseModel };
-  varModel.name = `${varModel.name} (${varstr})`;
-  varModel.id = `${varModel.id}:${varstr}`;
-  return varModel;
+  baseModel.name = `${baseModel.name} (${varstr})`;
+  baseModel.id = `${baseModel.id}:${varstr}`;
+  return baseModel;
 }
 
 // Generate free model variants
