@@ -12,67 +12,6 @@ export class TerminalChat {
         this.systemPrompt = initAgent.systemPrompt;
     }
 
-    private connectMsg(connectedModel: string): void {
-        console.log(chalk.green(`*${connectedModel} connected to the chat*`));
-        
-        // Print license related info
-        if (connectedModel.includes("cohere")) {
-            console.log("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~");
-        } else if (connectedModel.includes("gemma")) {
-            console.log("~ Usage of Gemma is subject to Google's Gemma Terms of Use: https://ai.google.dev/gemma/terms ~");
-        } else if (connectedModel.includes("google/g")) {
-            console.log("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~");
-        } else if (connectedModel.includes("llama")) {
-            console.log("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~");
-        } else if (connectedModel.includes("qwen/")) {
-            console.log("~ Usage of this model is subject to Tongyi Qianwen LICENSE AGREEMENT: https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE ~");
-        }
-
-        // Print variant related info
-        if (connectedModel.includes("extended")) {
-            this.endpointStr(connectedModel, "extended-context", true);
-        } else if (connectedModel.includes("free")) {
-            console.log(chalk.green("_Outputs may be cached. Read about rate limits in ./docs/limits._"));
-            this.endpointStr(connectedModel, "free, rate-limited", false);
-        } else if (connectedModel.includes("nitro")) {
-            this.endpointStr(connectedModel, "higher-throughput", true);
-        }
-    }
-
-    private endpointStr(model: string, descstr: string, isPricy: boolean): void {
-        const connectedModel = modelById(model);
-        if (!connectedModel) return;
-
-        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel.name} (/models/${connectedModel.id}).`);
-        if (isPricy) {
-            msg += " They may have higher prices.";
-        }
-        msg += "_\n-----------------------";
-        console.log(msg);
-    }
-
-    private help(): void {
-        console.log(chalk.magenta("Available commands:"));
-        console.log(`
-        %exit - exit the chat
-        %help - show this message
-        %clear - clear the chat history
-        %file_read - show a file's contents to an agent
-        %new_agent - create a new agent
-        %remove_agent - remove an agent
-        %list_agents - list all agents
-        %agent_settings - change agent settings
-        %set_global_system_prompt - set the system prompt for all agents
-        %set_agent_system_prompt - set the system prompt for a specific agent
-        `);
-    }
-
-    private listAgents(): void {
-        this.agents.forEach((agent, i) => {
-            console.log(`${i}. ${agent.model} as ${agent.nickname} with ${agent.color} hair and ${agent.font} font`);
-        });
-    }
-
     public async chat(prompt: string, nameMention: number = 0.5, randomResponse: number = 0.1): Promise<void> {
         const rl = readline.createInterface({
             input: process.stdin,
@@ -210,5 +149,66 @@ export class TerminalChat {
         }
 
         rl.close();
+    }
+
+    private connectMsg(connectedModel: string): void {
+        console.log(chalk.green(`*${connectedModel} connected to the chat*`));
+        
+        // Print license related info
+        if (connectedModel.includes("cohere")) {
+            console.log("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~");
+        } else if (connectedModel.includes("gemma")) {
+            console.log("~ Usage of Gemma is subject to Google's Gemma Terms of Use: https://ai.google.dev/gemma/terms ~");
+        } else if (connectedModel.includes("google/g")) {
+            console.log("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~");
+        } else if (connectedModel.includes("llama")) {
+            console.log("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~");
+        } else if (connectedModel.includes("qwen/")) {
+            console.log("~ Usage of this model is subject to Tongyi Qianwen LICENSE AGREEMENT: https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE ~");
+        }
+
+        // Print variant related info
+        if (connectedModel.includes("extended")) {
+            this.endpointStr(connectedModel, "extended-context", true);
+        } else if (connectedModel.includes("free")) {
+            console.log(chalk.green("_Outputs may be cached. Read about rate limits in ./docs/limits._"));
+            this.endpointStr(connectedModel, "free, rate-limited", false);
+        } else if (connectedModel.includes("nitro")) {
+            this.endpointStr(connectedModel, "higher-throughput", true);
+        }
+    }
+
+    private endpointStr(model: string, descstr: string, isPricy: boolean): void {
+        const connectedModel = modelById(model);
+        if (!connectedModel) return;
+
+        let msg = chalk.green(`_These are ${descstr} endpoints for ${connectedModel.name} (/models/${connectedModel.id}).`);
+        if (isPricy) {
+            msg += " They may have higher prices.";
+        }
+        msg += "_\n-----------------------";
+        console.log(msg);
+    }
+
+    private help(): void {
+        console.log(chalk.magenta("Available commands:"));
+        console.log(`
+        %exit - exit the chat
+        %help - show this message
+        %clear - clear the chat history
+        %file_read - show a file's contents to an agent
+        %new_agent - create a new agent
+        %remove_agent - remove an agent
+        %list_agents - list all agents
+        %agent_settings - change agent settings
+        %set_global_system_prompt - set the system prompt for all agents
+        %set_agent_system_prompt - set the system prompt for a specific agent
+        `);
+    }
+
+    private listAgents(): void {
+        this.agents.forEach((agent, i) => {
+            console.log(`${i}. ${agent.model} as ${agent.nickname} with ${agent.color} hair and ${agent.font} font`);
+        });
     }
 }
