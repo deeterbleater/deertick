@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="index.ts" type="NodeJSConfigurationType" application-parameters="-l" nameIsGenerated="true" path-to-js-file="src/index.ts" working-dir="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>
