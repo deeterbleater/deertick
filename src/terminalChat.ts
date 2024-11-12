@@ -156,11 +156,9 @@ export class TerminalChat {
                                 respondingAgents.push(element);
                             }
                         }
-                    } else {
-                        if (Math.random() < randomResponse) {
-                            if (!respondingAgents.includes(element)) {
-                                respondingAgents.push(element);
-                            }
+                    } else if (Math.random() < randomResponse) {
+                        if (!respondingAgents.includes(element)) {
+                            respondingAgents.push(element);
                         }
                     }
                 }
