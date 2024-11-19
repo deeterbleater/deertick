@@ -1,6 +1,5 @@
 import { readFileSync } from 'fs';
-import concat from 'lodash.concat';
-import cloneDeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 
 export interface Model {
   id: string;
