@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="index.ts" type="NodeJSConfigurationType" application-parameters="-l" nameIsGenerated="true" path-to-js-file="src/index.ts" typescript-loader="bundled" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="index.ts" type="NodeJSConfigurationType" application-parameters="-i -m &quot;Mistral: Pixtral 12B&quot; -p openrouter -s &quot;you are a friend having a conversation with me, my name is sophie&quot;" nameIsGenerated="true" path-to-js-file="src/index.ts" typescript-loader="bundled" working-dir="$PROJECT_DIR$">
     <method v="2" />
   </configuration>
 </component>
