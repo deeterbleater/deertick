@@ -3567,61 +3567,59 @@ export function modelById(modelId: string): Model | undefined {
 }
 
 export function spawnVariant(modelId: string, varstr: string): Model | undefined {
-  let baseModel = cloneDeep(modelById(modelId));
+  const baseModel = models.find(m => m.id === modelId);
   if (!baseModel) return undefined;
-  baseModel.name = `${baseModel.name} (${varstr})`;
-  baseModel.id = `${baseModel.id}:${varstr}`;
-  return baseModel;
+  
+  const clonedModel: Model = {
+    ...cloneDeep(baseModel),
+    name: `${baseModel.name} (${varstr})`,
+    id: `${baseModel.id}:${varstr}`
+  };
+  
+  return clonedModel;
 }
 
-// Generate free model variants
-Object.entries(modelsFree).forEach(([modelId, tier]) => {
-  let newModel = spawnVariant(modelId, "free");
-  if (newModel) {
-    let length = 0;
-    let tokens = 0;
-
-    switch(tier) {
-      case 1:
-        length = 4096;
-        tokens = 2048;
-        break;
-      case 2:
-        length = 8192;
-        tokens = 4096;
-        break;
+// Generate all variants at once
+function generateVariants() {
+  // Free variants
+  Object.entries(modelsFree).forEach(([modelId, tier]) => {
+    const newModel = spawnVariant(modelId, "free");
+    if (newModel) {
+      const [length, tokens] = tier === 1 ? [4096, 2048] : [8192, 4096];
+      newModel.contextLengthTopProvider = length;
+      newModel.maxCompletionTokensTopProvider = tokens;
+      newModel.costPrompt = 0;
+      newModel.costCompletion = 0;
+      models.push(newModel);
     }
+  });
 
-    newModel.contextLengthTopProvider = length;
-    newModel.maxCompletionTokensTopProvider = tokens;
-    newModel.costPrompt = 0;
-    newModel.costCompletion = 0;
-    models.push(newModel);
-  }
-});
+  // Extended variants  
+  modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
+    const newModel = spawnVariant(modelId, "extended");
+    if (newModel) {
+      newModel.contextLength = contextLength;
+      newModel.costPrompt = costPrompt;
+      newModel.costCompletion = costCompletion; 
+      newModel.contextLengthTopProvider = contextLengthTop;
+      newModel.maxCompletionTokensTopProvider = maxTokens;
+      models.push(newModel);
+    }
+  });
 
-// Generate model variants
-modelsExtended.forEach(([modelId, contextLength, costPrompt, costCompletion, contextLengthTop, maxTokens]) => {
-  let newModel = spawnVariant(modelId, "extended");
-  if (newModel) {
-    newModel.contextLength = contextLength;
-    newModel.costPrompt = costPrompt;
-    newModel.costCompletion = costCompletion;
-    newModel.contextLengthTopProvider = contextLengthTop;
-    newModel.maxCompletionTokensTopProvider = maxTokens;
-    models.push(newModel);
-  }
-});
+  // Nitro variants
+  Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
+    const newModel = spawnVariant(modelId, "nitro");
+    if (newModel) {
+      newModel.contextLengthTopProvider = throughput;
+      newModel.maxCompletionTokensTopProvider = throughput;
+      models.push(newModel);
+    }
+  });
+}
 
-// Generate nitro model variants
-Object.entries(modelsNitro).forEach(([modelId, throughput]) => {
-  let newModel = spawnVariant(modelId, "nitro");
-  if (newModel) {
-    newModel.contextLengthTopProvider = throughput;
-    newModel.maxCompletionTokensTopProvider = throughput;
-    models.push(newModel);
-  }
-});
+// Generate all variants when the module loads
+generateVariants();
 
 // File reading utility
 export function fileRead(filePath: string): string {
