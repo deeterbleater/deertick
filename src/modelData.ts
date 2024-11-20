@@ -3563,7 +3563,7 @@ export function modelByName(modelName: string): Model | undefined {
 }
 
 export function modelById(modelId: string): Model | undefined {
-  return models.find(model => model.name == modelId);
+  return models.find(model => model.id == modelId);
 }
 
 export function spawnVariant(modelId: string, varstr: string): Model | undefined {
