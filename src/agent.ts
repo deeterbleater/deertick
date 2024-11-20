@@ -331,11 +331,24 @@ export class Agent {
             { role: "user", content: prompt }
         ];
 
-        const requestBody = {
-            model: this.model,
-            messages,
-            ...this.settings
-        };
+        let requestBody;
+        if (this.provider === 'openrouter') {
+            requestBody = {
+                model: this.model,
+                messages: messages,
+                max_tokens: this.settings.max_tokens,
+                temperature: this.settings.temperature,
+                top_p: this.settings.top_p,
+                presence_penalty: this.settings.presence_penalty,
+                frequency_penalty: this.settings.frequency_penalty
+            };
+        } else {
+            requestBody = {
+                model: this.model,
+                messages,
+                ...this.settings
+            };
+        }
 
         const response = await axios.post(this.apiUrl, requestBody, { headers: this.headers });
         return response.data;
