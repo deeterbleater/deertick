@@ -342,7 +342,7 @@ export class Agent {
     }
 
     private processResponse(response: any): string {
-        let content = '';
+        let content: string;
         
         if (this.provider === 'openai') {
             content = response.choices[0].message.content;
