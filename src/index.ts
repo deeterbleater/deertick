@@ -56,7 +56,7 @@ async function main() {
     }
 
     const { TerminalChat } = await import('./terminalChat');
-    new TerminalChat(agent).chat("");
+    await new TerminalChat(agent).chat("");
   } else if (options.file) {
     const response = await agent.generateResponse(options.system, fileRead(options.file));
     if (options.output) {
