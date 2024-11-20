@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 import {Model, validateProvider, modelById, providers, voiceSamples, listAll} from './modelData';
 
 // Load and parse config.ini
-const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', 'conf', 'config.ini'), 'utf-8'));
+const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'config.ini'), 'utf-8'));
 
 // Load Keys from config
 const REPLICATE_API_TOKEN = config.keys.REPLICATE_API_TOKEN;
