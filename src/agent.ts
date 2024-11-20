@@ -358,8 +358,7 @@ export class Agent {
     }
 
     public async poke(prompt: string): Promise<string> {
-        const response = await this.generateResponse(this.systemPrompt, prompt);
-        return typeof response === 'string' ? response : Array.isArray(response) ? response.join('') : '';
+        return await this.generateResponse(this.systemPrompt, prompt);
     }
 
     public async ttsPoke(prompt: string, voice: string = "michael_voice"): Promise<string> {
