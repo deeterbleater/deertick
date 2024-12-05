@@ -18,7 +18,7 @@ class TerminalChat:
         user_name = input('Username: ')
         history = str()
         self.connect_msg(self.agents[0].model)
-        responding_agents = self.agents
+        responding_agents = []
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
             prompt_low = prompt.lower()
@@ -71,25 +71,8 @@ class TerminalChat:
                 agent_index = int(input('Select Agent Index: '))
                 system_prompt = input('System Prompt: ')
                 self.agents[agent_index].system_prompt = system_prompt
-            elif '@' in prompt:
-                for i in range(len(self.agents)):
-                    if f"@{self.agents[i].model}" in prompt or f"@{self.agents[i].nickname}" in prompt:
-                        responding_agents.append(self.agents[i])
-                    elif f"{self.agents[i].nickname}>" in prompt or f"<{self.agents[i].model}" in prompt:
-                        if self.agents[i] not in responding_agents:
-                            if random.random() < name_mention:  # 50% chance to respond
-                                responding_agents.append(self.agents[i])
-                    else:
-                        if random.random() < random_response:
-                            responding_agents.append(self.agents[i])
             else:
-                for i in range(len(self.agents)):
-                    responding_agents.append(self.agents[i])
-                    if f"{self.agents[i].model}" in prompt or f"{self.agents[i].nickname}" in prompt or str(i) in prompt:
-                        responding_agents.append(self.agents[i])
-                    if random.random() < random_response:
-                        if self.agents[i] not in responding_agents:
-                            responding_agents.append(self.agents[i])
+                responding_agents.append(self.agents[0])
             for agent in responding_agents:
                 agent_prompt = f"{history}\n{prompt}\n"
                 print("-----------------------")
