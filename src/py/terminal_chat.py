@@ -84,6 +84,7 @@ class TerminalChat:
                             responding_agents.append(self.agents[i])
             else:
                 for i in range(len(self.agents)):
+                    responding_agents.append(self.agents[i])
                     if f"{self.agents[i].model}" in prompt or f"{self.agents[i].nickname}" in prompt or str(i) in prompt:
                         responding_agents.append(self.agents[i])
                     if random.random() < random_response:
