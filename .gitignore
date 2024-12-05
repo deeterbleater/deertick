@@ -1,2 +1,9 @@
 .aider*
 __pycache__/
+.env
+
+request_logs/
+
+node_modules/
+
+aider/

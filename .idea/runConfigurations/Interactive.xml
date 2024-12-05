@@ -14,7 +14,7 @@
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-    <option name="SCRIPT_NAME" value="./deertick.py" />
+    <option name="SCRIPT_NAME" value="src/py/deertick.py" />
     <option name="PARAMETERS" value="-i -m &quot;Mistral: Pixtral 12B&quot; -p openrouter -s &quot;you are a friend having a conversation with me, my name is sophie&quot;" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />

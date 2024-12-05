@@ -15,12 +15,10 @@ import aiohttp
 from typing import Optional, Dict, Any
 import time
 
-from model_data import providers, models, voice_samples, list_all, ModelHead, validate_provider, model_by_id
+from model_data import providers, voice_samples, list_all, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
 config.read("config.ini")
-
-df = pd.read_csv('samples.csv')
 
 # Load Keys
 os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
@@ -115,7 +113,6 @@ class Agent:
         self.repetition_penalty = 1.0
         self.min_p = 0.0
         self.top_a = 0.0
-        self.seed = None
         self.logit_bias = {}
         self.logprobs = False
         self.top_logprobs = None
