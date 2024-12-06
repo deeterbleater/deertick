@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="coyote mode (ts)" type="NodeJSConfigurationType" application-parameters="-i -m &quot;Google: Gemini Pro 1.5&quot; -p openrouter -s &quot;We're both coyotes, I'm a coyote called june, I'm a vegetarian coyote&quot;  " path-to-js-file="src/ts/index.ts" typescript-loader="bundled" working-dir="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>
