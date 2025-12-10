@@ -362,7 +362,7 @@ class Agent:
             print(f"Invalid provider: {self.provider}")
         if self.provider != 'openai':
             self.last_response = events
-            self.content = ''.join([x for x in events])
+            self.content = ''.join(list(events))
             self.conversation['agent'].append(self.content)
             self.conversation['user'].append(prompt)
             self.conversation['system'].append(system_prompt)
