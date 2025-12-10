@@ -78,7 +78,7 @@ class TerminalChat:
         user_name = input('Username: ')
         history = str()
         connect_msg(self.agents[0].model)
-        responding_agents = self.agents
+        responding_agents = []
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
             prompt_low = prompt.lower()
