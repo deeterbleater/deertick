@@ -245,7 +245,7 @@ class Agent:
             headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
             def query(payload):
                 response = niquests.post(
-                    "https://api-inference.huggingface.co/models/gpt2",
+                    self.api_url + "gpt2",
                     headers=headers,
                     json=payload
                 )
@@ -281,7 +281,7 @@ class Agent:
             if self.model == 'meta-llama/llama-3.1-405b':
                 def agent405b_base(system_prompt, prompt):
                     response = niquests.post(
-                        url="https://openrouter.ai/api/v1/chat/completions",
+                        url=self.api_url,
                         headers={
                             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                             "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
@@ -315,7 +315,7 @@ class Agent:
                 events = agent405b_base(system_prompt, prompt)
             else:
                 response = niquests.post(
-                url="https://openrouter.ai/api/v1/chat/completions",
+                url=self.api_url,
                 headers={
                     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                     "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
