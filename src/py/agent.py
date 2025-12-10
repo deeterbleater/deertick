@@ -594,10 +594,11 @@ class Agent:
             raise ValueError(f"Unsupported provider: {self.provider}")
 
     def _get_headers(self) -> Dict[str, str]:
+        ctype = "application/json"
         if self.provider == "openai":
             return {
                 "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         elif self.provider == "openrouter":
             return {
@@ -606,27 +607,27 @@ class Agent:
                 "HTTP-Referer": "https://deertick.io",
                 # Optional. Shows in rankings on openrouter.ai.
                 "X-Title": "DeerTick",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         elif self.provider == "anthropic":
             return {
                 "Authorization": f"Bearer {os.environ['ANTHROPIC_API_KEY']}",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         elif self.provider == "mistral":
             return {
                 "Authorization": f"Bearer {os.environ['MISTRAL_API_KEY']}",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         elif self.provider == "replicate":
             return {
                 "Authorization": f"Bearer {os.environ['REPLICATE_API_KEY']}",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         elif self.provider == "huggingface":
             return {
                 "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
-                "Content-Type": "application/json"
+                "Content-Type": ctype
             }
         else:
             raise ValueError(f"Unsupported provider: {self.provider}")
