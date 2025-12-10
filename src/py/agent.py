@@ -230,7 +230,7 @@ class Agent:
             self.settings['system_prompt'] = system_prompt
             self.settings['prompt'] = context + prompt
             prompt = context + prompt
-        events = list()
+        events = []
 
         # replicate
         if self.provider == 'replicate':
