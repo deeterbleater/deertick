@@ -17,6 +17,56 @@ from model_data import (
 # Initialize colorama
 init(autoreset=True)
 
+
+def endpoint_str(model, descstr, is_pricy):
+    connected_model = model_by_id(model)
+    msg = f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]})."
+    if is_pricy:
+        msg += " They may have higher prices."
+    msg += f"_{Style.RESET_ALL}\n-----------------------"
+    print(msg)
+
+
+def connect_msg(connected_model):
+    print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
+    #print licence related info
+    if "cohere" in connected_model:
+        print("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~")
+    elif "gemma" in connected_model:
+        print("~ Usage of Gemma is subject to Google's Gemma Terms of Use: https://ai.google.dev/gemma/terms ~")
+    elif "google/g" in connected_model:
+        print("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~")
+    elif "llama" in connected_model:
+        print("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~")
+    elif "qwen/" in connected_model:
+        print("~ Usage of this model is subject to Tongyi Qianwen LICENSE AGREEMENT: https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE ~")
+
+    #print variant related info
+    if "extended" in connected_model:
+        endpoint_str(connected_model, "extended-context", True)
+    elif "free" in connected_model:
+        print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
+        endpoint_str(connected_model, "free, rate-limited", False)
+    elif "nitro" in connected_model:
+        endpoint_str(connected_model, "higher-throughput", True)
+
+
+def help():
+    print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")
+    print("""
+    %exit - exit the chat
+    %help - show this message
+    %clear - clear the chat history
+    %file_read - show a file's contents to an agent
+    %new_agent - create a new agent
+    %remove_agent - remove an agent
+    %list_agents - list all agents
+    %agent_settings - change agent settings
+    %set_global_system_prompt - set the system prompt for all agents
+    %set_agent_system_prompt - set the system prompt for a specific agent
+    """)
+
+
 class TerminalChat:
     def __init__(self, init_agent):
         self.agents = []
@@ -27,7 +77,7 @@ class TerminalChat:
         self.system_prompt = input('System Prompt (leave blank for default): ')
         user_name = input('Username: ')
         history = str()
-        self.connect_msg(self.agents[0].model)
+        connect_msg(self.agents[0].model)
         responding_agents = self.agents
         while True:
             prompt = input(f"{Fore.CYAN}{user_name}: {Style.RESET_ALL}")
@@ -35,7 +85,7 @@ class TerminalChat:
             if prompt_low == '%exit':
                 break
             elif prompt_low == '%help':
-                self.help()
+                help()
             elif prompt_low == '%clear':
                 self.clear_history()
             elif prompt_low == '%file_read':
@@ -53,7 +103,7 @@ class TerminalChat:
                     model_nick = input('Model: ')
                 provider = validate_provider('', model_nick)
                 self.agents.append(Agent(model_nick, self.system_prompt, provider))
-                self.connect_msg(self.agents[-1].model)
+                connect_msg(self.agents[-1].model)
             elif prompt.lower() == '%remove_agent':
                 self.agents.pop(int(input('Index: ')))
                 print(f"{Fore.GREEN}*{self.agents[0].model} disconnected from the chat*{Style.RESET_ALL}\n-----------------------")
@@ -133,52 +183,6 @@ class TerminalChat:
 
     def clear_history(self):
         self.history = str()
-
-    def endpoint_str(self, model, descstr, is_pricy):
-        connected_model = model_by_id(model)
-        msg = f"{Fore.GREEN}_These are {descstr} endpoints for {connected_model[ModelHead.name.value]} (/models/{connected_model[ModelHead.id.value]})."
-        if is_pricy:
-            msg += " They may have higher prices."
-        msg += f"_{Style.RESET_ALL}\n-----------------------"
-        print(msg)
-
-    def connect_msg(self, connected_model):
-        print(f"{Fore.GREEN}*{connected_model} connected to the chat*")
-        #print licence related info
-        if "cohere" in connected_model:
-            print("~ Use of this model is subject to Cohere's Acceptable Use Policy: https://docs.cohere.com/docs/c4ai-acceptable-use-policy ~")
-        elif "gemma" in connected_model:
-            print("~ Usage of Gemma is subject to Google's Gemma Terms of Use: https://ai.google.dev/gemma/terms ~")
-        elif "google/g" in connected_model:
-            print("~ Usage of Gemini is subject to Google's Gemini Terms of Use: https://ai.google.dev/terms ~")
-        elif "llama" in connected_model:
-            print("~ Usage of this model is subject to Meta's Acceptable Use Policy: https://www.llama.com/llama3/use-policy/ ~")
-        elif "qwen/" in connected_model:
-            print("~ Usage of this model is subject to Tongyi Qianwen LICENSE AGREEMENT: https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE ~")
-
-        #print variant related info
-        if "extended" in connected_model:
-            self.endpoint_str(connected_model, "extended-context", True)
-        elif "free" in connected_model:
-            print(f"{Fore.GREEN}_Outputs may be cached. Read about rate limits in ./docs/limits._")
-            self.endpoint_str(connected_model, "free, rate-limited", False)
-        elif "nitro" in connected_model:
-            self.endpoint_str(connected_model, "higher-throughput", True)
-
-    def help(self):
-        print(f"{Fore.MAGENTA}Available commands:{Style.RESET_ALL}")
-        print("""
-        %exit - exit the chat
-        %help - show this message
-        %clear - clear the chat history
-        %file_read - show a file's contents to an agent
-        %new_agent - create a new agent
-        %remove_agent - remove an agent
-        %list_agents - list all agents
-        %agent_settings - change agent settings
-        %set_global_system_prompt - set the system prompt for all agents
-        %set_agent_system_prompt - set the system prompt for a specific agent
-        """)
 
     def list_agents(self):
         for i in range(len(self.agents)):
