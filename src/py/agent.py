@@ -242,10 +242,13 @@ class Agent:
 
         # huggingface
         elif self.provider == 'huggingface':
-            API_URL = "https://api-inference.huggingface.co/models/gpt2"
             headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
             def query(payload):
-                response = niquests.post(API_URL, headers=headers, json=payload)
+                response = niquests.post(
+                    "https://api-inference.huggingface.co/models/gpt2",
+                    headers=headers,
+                    json=payload
+                )
                 return response.json()
             data = query(f'{system_prompt}\n\n{prompt}')
             for event in data:
