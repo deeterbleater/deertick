@@ -14,7 +14,7 @@ This module is a core component of the DeerTick project. For an overview of how 
 
 ### Dependencies
 
-- `requests`: For making HTTP requests to AI providers
+- `niquests`: For making HTTP requests to AI providers
 - `json`: For parsing JSON responses
 - `os`: For environment variable access and file operations
 - `mistralai`: For interacting with the Mistral AI API

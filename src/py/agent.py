@@ -1,15 +1,14 @@
 import configparser
 import json
 import os
+import niquests
 import pandas as pd
 import random
-import requests
 import datetime
 import replicate
 import mistralai
 from openai import OpenAI
 import uuid
-import configparser
 import asyncio
 import aiohttp
 from typing import Optional, Dict, Any
@@ -247,7 +246,7 @@ class Agent:
             API_URL = "https://api-inference.huggingface.co/models/gpt2"
             headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
             def query(payload):
-                response = requests.post(API_URL, headers=headers, json=payload)
+                response = niquests.post(API_URL, headers=headers, json=payload)
                 return response.json()
             data = query(f'{system_prompt}\n\n{prompt}')
             for event in data:
@@ -279,7 +278,7 @@ class Agent:
         elif self.provider == 'openrouter':
             if self.model == 'meta-llama/llama-3.1-405b':
                 def agent405b_base(system_prompt, prompt):
-                    response = requests.post(
+                    response = niquests.post(
                         url="https://openrouter.ai/api/v1/chat/completions",
                         headers={
                             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -313,7 +312,7 @@ class Agent:
                         return self.response.json()
                 events = agent405b_base(system_prompt, prompt)
             else:
-                response = requests.post(
+                response = niquests.post(
                 url="https://openrouter.ai/api/v1/chat/completions",
                 headers={
                     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -531,7 +530,7 @@ class Agent:
                     image_file_path = f"{self.img_path}{'' if self.img_path == '' else '/'}{self.model_key}_image_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{self.output_format}"
                 else:
                     image_file_path = file_path
-                response = requests.get(image_url)
+                response = niquests.get(image_url)
             if response.status_code == 200:
                 with open(image_file_path, 'wb') as file:
                     file.write(response.content)
@@ -572,7 +571,7 @@ class Agent:
                 audio_file_path = f"{self.tts_path}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
             else:
                 audio_file_path = file_path
-            response = requests.get(output)
+            response = niquests.get(output)
             if response.status_code == 200:
                 with open(audio_file_path, 'wb') as file:
                     file.write(response.content)

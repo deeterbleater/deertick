@@ -212,7 +212,7 @@ The `scraper.py` script provides functionality to scrape web pages and extract s
 
 1. Ensure you have the required dependencies installed:
    ```
-   pip install requests beautifulsoup4 pandas
+   pip install niquests beautifulsoup4 pandas
    ```
 
 2. Run the scraper:

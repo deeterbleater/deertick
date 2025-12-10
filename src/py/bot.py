@@ -1,4 +1,5 @@
 import discord
+import niquests
 from discord.ext import commands
 from agent import Agent
 import asyncio
@@ -16,7 +17,6 @@ import json
 import random
 import time
 import os
-import requests
 from db import DatabaseManager
 
 
@@ -597,7 +597,7 @@ async def mermaid(ctx, *, diagram_code):
     """Render a Mermaid diagram."""
     try:
         # Encode the Mermaid syntax
-        encoded_diagram = requests.utils.quote(diagram_code)
+        encoded_diagram = niquests.utils.quote(diagram_code)
         
         # Generate the image URL
         image_url = f"https://mermaid.ink/img/{encoded_diagram}"

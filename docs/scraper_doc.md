@@ -158,7 +158,7 @@ flowchart TD
 
 ## Dependencies
 
-- requests
+- niquests
 - beautifulsoup4
 - pandas
 - asyncio

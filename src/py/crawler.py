@@ -1,4 +1,4 @@
-import requests
+import niquests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from urllib.robotparser import RobotFileParser
@@ -60,7 +60,7 @@ class WebCrawler:
     def get_sitemap(self):
         sitemap_url = urljoin(self.start_url, '/sitemap.xml')
         try:
-            response = requests.get(sitemap_url)
+            response = niquests.get(sitemap_url)
             if response.status_code == 200:
                 root = ET.fromstring(response.content)
                 return [elem.text for elem in root.iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
@@ -167,7 +167,7 @@ class WebCrawler:
         }
         """
         try:
-            response = requests.get(url, timeout=10)
+            response = niquests.get(url, timeout=10)
             response.raise_for_status()
             page_source = response.text
             soup = BeautifulSoup(page_source, 'html.parser')

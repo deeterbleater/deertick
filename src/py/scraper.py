@@ -1,4 +1,4 @@
-import requests
+import niquests
 from bs4 import BeautifulSoup
 import os
 from agent import Agent
@@ -137,7 +137,7 @@ class DynamicBlogScraper:
                     return [['find_all', 'p', '']]
 
         try:
-            response = requests.get(url, timeout=10)
+            response = niquests.get(url, timeout=10)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -179,7 +179,7 @@ class DynamicBlogScraper:
 
             return [url, title, cleaned_content, soup.get_text()]
 
-        except requests.exceptions.RequestException as e:
+        except niquests.exceptions.RequestException as e:
             print(f"Error fetching {url}: {str(e)}")
             return [url, "Error", f"Request failed: {str(e)}", ""]
 

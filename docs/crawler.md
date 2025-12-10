@@ -138,7 +138,7 @@ flowchart TD
 
 ## Dependencies
 
-- requests
+- niquests
 - beautifulsoup4
 - selenium
 - pandas
