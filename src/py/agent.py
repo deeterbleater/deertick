@@ -406,7 +406,7 @@ class Agent:
         from datetime import datetime
 
         # Create a DataFrame from the conversation history
-        for x in self.conversation:
+        for _ in self.conversation:
             self.conversation['ID'] = uuid.uuid4()
         df = pd.DataFrame({
             'system': self.conversation['system'],
