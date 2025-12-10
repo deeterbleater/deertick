@@ -459,6 +459,7 @@ class Agent:
 
         Returns:
             str: The URL of the generated image.
+            :param file_path:
         """
         if self.seed is None:
             self.seed = random.randint(9000, 1000000)
