@@ -1,0 +1,3 @@
+[submodule "conf"]
+	path = conf
+	url = git@github.com:prototype99/deertick-conf.git
