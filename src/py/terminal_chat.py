@@ -1,8 +1,18 @@
 import random
+from colorama import (
+    init,
+    Fore,
+    Style
+)
 from agent import Agent
-import pandas as pd
-from colorama import init, Fore, Back, Style
-from model_data import file_read, list_models, voice_samples, ModelHead, validate_provider, model_by_id
+from model_data import (
+    file_read,
+    list_models,
+    voice_samples,
+    ModelHead,
+    validate_provider,
+    model_by_id
+)
 
 # Initialize colorama
 init(autoreset=True)
