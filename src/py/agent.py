@@ -242,11 +242,10 @@ class Agent:
 
         # huggingface
         elif self.provider == 'huggingface':
-            headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
             def query(payload):
                 response = niquests.post(
                     self.api_url + "gpt2",
-                    headers=headers,
+                    headers=self.headers,
                     json=payload
                 )
                 return response.json()
@@ -282,11 +281,7 @@ class Agent:
                 def agent405b_base(system_prompt, prompt):
                     response = niquests.post(
                         url=self.api_url,
-                        headers={
-                            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                            "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
-                            "X-Title": f"DeerTick",  # Optional. Shows in rankings on openrouter.ai.
-                        },
+                        headers=self.headers,
                         data=json.dumps({
                             "model": "meta-llama/llama-3.1-405b",  # Optional
                             "max_tokens": self.max_tokens,
@@ -316,11 +311,7 @@ class Agent:
             else:
                 response = niquests.post(
                 url=self.api_url,
-                headers={
-                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                    "HTTP-Referer": f"deertick.io",  # Optional, for including your app on openrouter.ai rankings.
-                    "X-Title": f"DeerTick",  # Optional. Shows in rankings on openrouter.ai.
-                },
+                headers=self.headers,
                 data=json.dumps({
                     "model": self.model,
                     "max_tokens": self.max_tokens,
@@ -610,7 +601,9 @@ class Agent:
         elif self.provider == "openrouter":
             return {
                 "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                # Optional, for including your app on openrouter.ai rankings.
                 "HTTP-Referer": "https://deertick.io",
+                # Optional. Shows in rankings on openrouter.ai.
                 "X-Title": "DeerTick",
                 "Content-Type": "application/json"
             }
