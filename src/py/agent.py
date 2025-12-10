@@ -28,7 +28,7 @@ os.environ["MISTRAL_API_KEY"] = config.get("keys", "MISTRAL_API_KEY")
 
 class Agent:
     def __init__(self, model, system_prompt='', provider='', settings=None, rate_limit: float = 2.0, max_concurrent: int = 5):
-        '''
+        """
         Initialize an Agent object.
 
         Args:
@@ -72,7 +72,7 @@ class Agent:
                         - required: List of mandatory parameters.
                         - additionalProperties: Whether extra parameters are allowed.
                 This template allows the agent to understand and use custom functions.
-        '''
+        """
         if settings is not None:
             self.settings = settings
         self.model = model
