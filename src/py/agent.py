@@ -26,6 +26,17 @@ OPENROUTER_API_KEY = config.get("keys", "OPENROUTER_API_KEY")
 os.environ["MISTRAL_API_KEY"] = config.get("keys", "MISTRAL_API_KEY")
 
 
+def _extract_response(result: Dict[str, Any]) -> str:
+    """
+    Extract the response text from the API result.
+    """
+    return result['choices'][0]['message']['content']
+
+
+def help():
+    list_all()
+
+
 class Agent:
     def __init__(self, model, system_prompt='', provider='', settings=None, rate_limit: float = 2.0, max_concurrent: int = 5):
         """
@@ -654,7 +665,7 @@ class Agent:
 
                 result = await response.json()
 
-        return self._extract_response(result)
+        return _extract_response(result)
 
     def _create_payload(self, messages: list) -> Dict[str, Any]:
         """
@@ -664,14 +675,5 @@ class Agent:
             "model": self.model,
             "messages": messages
         }
-
-    def _extract_response(self, result: Dict[str, Any]) -> str:
-        """
-        Extract the response text from the API result.
-        """
-        return result['choices'][0]['message']['content']
-
-    def help(self):
-        list_all()
 
 
