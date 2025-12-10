@@ -215,7 +215,7 @@ class Agent:
             list: A list of response events from the AI model.
         """
 
-        if self.history is False:
+        if not self.history:
             self.conversation['system'].append(system_prompt)
             self.conversation['user'].append(prompt)
             self.settings['system_prompt'] = system_prompt
