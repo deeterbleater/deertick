@@ -558,6 +558,7 @@ class Agent:
 
         Returns:
             str: The URL of the generated audio file.
+            :param file_path:
         """
         print(f"text: {text}")
         print(f"audio_url: {audio_url}")
