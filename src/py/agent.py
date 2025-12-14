@@ -367,7 +367,7 @@ class Agent:
                 ]
             )
             self.response = chat_response
-            events = chat_response.json()['choices'][0]['message']['content']
+            events = chat_response.model_dump_json()['choices'][0]['message']['content']
         # Fail
         else:
             print(f"Invalid provider: {self.provider}")
