@@ -7,11 +7,12 @@ import random
 import datetime
 import replicate
 import mistralai
+from aiohttp import ClientResponse
 from openai import OpenAI
 import uuid
 import asyncio
 import aiohttp
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union, List
 
 from model_data import providers, voice_samples, list_all, validate_provider, model_by_id
 
@@ -214,7 +215,7 @@ class Agent:
         }
         self.tools.append(tool)
 
-    def generate_response(self, system_prompt, prompt):
+    def generate_response(self, system_prompt: str, prompt: str) -> Union[str, List[str]]:
         """
         Generate a response based on the given system prompt and user prompt.
 
@@ -461,16 +462,16 @@ class Agent:
         img_prompt = f"{prompt}" + f'your rejected prompt:{rejected_prompt}{admonish}'
         self.generate_image(img_prompt)
 
-    def generate_image(self, prompt, file_path=None):
+    def generate_image(self, prompt: str, file_path: Optional[str] = None) -> Optional[Union[str, List[str]]]:
         """
         Generate an image based on the given prompt.
 
         Args:
-            prompt (str): The prompt to generate an image from.
+            :param prompt: The prompt to generate an image from.
+            :param file_path:
 
         Returns:
             str: The URL of the generated image.
-            :param file_path:
         """
         if self.seed is None:
             self.seed = random.randint(9000, 1000000)
@@ -548,17 +549,17 @@ class Agent:
         self.content = output
         return output
 
-    def tts(self, text, audio_url, file_path=None):
+    def tts(self, text: str, audio_url: str, file_path: Optional[str] = None) -> str:
         """
         Generate and save an audio file from text using a TTS model.
 
         Args:
-            text (str): The text to convert to audio.
-            audio_url (str): The URL of the sample audio file.
+            :param text: The text to convert to audio.
+            :param audio_url: The URL of the sample audio file.
+            :param file_path:
 
         Returns:
             str: The URL of the generated audio file.
-            :param file_path:
         """
         print(f"text: {text}")
         print(f"audio_url: {audio_url}")
@@ -659,6 +660,7 @@ class Agent:
         payload = self._create_payload(messages)
 
         async with aiohttp.ClientSession() as session:
+            response: ClientResponse
             async with session.post(self.api_url, json=payload, headers=self.headers) as response:
                 if response.status != 200:
                     error_message = await response.text()
