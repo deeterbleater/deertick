@@ -85,6 +85,7 @@ class Agent:
                         - additionalProperties: Whether extra parameters are allowed.
                 This template allows the agent to understand and use custom functions.
         """
+        self.client = None
         if settings is not None:
             self.settings = settings
         self.model = model
@@ -177,7 +178,10 @@ class Agent:
             if self.provider in providers:
                 print(f"{self.provider}: {self.model}")
                 if self.provider == 'openai':
-                    self.client = OpenAI()  # Create an OpenAI client instance
+                    # Create an OpenAI client instance
+                    self.client = OpenAI(
+                        api_key=os.environ.get('OPENAI_API_TOKEN')
+                    )
             else:
                 print(f"This provider has not been implemented: {provider}")
     def create_tool(self, name, description, parameters):
