@@ -59,7 +59,7 @@ DeerTick is a versatile Python-based interface for interacting with various lang
 
    [keys]
    REPLICATE_API_TOKEN = your_replicate_token
-   OPENAI_API_TOKEN = your_openai_token
+   OPENAI_API_KEY = your_openai_key
    ANTHROPIC_API_KEY = your_anthropic_key
    HUGGINGFACE_API_KEY = your_huggingface_key
    GOOGLE_API_KEY = your_google_key

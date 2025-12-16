@@ -21,7 +21,7 @@ config.read("config.ini")
 
 # Load Keys
 os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
-os.environ["OPENAI_API_TOKEN"] = config.get("keys", "OPENAI_API_TOKEN")
+os.environ["OPENAI_API_KEY"] = config.get("keys", "OPENAI_API_KEY")
 HUGGINGFACE_API_KEY = config.get("keys", "HUGGINGFACE_API_KEY")
 OPENROUTER_API_KEY = config.get("keys", "OPENROUTER_API_KEY")
 os.environ["MISTRAL_API_KEY"] = config.get("keys", "MISTRAL_API_KEY")
@@ -180,7 +180,7 @@ class Agent:
                 if self.provider == 'openai':
                     # Create an OpenAI client instance
                     self.client = OpenAI(
-                        api_key=os.environ.get('OPENAI_API_TOKEN')
+                        api_key=os.environ.get('OPENAI_API_KEY')
                     )
             else:
                 print(f"This provider has not been implemented: {provider}")

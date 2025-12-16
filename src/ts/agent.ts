@@ -10,7 +10,7 @@ const config = ini.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'confi
 
 // Load Keys from config
 const REPLICATE_API_TOKEN = config.keys.REPLICATE_API_TOKEN;
-const OPENAI_API_TOKEN = config.keys.OPENAI_API_TOKEN; 
+const OPENAI_API_KEY = config.keys.OPENAI_API_KEY;
 const ANTHROPIC_API_KEY = config.keys.ANTHROPIC_API_KEY;
 const HUGGINGFACE_API_KEY = config.keys.HUGGINGFACE_API_KEY;
 const OPENROUTER_API_KEY = config.keys.OPENROUTER_API_KEY;
@@ -197,7 +197,7 @@ export class Agent {
                 console.log(`${this.provider}: ${this.model}`);
                 if (this.provider === 'openai') {
                     this.client = new OpenAI({
-                        apiKey: config.keys.OPENAI_API_TOKEN
+                        apiKey: config.keys.OPENAI_API_KEY
                     });
                 }
             } else {
@@ -251,7 +251,7 @@ export class Agent {
     private getHeaders(): Record<string, string> {
         const headers: Record<string, Record<string, string>> = {
             "openai": {
-                "Authorization": `Bearer ${OPENAI_API_TOKEN}`,
+                "Authorization": `Bearer ${OPENAI_API_KEY}`,
                 "Content-Type": "application/json"
             },
             "openrouter": {
