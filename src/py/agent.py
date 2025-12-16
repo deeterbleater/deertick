@@ -14,7 +14,7 @@ import asyncio
 import aiohttp
 from typing import Optional, Dict, Any, Union, List
 
-from model_data import providers, voice_samples, list_all, validate_provider, model_by_id
+from .model_data import providers, voice_samples, list_all, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
 config.read("config.ini")
