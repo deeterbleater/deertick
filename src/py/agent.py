@@ -272,7 +272,12 @@ class Agent:
         # openai
         elif self.provider == 'openai':
             completion = self.client.chat.completions.create(
-                model=self.model,
+                model=self.model
+                # there's probably an earlier place where this can be stripped
+                .replace(
+                    "openai/",
+                    ""
+                ),
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
