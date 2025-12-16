@@ -21,6 +21,7 @@ config_path = os.path.join(os.path.dirname(__file__), "..", "..", "config.ini")
 config.read(config_path)
 
 # Load Keys
+# consider adding a null check!
 os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
 os.environ["OPENAI_API_KEY"] = config.get("keys", "OPENAI_API_KEY")
 HUGGINGFACE_API_KEY = config.get("keys", "HUGGINGFACE_API_KEY")
