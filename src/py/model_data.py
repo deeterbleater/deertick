@@ -1,5 +1,6 @@
 from enum import Enum
 import pandas as pd
+from pathlib import Path
 
 
 
@@ -350,7 +351,13 @@ def validate_provider(provider, model_name):
 
 
 
-df = pd.read_csv('samples.csv')
+df = pd.read_csv(
+    Path(__file__)
+    .resolve()
+    # parents[2] -> deertick/
+    .parents[2]
+    / 'samples.csv'
+)
 
 voice_samples = {}
 
