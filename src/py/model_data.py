@@ -366,6 +366,16 @@ for _, row in df.iterrows():
     voice_name = row['voice_name']
     voice_samples[voice_name] = row['url']
 
+#consider this in order to not load voice samples when not needed
+#from pathlib import Path
+#from functools import lru_cache
+
+#@lru_cache(maxsize=1)
+#def load_voice_samples():
+#    csv_path = Path(__file__).resolve().parents[2] / 'samples.csv'
+#    df = pd.read_csv(csv_path)
+#    return {row['voice_name']: row['url'] for _, row in df.iterrows()}
+
 # Print some information to verify the data loading
 print(f"Loaded data for {len(models)} models")
 print(f"Loaded {len(voice_samples)} voice samples")
