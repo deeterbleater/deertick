@@ -271,8 +271,6 @@ class Agent:
 
         # openai
         elif self.provider == 'openai':
-            # tools coming soon!
-            print(f"OpenAI: {self.model}")
             completion = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
