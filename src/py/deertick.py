@@ -45,12 +45,12 @@ def main():
     parser.add_argument("--list-agents", action="store_true", help="List all available agents")
     
     args = parser.parse_args()
-    deertick = Agent(model_by_name(args.model)[ModelHead.id.value], args.system, args.provider)
+    model = model_by_name(args.model)
+    deertick = Agent(model[ModelHead.id.value], args.system, args.provider)
 
     if args.list:
         list_all()
     elif args.interactive:
-        model = model_by_name(args.model)
         if model[ModelHead.type.value] != "llm" and args.provider == "openrouter":
                 print("Openrouter only works with llm models, please choose another provider.")
         #don't allow incompatible provider
