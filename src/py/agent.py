@@ -17,7 +17,8 @@ from typing import Optional, Dict, Any, Union, List
 from .model_data import providers, voice_samples, list_all, validate_provider, model_by_id
 
 config = configparser.ConfigParser()
-config.read("config.ini")
+config_path = os.path.join(os.path.dirname(__file__), "..", "..", "config.ini")
+config.read(config_path)
 
 # Load Keys
 os.environ["REPLICATE_API_TOKEN"] = config.get("keys", "REPLICATE_API_TOKEN")
